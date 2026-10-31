@@ -207,9 +207,16 @@ function drawScene(t,dt){
  });
  // back forest trees
  drawTree(100,280,.9,'#6f9b70');drawTree(250,250,.72,'#7ca879');drawTree(710,260,.85,'#719d70');drawTree(830,285,.95,'#6b956a');
- // bank ground
- ctx.fillStyle='#719b68';ctx.beginPath();ctx.moveTo(0,290);ctx.quadraticCurveTo(120,260,225,305);ctx.quadraticCurveTo(380,350,520,290);ctx.quadraticCurveTo(710,260,900,310);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
- ctx.fillStyle='#a8c77f';ctx.beginPath();ctx.moveTo(0,330);ctx.quadraticCurveTo(140,290,260,342);ctx.quadraticCurveTo(440,380,590,326);ctx.quadraticCurveTo(770,290,900,350);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
+ // bank ground: layered greens share a soft painted gradient instead of two flat slabs.
+ let backBank=ctx.createLinearGradient(0,270,0,600);
+ backBank.addColorStop(0,'#70996c');backBank.addColorStop(.48,'#638b60');backBank.addColorStop(1,'#527b58');
+ ctx.fillStyle=backBank;ctx.beginPath();ctx.moveTo(0,290);ctx.quadraticCurveTo(120,260,225,305);ctx.quadraticCurveTo(380,350,520,290);ctx.quadraticCurveTo(710,260,900,310);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
+ let frontBank=ctx.createLinearGradient(0,315,0,600);
+ frontBank.addColorStop(0,'#a8c77f');frontBank.addColorStop(.45,'#91b873');frontBank.addColorStop(1,'#729d66');
+ ctx.fillStyle=frontBank;ctx.beginPath();ctx.moveTo(0,330);ctx.quadraticCurveTo(140,290,260,342);ctx.quadraticCurveTo(440,380,590,326);ctx.quadraticCurveTo(770,290,900,350);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
+ // A faint curved shadow and sunlit edge blend the two rolling ground planes.
+ ctx.strokeStyle='rgba(54,105,68,.20)';ctx.lineWidth=13;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(0,332);ctx.quadraticCurveTo(140,292,260,344);ctx.quadraticCurveTo(440,382,590,328);ctx.quadraticCurveTo(770,292,900,352);ctx.stroke();
+ ctx.strokeStyle='rgba(207,222,151,.28)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(0,327);ctx.quadraticCurveTo(140,286,260,339);ctx.quadraticCurveTo(440,376,590,323);ctx.quadraticCurveTo(770,286,900,346);ctx.stroke();
  // Restore grass on the darker, nearer rolling hill. Roots sit directly on
  // its curved crest, above the light-green foreground slope.
  const nearHillGrass=[
@@ -227,34 +234,8 @@ function drawScene(t,dt){
   drawGrass(x,y,s,shades[(i*2)%shades.length],t);
   if(i%4===1)drawGrass(x+6,y+1,s*.5,shades[(i+1)%shades.length],t);
  });
- // Extra grass grows down the exposed dark-green hill shoulders that meet the pond.
- // These roots stay on dry ground just above the shoreline; none are placed in the water.
- const pondSideGrass=[
-  // Left shoulder: the bank curves down toward the pond's left inlet.
-  [78,310,.34],[108,302,.38],[139,299,.32],[169,302,.36],[198,307,.3],
-  // Right shoulder: follow the dry bank above the pond's upper-right edge.
-  [602,282,.3],[637,280,.34],[671,283,.32],[706,287,.36],[741,291,.32],
-  [776,296,.35],[811,301,.31],[844,306,.34]
- ];
- pondSideGrass.forEach(([x,y,s],i)=>{
-  const shades=['#477b50','#568b55','#69995b','#7ca765'];
-  drawGrass(x,y,s,shades[(i+1)%shades.length],t);
-  if(i%3===1)drawGrass(x+5,y+2,s*.48,shades[(i+3)%shades.length],t);
- });
- // Grass is rooted ON the dark-green hill face, just below its curved crest.
- // These y-coordinates follow the dark hill's actual upper boundary, not the pale hill behind it.
- const hillFaceGrass=[
-  [105,281,.58],[145,291,.62],[185,299,.58],[225,309,.62],
-  [265,319,.58],[305,329,.62],[345,337,.58],[385,339,.62],
-  [425,329,.58],[465,315,.62],[505,300,.58],[545,287,.62],
-  [585,278,.58],[625,272,.62],[665,271,.58],[705,275,.62],
-  [745,281,.58],[785,289,.62]
- ];
- hillFaceGrass.forEach(([x,y,s],i)=>{
-  const shades=['#3f7549','#4c8550','#609653','#75a85f'];
-  drawGrass(x,y,s,shades[(i*3+1)%shades.length],t);
-  if(i%2===0)drawGrass(x+9,y+2,s*.58,shades[(i+2)%shades.length],t);
- });
+ // The main hill grass follows this shoulder; avoid a second overlapping row of tufts.
+ // The crest and face share one continuous grass layer, avoiding duplicate tuft rows.
  // pond shadow and water organic
  ellipse(455,402,410,176,'#477a63');
  // Grass is rooted along the actual upper rim of the dark-green pond shelf.
