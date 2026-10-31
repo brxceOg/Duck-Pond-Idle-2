@@ -36,6 +36,66 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#57332f;color:#fff8e9;border-radius:99px;padding:12px 18px;font-size:15px;font-weight:900;opacity:0;pointer-events:none;transition:.25s;z-index:9;box-shadow:0 5px 20px #0003;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
 .footer{text-align:center;color:#8e765e;font-family:"Ducky","Funny Duck",Georgia,serif;font-size:12px;margin:17px 0 4px}
 @media(min-width:760px){.app{padding:22px 24px 34px}.game-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(330px,.85fr);gap:18px;align-items:start}.scene-column{position:sticky;top:16px}.stats{margin:13px 0 0}.right-column .tabs{margin-bottom:12px}.panel{min-height:330px}.machine-wrap{grid-template-columns:1fr 1fr}.machine{height:225px}.globe{width:150px;height:150px}.machine-base{width:135px}.machine-base:after{top:135px;right:calc(50% - 95px)}}
+/* Desktop readability: keep the same friendly font, but give menus and labels
+   enough size and spacing to be comfortably tested on laptop/desktop screens. */
+@media(min-width:760px){
+ body{font-size:18px}
+ .app{max-width:1280px}
+ .brandmark{width:52px;height:52px;font-size:30px}
+ .brand h1{font-size:34px}
+ .brand small{font-size:14px;letter-spacing:1.5px}
+ .wallet{gap:10px}
+ .wallet-pill{font-size:17px;padding:10px 15px}
+ .coin{width:22px;height:22px;font-size:12px}
+ .scene-head{padding:7px 10px 11px}
+ .scene-head strong{font-size:22px}
+ .scene-head span{font-size:15px}
+ .scene-foot{font-size:14px;padding:10px 9px 3px}
+ .stats{gap:11px}
+ .stat{padding:13px 10px}
+ .stat b{font-size:29px}
+ .stat span{font-size:14px;letter-spacing:.8px}
+ .tabs{gap:10px;margin-bottom:15px}
+ .tab{font-size:19px;padding:15px 9px;border-radius:16px}
+ .panel{padding:20px;min-height:360px}
+ .panel-title h2{font-size:31px}
+ .panel-title span{font-size:15px}
+ .sub{font-size:16px;line-height:1.6;margin:9px 0 18px}
+ .machine-wrap{gap:18px}
+ .machine{height:245px}
+ .globe{width:160px;height:160px}
+ .machine-base{width:145px;height:46px;font-size:14px}
+ .machine-base:after{top:145px;right:calc(50% - 101px)}
+ .roll-info{gap:12px}
+ .price{font-size:17px}
+ .roll-btn,.action-btn{font-size:19px;padding:15px 14px}
+ .roll-info small{font-size:14px!important;line-height:1.5}
+ .result{font-size:17px;padding:14px;line-height:1.5}
+ .result strong{font-size:23px}
+ .duck-grid{gap:12px}
+ .duck-card{padding:12px;gap:12px}
+ .duck-thumb{width:68px;height:68px;font-size:40px}
+ .duck-card b,.upgrade-card b{font-size:19px}
+ .duck-card small{font-size:14px}
+ .empty{font-size:15px;padding:26px}
+ .upgrade-card{gap:14px;padding:14px;margin-top:12px}
+ .upgrade-icon{width:54px;height:54px;font-size:28px}
+ .upgrade-card small{font-size:15px;line-height:1.5}
+ .buy{font-size:18px;padding:11px 14px}
+ .toast{font-size:17px;padding:14px 21px}
+ .footer{font-size:13px}
+}
+@media(min-width:1100px){
+ .brand h1{font-size:36px}
+ .wallet-pill{font-size:18px}
+ .stat b{font-size:31px}
+ .tab{font-size:20px}
+ .panel{padding:22px}
+ .panel-title h2{font-size:33px}
+ .sub{font-size:17px}
+ .duck-card b,.upgrade-card b{font-size:20px}
+ .upgrade-card small,.duck-card small{font-size:15px}
+}
 @media(max-width:390px){.app{padding-left:10px;padding-right:10px}.wallet-pill{padding:7px 9px;font-size:13px}.brandmark{width:40px;height:40px}.brand h1{font-size:22px}.tabs{gap:6px}.tab{font-size:14px;padding:11px 4px}.panel{padding:12px}.machine-wrap{grid-template-columns:125px 1fr;gap:8px}.globe{width:116px;height:116px}.machine-base{width:105px}.machine-base:after{right:calc(50% - 75px);top:115px}.roll-btn{font-size:14px;padding:12px 6px}.duck-grid{grid-template-columns:1fr}}
 @media(max-width:430px){.scene-head span{font-size:12px}.scene-foot{font-size:11px}.stat{padding:11px 5px}.stat span{font-size:11px;letter-spacing:.5px}.duck-card b,.upgrade-card b{font-size:16px}.roll-info small{font-size:12px!important;line-height:1.4}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
