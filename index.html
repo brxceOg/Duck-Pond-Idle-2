@@ -244,17 +244,19 @@ function drawScene(t,dt){
  // Grass across the broad exposed face of the dark-green hill behind the pond.
  // Roots are scattered over the hillside rather than only along its crest.
  // The pond is drawn afterward, naturally covering any blade that would cross the shoreline.
+ // Stronger, clearly visible grass on the exposed face of the dark hill.
+ // Place roots well above the pond's upper waterline so the blades remain on dry ground.
  const hillFaceGrass=[
-  [155,274,.38],[184,263,.34],[211,279,.4],[242,267,.36],[271,287,.34],
-  [300,276,.4],[331,293,.34],[360,280,.38],[390,298,.36],[421,281,.4],
-  [451,290,.34],[481,270,.38],[511,284,.35],[541,264,.4],[571,278,.34],
-  [601,258,.38],[631,275,.34],[661,257,.4],[691,272,.36],[721,259,.38],
-  [750,276,.34]
+  [145,267,.68],[174,248,.62],[204,275,.72],[234,250,.66],[264,280,.7],
+  [294,257,.72],[324,285,.65],[354,260,.7],[384,288,.68],[414,258,.74],
+  [444,278,.66],[474,250,.72],[504,282,.68],[534,255,.72],[564,278,.66],
+  [594,247,.72],[624,275,.66],[654,245,.74],[684,270,.68],[714,249,.72],
+  [744,276,.66],[774,260,.68]
  ];
  hillFaceGrass.forEach(([x,y,s],i)=>{
-  const shades=['#477b50','#568b55','#69995b','#7ca765','#8bb36e'];
+  const shades=['#3f7549','#4c8550','#609653','#75a85f','#8bb96b'];
   drawGrass(x,y,s,shades[(i*3+1)%shades.length],t);
-  if(i%3===0)drawGrass(x+8,y+3,s*.55,shades[(i+2)%shades.length],t);
+  if(i%2===0)drawGrass(x+9,y+3,s*.62,shades[(i+2)%shades.length],t);
  });
  // pond shadow and water organic
  ellipse(455,402,410,176,'#477a63');
