@@ -157,15 +157,28 @@ The habitat should remain visible as the player opens menus. On desktop/wide lay
 
 ## 9. Capsule machine art direction
 
-The gumball machine should be a memorable, central collectible object:
-- Rounded glass globe or clear capsule chamber with colorful duck capsules visible inside.
-- Friendly, toy-like base with a crank, knob, or large roll button.
-- Bold, readable silhouette and consistent dark outline.
-- Small highlights on the glass and capsules.
-- A satisfying visual path from capsule selection to drop, opening, and duck reveal.
-- The machine should feel physical and charming, not like a generic loot-box UI.
+The collectible machine is a pastel-pink capsule dispenser, guided by the repository reference image but rendered as original in-game artwork. Do not ship or trace the stock reference image.
 
-Capsules should have varied colors and small visual details while keeping the duck itself as the reward. The reveal moment should give the new character visual priority.
+### Silhouette and construction
+- A rounded, transparent aqua-tinted glass globe holds a visible pile of colorful capsules.
+- The globe sits above a softly tapered pink pedestal with a bold burgundy-plum outline.
+- A small rounded pink cap/button crowns the globe.
+- A short pink collar separates the globe from the pedestal.
+- The pedestal has a simple front crank/turning knob and a dark recessed capsule retrieval hatch near its base.
+- Keep the silhouette compact, friendly, and immediately recognizable at phone size.
+
+### Palette and material
+- Use bubblegum pink, blush, and soft rose for the cap, collar, and body, with gentle lighter highlights and darker rose shading.
+- The globe is pale aqua/blue-green glass with transparent-looking tonal layers, a clean curved glint, and subtle inner reflections.
+- Capsules are small rounded two-tone eggs with warm plum outlines, a horizontal seam, and tiny glossy highlights. Vary their lower-half colors across butter yellow, mint/aqua, lavender, coral, and pink.
+- Match the duck artwork's warm dark outlines, rounded shapes, polished toy finish, and soft dimensional shading.
+
+### Interaction and animation
+- The roll action should make the whole machine wobble gently, tumble/rattle the capsules, and rotate the crank.
+- Keep the machine grounded; motion should settle smoothly and must not cause layout shifts or clipping.
+- Preserve the existing roll cost, collectible odds, currency deduction, and duck-reveal behavior unless those mechanics are explicitly changed.
+- Respect reduced-motion preferences while keeping the roll action fully functional.
+- The machine should remain legible and well-proportioned in both the narrow iPhone layout and the wider desktop layout.
 
 ## 10. Iconography and typography
 
