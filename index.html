@@ -129,7 +129,25 @@ function drawTree(x,y,s,shade){
  for(let i=0;i<9;i++){let a=i*2.4;ellipse(Math.cos(a)*31-4,-104+Math.sin(a)*25,8,6,'#c3d58d')}
  ctx.restore()
 }
-function drawGrass(x,y,s,color){ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';for(let i=0;i<5;i++){const blade=27+((Math.floor(x*3+y*7)+i*17)%24);ctx.beginPath();ctx.moveTo(0,0);ctx.quadraticCurveTo((i-2)*13,-22,(i-2)*21-5,-blade);ctx.stroke()}ctx.restore()}
+function drawGrass(x,y,s,color,t=0){
+ ctx.save();ctx.translate(x,y);ctx.scale(s,s);
+ ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';
+ // Stable per-clump phases keep neighboring tufts moving independently without jitter.
+ const seed=Math.floor(x*3+y*7);
+ const breeze=Math.sin(t*1.05+seed*.013)*2.4+Math.sin(t*.63+seed*.027)*1.2;
+ for(let i=0;i<5;i++){
+  const blade=27+((seed+i*17)%24);
+  const phase=seed*.019+i*1.37;
+  const sway=Math.sin(t*.9+phase)*2.1+breeze;
+  const tipX=(i-2)*21-5+sway;
+  const midX=(i-2)*13+sway*.42;
+  const lift=Math.sin(t*.9+phase+.7)*.8;
+  ctx.beginPath();ctx.moveTo(0,0);
+  ctx.quadraticCurveTo(midX,-22+lift,tipX,-blade);
+  ctx.stroke();
+ }
+ ctx.restore()
+}
 function drawPad(p,t){
  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot+Math.sin(t+p.phase)*.035);
  ctx.fillStyle='#477f67';ctx.beginPath();ctx.ellipse(0,2,p.r,p.r*.62,0,.12,Math.PI*2-.12);ctx.lineTo(0,0);ctx.fill();
@@ -187,7 +205,7 @@ function drawScene(t,dt){
  // water ripple circles
  for(let i=0;i<5;i++){let x=150+i*145,y=390+Math.sin(t*.7+i)*48;ctx.strokeStyle='rgba(231,255,229,.24)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,15+((t*9+i*13)%18),4,0,0,Math.PI*2);ctx.stroke()}
  // bankside plants, grass
- for(let i=0;i<24;i++){let x=(i*43+13)%900,y=300+Math.sin(i*2)*22;drawGrass(x,y,.65+(i%4)*.13,i%2?'#5f925e':'#83ad69')}
+ for(let i=0;i<24;i++){let x=(i*43+13)%900,y=300+Math.sin(i*2)*22;drawGrass(x,y,.65+(i%4)*.13,i%2?'#5f925e':'#83ad69',t)}
  // cattails clusters
  for(const x of [90,135,760,815]){ctx.save();ctx.translate(x,325);for(let j=0;j<3;j++){ctx.strokeStyle='#54845c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(j*13,0);ctx.quadraticCurveTo(j*13-8,-45,j*13+Math.sin(t+j)*3,-83);ctx.stroke();ctx.strokeStyle='#79513f';ctx.lineWidth=9;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(j*13+Math.sin(t+j)*3,-83);ctx.lineTo(j*13+Math.sin(t+j)*3,-101);ctx.stroke()}ctx.restore()}
  // shoreline wildflowers: rooted in the banks, never scattered over the water
@@ -223,8 +241,8 @@ function drawScene(t,dt){
  ];
  foregroundGrass.forEach((g,i)=>{
   // A few overlapping tufts make each patch feel grown-in, not stamped.
-  drawGrass(g.x,g.y,g.s,g.c);
-  if(i%2===0)drawGrass(g.x+13,g.y+4,g.s*.58,i%4===0?'#9abd72':'#527f52');
+  drawGrass(g.x,g.y,g.s,g.c,t);
+  if(i%2===0)drawGrass(g.x+13,g.y+4,g.s*.58,i%4===0?'#9abd72':'#527f52',t);
  });
  // glints
  for(let i=0;i<7;i++){let x=(i*139+t*4)%900,y=365+(i*37)%140;ctx.fillStyle='rgba(255,255,226,.7)';ctx.beginPath();ctx.arc(x,y,1.8+Math.sin(t+i)*.7,0,Math.PI*2);ctx.fill()}
