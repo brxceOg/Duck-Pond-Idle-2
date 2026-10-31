@@ -173,6 +173,14 @@ The collectible machine is a pastel-pink capsule dispenser, guided by the reposi
 - Capsules are small rounded two-tone eggs with warm plum outlines, a horizontal seam, and tiny glossy highlights. Vary their lower-half colors across butter yellow, mint/aqua, lavender, coral, and pink.
 - Match the duck artwork's warm dark outlines, rounded shapes, polished toy finish, and soft dimensional shading.
 
+
+
+### Capsule pile composition
+- Capsules must form one compact, gravity-settled pile at the bottom of the globe, not evenly centered rows or isolated floating pieces.
+- Use staggered, slightly overlapping rows with varied small rotations so each capsule looks nestled against its neighbors.
+- Leave visible clear glass above the pile; keep every capsule fully inside the globe and away from the collar.
+- Keep the dispenser compact in the roll panel so the machine does not dominate the menu or crowd the roll controls.
+
 ### Interaction and animation
 - The roll action should make the whole machine wobble gently, tumble/rattle the capsules, and rotate the crank.
 - Keep the machine grounded; motion should settle smoothly and must not cause layout shifts or clipping.
