@@ -275,10 +275,11 @@ function drawScene(t,dt){
  });
  let water=ctx.createLinearGradient(0,260,0,570);water.addColorStop(0,'#82cfc0');water.addColorStop(.5,'#65b8b1');water.addColorStop(1,'#438e8e');
  ctx.fillStyle=water;ctx.beginPath();ctx.moveTo(70,355);ctx.quadraticCurveTo(112,304,250,310);ctx.quadraticCurveTo(370,300,480,312);ctx.quadraticCurveTo(650,298,800,326);ctx.quadraticCurveTo(858,348,850,430);ctx.quadraticCurveTo(836,510,710,540);ctx.quadraticCurveTo(565,555,410,535);ctx.quadraticCurveTo(255,548,120,510);ctx.quadraticCurveTo(58,482,70,355);ctx.fill();
- // Narrow earthy seam separates the water from the dark-green outer pond rim.
- ctx.strokeStyle='#76543b';ctx.lineWidth=6;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(75,357);ctx.quadraticCurveTo(116,311,250,316);ctx.quadraticCurveTo(370,306,480,318);ctx.quadraticCurveTo(650,304,800,332);ctx.quadraticCurveTo(853,352,845,430);ctx.quadraticCurveTo(832,505,708,534);ctx.quadraticCurveTo(565,549,410,529);ctx.quadraticCurveTo(255,542,123,504);ctx.quadraticCurveTo(63,478,75,357);ctx.stroke();
- // Subtle warm highlights keep the dirt edge organic rather than a hard graphic outline.
- ctx.strokeStyle='rgba(190,145,99,.72)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(90,358);ctx.quadraticCurveTo(132,322,250,325);ctx.quadraticCurveTo(390,316,480,327);ctx.quadraticCurveTo(655,313,808,341);ctx.stroke();
+ // Continuous earthy seam follows the exact water contour so no thin water
+ // crescent can remain between the dirt and the dark-green outer pond rim.
+ ctx.strokeStyle='#76543b';ctx.lineWidth=12;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(70,355);ctx.quadraticCurveTo(112,304,250,310);ctx.quadraticCurveTo(370,300,480,312);ctx.quadraticCurveTo(650,298,800,326);ctx.quadraticCurveTo(858,348,850,430);ctx.quadraticCurveTo(836,510,710,540);ctx.quadraticCurveTo(565,555,410,535);ctx.quadraticCurveTo(255,548,120,510);ctx.quadraticCurveTo(58,482,70,355);ctx.stroke();
+ // Fine warm earth highlight sits within the dirt band, not as a second offset edge.
+ ctx.strokeStyle='rgba(190,145,99,.72)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(70,355);ctx.quadraticCurveTo(112,304,250,310);ctx.quadraticCurveTo(370,300,480,312);ctx.quadraticCurveTo(650,298,800,326);ctx.quadraticCurveTo(858,348,850,430);ctx.quadraticCurveTo(836,510,710,540);ctx.quadraticCurveTo(565,555,410,535);ctx.quadraticCurveTo(255,548,120,510);ctx.quadraticCurveTo(58,482,70,355);ctx.stroke();
  ctx.strokeStyle='#d2e9bd';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(82,357);ctx.quadraticCurveTo(125,313,250,320);ctx.quadraticCurveTo(390,309,480,322);ctx.quadraticCurveTo(660,307,815,338);ctx.stroke();
  // water light current strokes
  for(let i=0;i<13;i++){let x=(i*79+ t*9)%860+20,y=350+(i*31)%155;ctx.strokeStyle='rgba(224,255,230,'+(.13+(i%3)*.06)+')';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,9+((i*7)%14),3,0,0,Math.PI*2);ctx.stroke()}
