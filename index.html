@@ -297,8 +297,37 @@ function drawScene(t,dt){
   drawGrass(x,y,s,shades[i%shades.length],t);
   if(i%4===1)drawGrass(x+4,y+2,s*.58,shades[(i+2)%shades.length],t);
  }); 
- // cattails clusters
- for(const x of [90,135,760,815]){ctx.save();ctx.translate(x,325);for(let j=0;j<3;j++){ctx.strokeStyle='#54845c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(j*13,0);ctx.quadraticCurveTo(j*13-8,-45,j*13+Math.sin(t+j)*3,-83);ctx.stroke();ctx.strokeStyle='#79513f';ctx.lineWidth=9;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(j*13+Math.sin(t+j)*3,-83);ctx.lineTo(j*13+Math.sin(t+j)*3,-101);ctx.stroke()}ctx.restore()}
+ // Cattails are distributed around the shoreline, not lined up as a rear backdrop.
+ // Side clusters grow from the outer banks; smaller groups sit along the far and near edges.
+ const cattailPatches=[
+  {x:91,y:326,s:.82,lean:-3,count:3}, {x:170,y:315,s:.68,lean:-2,count:2},
+  {x:700,y:315,s:.7,lean:2,count:2}, {x:806,y:329,s:.84,lean:4,count:3},
+  {x:61,y:405,s:.72,lean:-13,count:3}, {x:55,y:485,s:.64,lean:-17,count:2},
+  {x:839,y:407,s:.74,lean:13,count:3}, {x:850,y:485,s:.62,lean:17,count:2},
+  {x:210,y:548,s:.56,lean:-5,count:2}, {x:690,y:548,s:.58,lean:5,count:2}
+ ];
+ cattailPatches.forEach((p,pi)=>{
+  ctx.save();ctx.translate(p.x,p.y);ctx.scale(p.s,p.s);
+  for(let j=0;j<p.count;j++){
+   const spread=(j-(p.count-1)/2)*12;
+   const sway=Math.sin(t*.8+pi*1.7+j*.9)*2.4;
+   const lean=p.lean+spread*.12+sway;
+   const height=72+((pi+j)%3)*10;
+   const rootX=spread, tipX=rootX+lean;
+   // Long, tapered-looking leaves fan from the base and sway independently.
+   ctx.strokeStyle=j%2?'#6f9d62':'#54845c';ctx.lineWidth=3.5;ctx.lineCap='round';
+   ctx.beginPath();ctx.moveTo(rootX,0);ctx.quadraticCurveTo(rootX+lean*.45,-height*.48,tipX-9,-height*.88);ctx.stroke();
+   ctx.beginPath();ctx.moveTo(rootX+2,0);ctx.quadraticCurveTo(rootX+lean*.7,-height*.4,tipX+12,-height*.68);ctx.stroke();
+   // Flexible stem and warm brown seed head.
+   ctx.strokeStyle='#54845c';ctx.lineWidth=4.5;
+   ctx.beginPath();ctx.moveTo(rootX,0);ctx.quadraticCurveTo(rootX+lean*.35,-height*.55,tipX,-height);ctx.stroke();
+   ctx.strokeStyle='#79513f';ctx.lineWidth=8;ctx.lineCap='round';
+   ctx.beginPath();ctx.moveTo(tipX,-height+2);ctx.lineTo(tipX+lean*.04,-height-15);ctx.stroke();
+   ctx.strokeStyle='rgba(220,177,126,.48)';ctx.lineWidth=1.5;
+   ctx.beginPath();ctx.moveTo(tipX-2,-height-10);ctx.lineTo(tipX-2,-height-3);ctx.stroke();
+  }
+  ctx.restore();
+ });
  // shoreline wildflowers: rooted in the banks, never scattered over the water
  const bankFlowers=[
   {x:24,y:390,scale:.8,color:'#fff0db'},{x:42,y:452,scale:.65,color:'#f5d77b'},
