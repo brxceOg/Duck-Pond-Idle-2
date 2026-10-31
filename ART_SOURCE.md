@@ -275,3 +275,34 @@ An asset or animation is not finished if it is only a rough stand-in or a partia
 - Inspect assets at native size and at actual iPhone display scale. Check outline closure, edge quality, clipping, layering, contrast, and visual consistency.
 - Test environmental motion alongside multiple ducks to ensure the combined scene remains calm, readable, and performant.
 - The full pond composition must feel rich and deliberate even when the ducks are stationary. The environment is a primary feature, not disposable background filler.
+
+
+## 16. Fifth non-negotiable rule — environmental objects respond to ducks
+
+The environment is not a painted backdrop. Ducks are physical inhabitants of a shared little world, and the artwork and animation must communicate that contact convincingly.
+
+### Visual interaction language
+- Lily pads should visibly give way when nudged by a duck: shift across the water, tilt or bob subtly where appropriate, create small ripples, then drift and settle.
+- Floating leaves and other loose surface details should respond to nearby movement with gentle displacement and wake effects.
+- Flexible reeds, grass, cattails, and flower stems may bend or sway when brushed, then ease back into their resting pose.
+- Fixed objects such as stones, roots, and sturdy shoreline structures should read as solid. Ducks should turn, slow, or route around them rather than visibly pass through.
+- Duck contact should have readable anticipation and response: a small approach, soft nudge, object reaction, and a natural return to swimming or waddling.
+- Larger ducks may produce a more noticeable response than tiny ducks, but all reactions should remain soft, cute, and physically believable.
+
+### Layering and animation requirements
+- Keep object motion visually connected to the point and direction of contact. Do not animate a lily pad independently in a way that ignores the duck that nudged it.
+- Add subtle ripples or a small wake when a floating object moves through water.
+- Use gentle easing, momentum, and damping so displaced objects do not snap instantly to a new location or continue sliding forever.
+- Preserve correct foreground/background ordering as ducks move around, behind, or in front of environmental objects.
+- Contact animations must not cause outlines to clip, sprites to overlap incorrectly, or visual layers to flicker.
+- When several ducks interact with one object, reactions should remain composed and readable rather than producing frantic movement.
+
+### Art-direction acceptance checks
+- A duck visibly nudging a lily pad produces a smooth, connected displacement and water ripple.
+- A duck never appears to swim through a lily pad or solid object.
+- Plants that are meant to be flexible bend on contact; fixed props remain fixed.
+- Object reactions match their material, weight, and placement in the scene.
+- The interaction reads clearly at iPhone gameplay scale without excessive effects or clutter.
+- Ducks and props remain visually coherent with the shared rounded shapes, warm palette, polished shading, and consistent outline style.
+
+These requirements apply to every new duck, acquired duck, environmental prop, and habitat animation. Do not ship a pond scene where ducks are merely layered on top of scenery.
