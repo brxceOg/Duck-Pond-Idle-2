@@ -210,8 +210,22 @@ function drawScene(t,dt){
  pads.forEach(p=>drawPad(p,t));
  // ducks
  ducks.forEach(d=>drawDuck(d,t));
- // foreground grass framing
- for(let i=0;i<13;i++)drawGrass(i*75+10,585,.75,'#5e8c58');
+ // layered foreground bank grass: irregular rooted clumps, with open gaps
+ // Every root sits on the lower bank beyond the pond's water silhouette.
+ const foregroundGrass=[
+  {x:18,y:578,s:.82,c:'#5e8c58'},{x:62,y:594,s:.58,c:'#83ad69'},
+  {x:142,y:585,s:.72,c:'#6f9b60'},{x:205,y:598,s:.52,c:'#91b875'},
+  {x:286,y:579,s:.68,c:'#5d8c59'},{x:342,y:596,s:.56,c:'#83a967'},
+  {x:414,y:588,s:.78,c:'#6b965d'},{x:478,y:599,s:.5,c:'#91b875'},
+  {x:548,y:580,s:.7,c:'#5e8d59'},{x:620,y:595,s:.57,c:'#83ad69'},
+  {x:692,y:584,s:.76,c:'#6f9b60'},{x:755,y:598,s:.53,c:'#91b875'},
+  {x:828,y:580,s:.8,c:'#5e8d59'},{x:882,y:594,s:.58,c:'#83ad69'}
+ ];
+ foregroundGrass.forEach((g,i)=>{
+  // A few overlapping tufts make each patch feel grown-in, not stamped.
+  drawGrass(g.x,g.y,g.s,g.c);
+  if(i%2===0)drawGrass(g.x+13,g.y+4,g.s*.58,i%4===0?'#9abd72':'#527f52');
+ });
  // glints
  for(let i=0;i<7;i++){let x=(i*139+t*4)%900,y=365+(i*37)%140;ctx.fillStyle='rgba(255,255,226,.7)';ctx.beginPath();ctx.arc(x,y,1.8+Math.sin(t+i)*.7,0,Math.PI*2);ctx.fill()}
 }
