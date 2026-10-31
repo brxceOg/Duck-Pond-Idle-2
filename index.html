@@ -190,8 +190,22 @@ function drawScene(t,dt){
  for(let i=0;i<24;i++){let x=(i*43+13)%900,y=300+Math.sin(i*2)*22;drawGrass(x,y,.65+(i%4)*.13,i%2?'#5f925e':'#83ad69')}
  // cattails clusters
  for(const x of [90,135,760,815]){ctx.save();ctx.translate(x,325);for(let j=0;j<3;j++){ctx.strokeStyle='#54845c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(j*13,0);ctx.quadraticCurveTo(j*13-8,-45,j*13+Math.sin(t+j)*3,-83);ctx.stroke();ctx.strokeStyle='#79513f';ctx.lineWidth=9;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(j*13+Math.sin(t+j)*3,-83);ctx.lineTo(j*13+Math.sin(t+j)*3,-101);ctx.stroke()}ctx.restore()}
- // foreground flowers and stones
- for(let i=0;i<17;i++){const x=(i*59+20)%900,y=540+Math.sin(i*3)*24;ellipse(x,y,5+(i%3),3+(i%2),'#8c9c70');if(i%2===0){ellipse(x+5,y-9,4,4,'#fff0db');ellipse(x+11,y-6,4,4,'#fff0db');ellipse(x+8,y-12,4,4,'#fff0db');ellipse(x+8,y-8,2.5,2.5,'#efc95d')}}
+ // shoreline wildflowers: rooted in the banks, never scattered over the water
+ const bankFlowers=[
+  {x:24,y:390,scale:.8,color:'#fff0db'},{x:42,y:452,scale:.65,color:'#f5d77b'},
+  {x:872,y:395,scale:.8,color:'#f7e8d8'},{x:850,y:470,scale:.7,color:'#f5d77b'},
+  {x:115,y:580,scale:.72,color:'#fff0db'},{x:300,y:588,scale:.62,color:'#f5d77b'},
+  {x:590,y:586,scale:.7,color:'#fff0db'},{x:785,y:578,scale:.65,color:'#f5d77b'}
+ ];
+ bankFlowers.forEach((f,i)=>{
+  ctx.save();ctx.translate(f.x,f.y);ctx.scale(f.scale,f.scale);
+  ctx.strokeStyle='#56875b';ctx.lineWidth=3;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(0,8);ctx.quadraticCurveTo((i%2?5:-4),-2,0,-15);ctx.stroke();
+  ctx.fillStyle='#78a968';ctx.beginPath();ctx.ellipse(-5,1,7,3,-.5,0,Math.PI*2);ctx.fill();
+  for(let petal=0;petal<5;petal++){const a=petal*Math.PI*2/5;ellipse(Math.cos(a)*5, -16+Math.sin(a)*5,4,3,f.color)}
+  ellipse(0,-16,2.8,2.8,'#efc95d');
+  ctx.restore();
+ });
  // lily pads below ducks
  pads.forEach(p=>drawPad(p,t));
  // ducks
