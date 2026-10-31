@@ -187,3 +187,58 @@ Do not assume these are finalized until discussed:
 - Offline progress and idle reward rules.
 - Whether ducks have individual stats, moods, needs, or purely cosmetic personalities.
 - Sound direction and accessibility options.
+
+
+## 13. Non-negotiable development commands
+
+These rules apply to every future implementation session, code change, asset, animation, and release.
+
+### Finish the work — no placeholders
+- Finish every feature that is started. Do not leave TODOs, placeholder art, mock controls, dead buttons, fake functionality, unfinished states, or comments promising that essential behavior will be added later.
+- A feature is complete only when its code, visuals, interactions, state handling, responsive behavior, and relevant save/load behavior are implemented and tested.
+- If a requested feature cannot be completed safely or within the current change, explain the limitation before treating the work as complete. Do not disguise an incomplete implementation as finished.
+- Remove temporary scaffolding and debug artifacts before committing. Do not replace requested production assets with emoji, colored boxes, or rough stand-ins.
+
+### Art Source is mandatory
+- Before creating, editing, or implementing any visual asset, sprite, animation, environment element, icon, or menu component, consult `ART_SOURCE.md`.
+- Treat `ART_SOURCE.md` as the canonical visual authority. New work must match its character proportions, outlines, material rendering, palette, lighting, animation language, and handcrafted presentation.
+- If a new visual direction is explicitly approved by the user, update `ART_SOURCE.md` first or in the same change so future work remains consistent.
+- Do not create assets from memory or generic prompts when the art source contains the applicable direction. Check the document and use it as an active production brief.
+
+### Every push includes a playable test link
+- After every code push/commit that changes the playable game, provide a direct playable URL in the response so the user can immediately test the latest build.
+- The link must point to the actual deployed game, not merely the repository or source file. Include a cache-busted URL when needed to avoid an old browser-cached build.
+- Verify the deployment path and link format against the repository's actual GitHub Pages configuration. Never invent a playable URL or claim a deployment is live before it is available.
+- For documentation-only commits where no playable build exists yet, clearly say that no playable build is available and link to the changed documents instead. Once the game is deployed, continue including the playable link after every code push.
+- Briefly state what changed and what should be tested. Do not make the user hunt through GitHub to find the build.
+
+## 14. Pond environment — visual ambition and requirements
+
+The pond habitat is a major piece of the game's appeal. It must be a visually stunning, richly illustrated miniature outdoor world, even though the rendering style remains cute 2D cartoon art. It must never look like a flat blue shape with decorations scattered on top.
+
+### A complete little landscape
+- Build a layered environment around and behind the pond, with a clear sense of place, depth, and composition.
+- Include clusters of rounded trees and leafy canopies set back from the water, with visible trunks and layered foliage. Trees should have gentle, varied silhouettes rather than repeating as identical stamps.
+- Include flowing tufts of grass, soft banks, reeds, cattails, wildflowers, clover, small shrubs, stones, and other shoreline plants.
+- Cattails and taller reeds should create recognizable vertical accents along selected shore sections without blocking the ducks.
+- Use foreground and background foliage to frame the pond naturally. Keep the central water area open enough for the flock to be clearly visible.
+- Give the shoreline a deliberate organic shape with transitions between earth, grass, stones, and water. Avoid a plain geometric border.
+- Include small environmental discoveries and charming details—such as mushrooms, fallen leaves, tiny flowers, dragonflies, butterflies, or little puddles—only where they strengthen the composition.
+
+### Depth, light, and atmosphere
+- Use distinct background, midground, pond, and foreground layers with intentional overlap and soft contact shadows.
+- Establish a consistent warm daylight direction, gentle highlights, and readable shadow shapes.
+- Use tonal variation in the water, shoreline, grass, and trees to create depth without visual clutter.
+- The scene should feel lush, welcoming, and carefully composed, like a polished illustrated storybook diorama.
+- Avoid generic AI-generated cozy-game scenery, flat vector landscapes, repetitive asset tiling, noisy textures, and empty dead space.
+
+### Living environmental animation
+- Grass blades, flower heads, cattails, and selected leaves should sway gently with varied timing and direction.
+- Tree canopies and branches may have subtle wind movement; keep trunks stable and avoid exaggerated motion.
+- Water should have slow flowing/shimmering motion, soft ripples, reflections, and occasional small disturbances.
+- Floating leaves, bubbles, insects, and pond details can move through the scene sparingly.
+- Environmental animation must be subtle and layered so it adds life without competing with duck movement.
+- Use lightweight, coordinated loops that remain performant on iPhone Safari. Respect reduced-motion/accessibility settings where implemented.
+
+### Habitat acceptance standard
+The finished habitat should be attractive even when no menu is open and no duck is moving. A screenshot should communicate a complete, beautiful little pond world—not an unfinished prototype. Evaluate the whole composition at actual iPhone size as well as desktop size.
