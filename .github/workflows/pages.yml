@@ -20,6 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Extract uploaded Upheaval font
+        run: |
+          mkdir -p assets/fonts
+          unzip -o upheaval.zip upheavtt.ttf -d /tmp/upheaval
+          cp /tmp/upheaval/upheavtt.ttf assets/fonts/upheavtt.ttf
       - name: Validate game JavaScript
         run: |
           python3 - <<'PY'
