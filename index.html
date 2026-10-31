@@ -204,26 +204,23 @@ function drawScene(t,dt){
  for(let i=0;i<13;i++){let x=(i*79+ t*9)%860+20,y=350+(i*31)%155;ctx.strokeStyle='rgba(224,255,230,'+(.13+(i%3)*.06)+')';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,9+((i*7)%14),3,0,0,Math.PI*2);ctx.stroke()}
  // water ripple circles
  for(let i=0;i<5;i++){let x=150+i*145,y=390+Math.sin(t*.7+i)*48;ctx.strokeStyle='rgba(231,255,229,.24)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,15+((t*9+i*13)%18),4,0,0,Math.PI*2);ctx.stroke()}
- // Small scattered grass details across the surrounding ground.
- // These are rooted outside the water silhouette and deliberately vary in spacing,
- // scale, and color so the banks feel naturally overgrown rather than patterned.
- const groundGrass=[
-  [12,342,.25],[48,326,.22],[91,315,.24],[168,326,.21],[218,337,.27],
-  [286,348,.22],[354,359,.24],[420,348,.2],[492,337,.24],[558,326,.22],
-  [632,329,.25],[690,345,.21],[744,326,.24],[812,337,.22],[872,350,.27],
-  [18,405,.3],[32,485,.24],[54,535,.27],[82,558,.22],[112,548,.25],
-  [174,560,.2],[238,570,.24],[322,558,.22],[382,568,.27],[452,555,.21],
-  [520,566,.24],[578,552,.2],[650,566,.26],[720,552,.22],[790,560,.25],
-  [842,540,.24],[878,500,.29],[860,435,.22],[888,385,.25],
-  [145,350,.2],[265,322,.24],[535,350,.2],[770,355,.23]
+ // Small grass grows only on the dry bank outside the pond edge.
+ // Keep the water silhouette clear; any plants rooted in shallow water use
+ // their own reed/cattail shapes below rather than reusing terrestrial grass.
+ const bankGrass=[
+  // Upper bank, above the waterline
+  [18,292,.24],[66,282,.2],[126,290,.22],[188,300,.2],[250,310,.22],
+  [322,320,.2],[382,326,.19],[458,315,.2],[535,300,.22],[606,292,.2],
+  [676,296,.22],[742,305,.2],[812,310,.22],[878,300,.24],
+  // Left and right outer banks, beyond the pond's widest edge
+  [18,365,.28],[28,425,.23],[20,492,.27],[42,548,.22],
+  [882,365,.26],[875,425,.22],[888,490,.28],[858,548,.23]
  ];
- groundGrass.forEach(([x,y,s],i)=>{
+ bankGrass.forEach(([x,y,s],i)=>{
   const shades=['#5d8958','#709b60','#83aa69','#91b875'];
   drawGrass(x,y,s,shades[i%shades.length],t);
-  if(i%3===0)drawGrass(x+5,y+2,s*.62,shades[(i+2)%shades.length],t);
- });
- // bankside plants, grass
- for(let i=0;i<24;i++){let x=(i*43+13)%900,y=300+Math.sin(i*2)*22;drawGrass(x,y,.65+(i%4)*.13,i%2?'#5f925e':'#83ad69',t)}
+  if(i%4===1)drawGrass(x+4,y+2,s*.58,shades[(i+2)%shades.length],t);
+ }); 
  // cattails clusters
  for(const x of [90,135,760,815]){ctx.save();ctx.translate(x,325);for(let j=0;j<3;j++){ctx.strokeStyle='#54845c';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(j*13,0);ctx.quadraticCurveTo(j*13-8,-45,j*13+Math.sin(t+j)*3,-83);ctx.stroke();ctx.strokeStyle='#79513f';ctx.lineWidth=9;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(j*13+Math.sin(t+j)*3,-83);ctx.lineTo(j*13+Math.sin(t+j)*3,-101);ctx.stroke()}ctx.restore()}
  // shoreline wildflowers: rooted in the banks, never scattered over the water
