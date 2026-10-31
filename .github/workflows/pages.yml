@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Extract Rubber Duck font
+        run: |
+          unzip -o rubber_duck.zip -d assets/fonts
+          test -s assets/fonts/Rubber-Duck.ttf
       - name: Verify uploaded game fonts
         run: |
           test -s assets/fonts/duck-duck.ttf
