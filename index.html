@@ -190,25 +190,36 @@ function drawScene(t,dt){
  let sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,'#bce5d4');sky.addColorStop(.5,'#d8e9c0');sky.addColorStop(1,'#8ebd91');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
  // distant hills
  ctx.fillStyle='#9dc58e';ctx.beginPath();ctx.moveTo(0,210);ctx.quadraticCurveTo(160,115,330,200);ctx.quadraticCurveTo(540,90,690,180);ctx.quadraticCurveTo(810,110,900,180);ctx.lineTo(900,370);ctx.lineTo(0,370);ctx.fill();
- // Fine grass tufts belong on the rolling background hills, not in the pond.
- // Draw them before the trees and nearer bank so the landscape keeps its depth.
+ // Grass roots follow the actual upper contour of the distant light-green hills.
+ // Each tuft starts on the hill surface and grows upward from that contact point.
  const hillGrass=[
-  [18,206,.54],[58,185,.48],[112,174,.58],[166,165,.5],[218,177,.62],
-  [278,190,.48],[322,202,.55],[382,166,.52],[430,145,.58],[482,137,.48],
-  [535,150,.56],[588,169,.5],[642,184,.58],[694,190,.48],[746,169,.56],
-  [800,161,.5],[850,179,.58],[888,198,.48],
-  [42,244,.42],[148,230,.46],[292,246,.44],[568,229,.46],[744,235,.44],[858,246,.46]
+  [32,195,.46],[81,176,.43],[130,165,.5],[179,162,.45],[229,167,.48],
+  [279,181,.42],[313,194,.4],[371,182,.44],[431,160,.48],[488,146,.43],
+  [543,142,.46],[595,146,.42],[644,159,.47],[675,174,.4],[714,169,.44],
+  [748,156,.42],[781,148,.46],[813,147,.43],[843,153,.46],[872,164,.42],[891,175,.4]
  ];
  hillGrass.forEach(([x,y,s],i)=>{
   const shades=['#5f925e','#75a66a','#8db775','#a2c57e'];
   drawGrass(x,y,s,shades[(i*3)%shades.length],t);
-  if(i%5===1)drawGrass(x+7,y+2,s*.52,shades[(i+2)%shades.length],t);
+  if(i%6===1)drawGrass(x+5,y+1,s*.48,shades[(i+2)%shades.length],t);
  });
  // back forest trees
  drawTree(100,280,.9,'#6f9b70');drawTree(250,250,.72,'#7ca879');drawTree(710,260,.85,'#719d70');drawTree(830,285,.95,'#6b956a');
  // bank ground
  ctx.fillStyle='#719b68';ctx.beginPath();ctx.moveTo(0,290);ctx.quadraticCurveTo(120,260,225,305);ctx.quadraticCurveTo(380,350,520,290);ctx.quadraticCurveTo(710,260,900,310);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
  ctx.fillStyle='#a8c77f';ctx.beginPath();ctx.moveTo(0,330);ctx.quadraticCurveTo(140,290,260,342);ctx.quadraticCurveTo(440,380,590,326);ctx.quadraticCurveTo(770,290,900,350);ctx.lineTo(900,600);ctx.lineTo(0,600);ctx.fill();
+ // Restore grass on the darker, nearer rolling hill. Roots sit directly on
+ // its curved crest, above the light-green foreground slope.
+ const nearHillGrass=[
+  [29,286,.52],[71,281,.46],[112,280,.5],[152,285,.45],[191,295,.48],
+  [262,316,.46],[317,325,.42],[370,326,.46],[423,321,.44],[475,309,.48],
+  [566,286,.48],[634,281,.44],[702,282,.48],[771,287,.44],[839,298,.5]
+ ];
+ nearHillGrass.forEach(([x,y,s],i)=>{
+  const shades=['#477b50','#568b55','#69995b','#7ca765'];
+  drawGrass(x,y,s,shades[(i*2)%shades.length],t);
+  if(i%4===1)drawGrass(x+6,y+1,s*.5,shades[(i+1)%shades.length],t);
+ });
  // pond shadow and water organic
  ellipse(455,402,410,176,'#477a63');
  let water=ctx.createLinearGradient(0,260,0,570);water.addColorStop(0,'#82cfc0');water.addColorStop(.5,'#65b8b1');water.addColorStop(1,'#438e8e');
