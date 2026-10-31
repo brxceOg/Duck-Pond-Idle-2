@@ -257,25 +257,22 @@ function drawScene(t,dt){
  });
  // pond shadow and water organic
  ellipse(455,402,410,176,'#477a63');
- // Grass belongs on the dark-green upper shelf of the pond itself.
- // This shelf is the exposed top crescent of the pond's dark rim, not the hill behind it.
- // Draw after the rim shadow so the tufts sit on top; the water is drawn next and masks
- // any lower blade portions that would otherwise intrude into the swimming area.
- ctx.save();
- ctx.beginPath();ctx.ellipse(455,402,410,176,0,0,Math.PI*2);ctx.clip();
+ // Grass is rooted along the actual upper rim of the dark-green pond shelf.
+ // Follow the curved outer contour of the rim; do not clip the blades to the ellipse,
+ // because the blades must rise above its edge like grass on the other hills.
+ // The water is drawn afterward and naturally hides any lower portions inside the pond.
  const pondRimGrass=[
-  [150,302,.48],[185,296,.52],[220,292,.5],[255,289,.54],
-  [290,286,.5],[325,284,.54],[360,282,.5],[395,281,.54],
-  [430,282,.5],[465,283,.54],[500,284,.5],[535,284,.54],
-  [570,282,.5],[605,281,.54],[640,282,.5],[675,285,.54],
-  [710,289,.5],[745,294,.54],[780,300,.48]
+  [150,289,.52],[185,272,.54],[220,257,.56],[255,246,.54],
+  [290,239,.56],[325,234,.54],[360,231,.56],[395,230,.54],
+  [430,230,.56],[465,231,.54],[500,233,.56],[535,236,.54],
+  [570,242,.56],[605,250,.54],[640,261,.56],[675,275,.54],
+  [710,292,.56],[745,310,.54],[780,329,.52]
  ];
  pondRimGrass.forEach(([x,y,s],i)=>{
   const shades=['#477b50','#568b55','#69995b','#7ca765'];
   drawGrass(x,y,s,shades[(i*3+1)%shades.length],t);
   if(i%2===0)drawGrass(x+7,y+2,s*.52,shades[(i+2)%shades.length],t);
  });
- ctx.restore();
  let water=ctx.createLinearGradient(0,260,0,570);water.addColorStop(0,'#82cfc0');water.addColorStop(.5,'#65b8b1');water.addColorStop(1,'#438e8e');
  ctx.fillStyle=water;ctx.beginPath();ctx.moveTo(70,355);ctx.quadraticCurveTo(110,285,250,308);ctx.quadraticCurveTo(360,280,480,310);ctx.quadraticCurveTo(650,275,800,325);ctx.quadraticCurveTo(865,350,850,430);ctx.quadraticCurveTo(830,520,710,540);ctx.quadraticCurveTo(560,570,410,535);ctx.quadraticCurveTo(250,565,120,510);ctx.quadraticCurveTo(45,470,70,355);ctx.fill();
  ctx.strokeStyle='#d2e9bd';ctx.lineWidth=9;ctx.beginPath();ctx.moveTo(82,357);ctx.quadraticCurveTo(120,302,250,320);ctx.quadraticCurveTo(390,300,480,322);ctx.quadraticCurveTo(660,292,815,338);ctx.stroke();
