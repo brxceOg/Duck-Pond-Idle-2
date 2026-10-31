@@ -19,8 +19,8 @@
 button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:3px solid #6c9b74;outline-offset:3px}
 .app{width:min(100%,1120px);margin:auto;padding:14px 16px 28px}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-.brand{display:flex;align-items:center;gap:10px}.brandmark{width:46px;height:46px;border-radius:16px;background:#ffdf72;border:3px solid var(--ink);display:grid;place-items:center;box-shadow:0 4px 0 #bd8744;font-size:27px}.brand h1{font-family:"Rubber Duck",Georgia,serif;font-size:clamp(25px,4.2vw,31px);line-height:1;margin:0;letter-spacing:.2px;text-transform:uppercase}.brand small{display:block;color:#967466;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;margin-top:4px;font-weight:800}
-.wallet{display:flex;gap:8px}.wallet-pill{background:#fff9ec;border:2px solid #e2d2b6;border-radius:999px;padding:8px 12px;display:flex;align-items:center;gap:7px;font-weight:900;box-shadow:0 3px 0 #d9c9a9;white-space:nowrap}.coin{width:20px;height:20px;border-radius:50%;background:linear-gradient(#ffe98d,#e9a82e);border:2px solid #a96a28;display:grid;place-items:center;font-size:11px;color:#87501f}
+.brand{display:flex;align-items:center;gap:10px}.brandmark{width:46px;height:46px;border-radius:16px;background:#ffdf72;border:3px solid var(--ink);display:block;box-shadow:0 4px 0 #bd8744;object-fit:contain}.brand h1{font-family:"Rubber Duck",Georgia,serif;font-size:clamp(25px,4.2vw,31px);line-height:1;margin:0;letter-spacing:.2px;text-transform:uppercase}.brand small{display:block;color:#967466;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;margin-top:4px;font-weight:800}
+.wallet{display:flex;gap:8px}.wallet-duck-icon{width:28px;height:24px;display:block;flex:none}.tab-duck-icon{width:28px;height:23px;display:inline-block;vertical-align:middle;margin-right:3px}.wallet-pill{background:#fff9ec;border:2px solid #e2d2b6;border-radius:999px;padding:8px 12px;display:flex;align-items:center;gap:7px;font-weight:900;box-shadow:0 3px 0 #d9c9a9;white-space:nowrap}.coin{width:20px;height:20px;border-radius:50%;background:linear-gradient(#ffe98d,#e9a82e);border:2px solid #a96a28;display:grid;place-items:center;font-size:11px;color:#87501f}
 .scene-card{background:#e9d9b9;border:4px solid #765043;border-radius:25px;padding:7px;box-shadow:0 7px 0 #bda17b,0 13px 28px #684b2c22;position:relative}
 .scene-head{display:flex;justify-content:space-between;align-items:center;padding:5px 8px 9px}.scene-head strong{font-family:"Rubber Duck",Georgia,serif;font-size:19px;letter-spacing:.15px}.scene-head span{font-size:13px;color:#765b46;font-weight:700}
 #pond{display:block;width:100%;height:auto;aspect-ratio:1.48;border-radius:17px;border:3px solid #6b4c3c;background:#a5d9c6;touch-action:manipulation}
@@ -31,7 +31,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
 .panel{background:#fff8e9;border:2px solid #e4d3b4;border-radius:22px;padding:15px;box-shadow:var(--shadow);min-height:230px}.panel-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}.panel-title h2{font: 400 27px "Rubber Duck",Georgia,serif;margin:0;letter-spacing:.15px}.sub{font-size:14px;font-weight:500;color:#705b49;margin:7px 0 15px;line-height:1.55}
 .machine-wrap{display:grid;grid-template-columns:minmax(130px,.8fr) 1fr;gap:14px;align-items:center}.machine{height:190px;position:relative;display:flex;align-items:center;justify-content:center;flex-direction:column}.globe{width:128px;height:128px;border:5px solid #805449;border-radius:50%;background:radial-gradient(circle at 35% 25%,#ffffffb8 0 7%,transparent 8%),linear-gradient(145deg,#c4f0e4d9,#7fc8b7b8);box-shadow:inset 0 0 0 4px #ffffff70,0 5px 0 #b8a07d;position:relative;overflow:hidden}.capsules{position:absolute;inset:15px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;transition:transform .4s}.capsule{width:29px;height:36px;border-radius:16px 16px 13px 13px;border:2px solid #714b40;background:linear-gradient(110deg,#fff8 0 18%,transparent 20%),linear-gradient(#ffdc77 0 50%,#f08c66 51%);box-shadow:inset -3px -3px #00000012}.capsule:nth-child(2n){background:linear-gradient(110deg,#fff8 0 18%,transparent 20%),linear-gradient(#a9d8c3 0 50%,#6b9f83 51%)}.capsule:nth-child(3n){background:linear-gradient(110deg,#fff8 0 18%,transparent 20%),linear-gradient(#c7b6e7 0 50%,#8e78b5 51%)}.machine-base{width:115px;height:42px;margin-top:-3px;border:4px solid #805449;border-radius:12px 12px 18px 18px;background:linear-gradient(#f4a36f,#dc7958);box-shadow:0 5px 0 #a85d49;display:grid;place-items:center;font-size:12px;font-weight:1000;color:#fff8e9;letter-spacing:1px}.machine-base:after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#f8d778;border:3px solid #805449;right:calc(50% - 82px);top:116px}
 .roll-info{display:flex;flex-direction:column;gap:9px}.price{font-size:15px;color:#937966;font-weight:800}.roll-btn,.action-btn{background:linear-gradient(#f5cb68,#e9a94a);border:2px solid #a96e39;border-radius:15px;padding:13px 12px;box-shadow:0 5px 0 #b47a42;font-family:"Rubber Duck",Georgia,serif;font-weight:800;font-size:17px}.roll-btn:active,.action-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b47a42}.roll-btn:disabled{opacity:.55;filter:grayscale(.3);cursor:not-allowed}.result{margin-top:12px;background:#f7edda;border:2px dashed #d8c4a2;border-radius:16px;padding:11px;text-align:center;min-height:58px;font-weight:800;font-size:15px;line-height:1.45}.result strong{font-family:"Rubber Duck",Georgia,serif;font-weight:800;font-size:20px;display:block}
-.duck-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.duck-card{background:#f8f0df;border:2px solid #e3d1b0;border-radius:16px;padding:10px;display:flex;align-items:center;gap:10px;min-width:0}.duck-thumb{width:62px;height:62px;flex:none;border-radius:17px;background:#e5efdc;display:grid;place-items:center;font-size:37px}.duck-card b{display:block;font: 800 17px "Rubber Duck",Georgia,serif}.duck-card small{font-size:12px;color:#765e4b;font-weight:700;text-transform:uppercase;letter-spacing:.5px}.empty{padding:22px;text-align:center;color:#997f69;font-size:13px;grid-column:1/-1}
+.duck-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.duck-card{background:#f8f0df;border:2px solid #e3d1b0;border-radius:16px;padding:10px;display:flex;align-items:center;gap:10px;min-width:0}.duck-thumb{width:62px;height:62px;flex:none;border-radius:17px;background:#e5efdc;display:block;object-fit:contain;padding:3px}.duck-card b{display:block;font: 800 17px "Rubber Duck",Georgia,serif}.duck-card small{font-size:12px;color:#765e4b;font-weight:700;text-transform:uppercase;letter-spacing:.5px}.empty{padding:22px;text-align:center;color:#997f69;font-size:13px;grid-column:1/-1}
 .upgrade-card{display:flex;align-items:center;gap:12px;background:#f8f0df;border:2px solid #e3d1b0;border-radius:16px;padding:12px;margin-top:10px}.upgrade-icon{width:48px;height:48px;border-radius:15px;background:#dce9cf;display:grid;place-items:center;font-size:25px}.upgrade-card div:nth-child(2){flex:1}.upgrade-card b{font: 800 17px "Rubber Duck",Georgia,serif}.upgrade-card small{display:block;color:#705b49;font-size:13px;font-weight:500;line-height:1.45;margin-top:4px}.buy{padding:9px 11px;border-radius:12px;background:#dce8c9;border:2px solid #91a77a;font-family:"Rubber Duck",Georgia,serif;font-weight:800;font-size:16px;white-space:nowrap}.buy:disabled{opacity:.45}
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:#57332f;color:#fff8e9;border-radius:99px;padding:12px 18px;font-size:15px;font-weight:900;opacity:0;pointer-events:none;transition:.25s;z-index:9;box-shadow:0 5px 20px #0003;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
 .footer{text-align:center;color:#8e765e;font-family:"Ducky","Rubber Duck",Georgia,serif;font-size:12px;margin:17px 0 4px}
@@ -41,7 +41,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
 @media(min-width:760px){
  body{font-size:18px}
  .app{max-width:1280px}
- .brandmark{width:52px;height:52px;font-size:30px}
+ .brandmark{width:56px;height:56px}
  .brand h1{font-size:34px}
  .brand small{font-size:14px;letter-spacing:1.5px}
  .wallet{gap:10px}
@@ -74,7 +74,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
  .result strong{font-size:23px}
  .duck-grid{gap:12px}
  .duck-card{padding:12px;gap:12px}
- .duck-thumb{width:68px;height:68px;font-size:40px}
+ .duck-thumb{width:72px;height:68px}
  .duck-card b,.upgrade-card b{font-size:19px}
  .duck-card small{font-size:14px}
  .empty{font-size:15px;padding:26px}
@@ -104,8 +104,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
 <body>
 <div class="app">
 <header class="topbar">
- <div class="brand"><div class="brandmark">🦆</div><div><h1>Duck Pond</h1><small>a little place to quack</small></div></div>
- <div class="wallet"><div class="wallet-pill"><span class="coin">¢</span><span id="coins">100</span></div><div class="wallet-pill">🦆 <span id="duckCount">1</span></div></div>
+ <div class="brand"><canvas class="brandmark" width="112" height="112" data-duck-icon="sunny" aria-label="Sunny rubber duck"></canvas><div><h1>Duck Pond</h1><small>a little place to quack</small></div></div>
+ <div class="wallet"><div class="wallet-pill"><span class="coin">¢</span><span id="coins">100</span></div><div class="wallet-pill"><canvas class="wallet-duck-icon" width="56" height="48" data-duck-icon="sunny" aria-hidden="true"></canvas><span id="duckCount">1</span></div></div>
 </header>
 <div class="game-layout">
  <section class="scene-column">
@@ -123,7 +123,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
  <section class="right-column">
   <nav class="tabs" aria-label="Game menus">
    <button class="tab active" data-tab="machine">🎁 Roll</button>
-   <button class="tab" data-tab="collection">🦆 My Ducks</button>
+   <button class="tab" data-tab="collection"><canvas class="tab-duck-icon" width="56" height="44" data-duck-icon="sunny" aria-hidden="true"></canvas> My Ducks</button>
    <button class="tab" data-tab="upgrades">🌱 Pond</button>
   </nav>
   <main class="panel" id="panel"></main>
@@ -171,14 +171,14 @@ function renderPanel(){
  $('rollBtn').disabled=state.coins<25;$('rollBtn').addEventListener('click',roll);
  }else if(tab==='collection'){
  const counts={};state.ducks.forEach(d=>counts[d.id]=(counts[d.id]||0)+1);
- p.innerHTML='<div class="panel-title"><h2>Your Duckies</h2><span>♡ '+state.ducks.length+' collected</span></div><p class="sub">Every duck has its own little personality. Duplicates become pond pals too!</p><div class="duck-grid">'+species.filter(s=>counts[s.id]).map(s=>'<div class="duck-card"><div class="duck-thumb" style="background:linear-gradient(145deg,'+s.color+',#fff1d2)">'+duckEmoji(s.id)+'</div><div><b>'+s.name+(counts[s.id]>1?' ×'+counts[s.id]:'')+'</b><small>'+s.rarity+'</small></div></div>').join('')+(Object.keys(counts).length===0?'<div class="empty">Your pond is waiting for its first duck.</div>':'')+'</div>';
+ p.innerHTML='<div class="panel-title"><h2>Your Duckies</h2><span>♡ '+state.ducks.length+' collected</span></div><p class="sub">Every duck has its own little personality. Duplicates become pond pals too!</p><div class="duck-grid">'+species.filter(s=>counts[s.id]).map(s=>'<div class="duck-card"><canvas class="duck-thumb" width="124" height="112" data-duck-icon="'+s.id+'" aria-label="'+s.name+' rubber duck" style="background:linear-gradient(145deg,'+s.color+',#fff1d2)"></canvas><div><b>'+s.name+(counts[s.id]>1?' ×'+counts[s.id]:'')+'</b><small>'+s.rarity+'</small></div></div>').join('')+(Object.keys(counts).length===0?'<div class="empty">Your pond is waiting for its first duck.</div>':'')+'</div>';
  }else{
  const cost=100+state.upgrade*90;
  p.innerHTML='<div class="panel-title"><h2>Pond Improvements</h2><span>✿ Make it cozy</span></div><p class="sub">Little improvements help your pond earn more coins while you spend time together.</p><div class="upgrade-card"><div class="upgrade-icon">🌼</div><div><b>Flowering Banks</b><small>Increase coin earnings by 50% per level · Level '+state.upgrade+'</small></div><button class="buy" id="upgradeBtn" '+(state.coins<cost?'disabled':'')+'>'+cost+' ¢</button></div><div class="upgrade-card"><div class="upgrade-icon">🫧</div><div><b>Happy Habitat</b><small>Your ducks bring a little pond magic just by being here.</small></div><span style="font-size:11px;color:#9a8069">Always on</span></div><p class="sub" style="margin-top:15px">Your ducks make <b>'+(state.ducks.length*.2*(1+state.upgrade*.5)).toFixed(1)+' coins</b> every minute. Keep collecting to grow your little sanctuary.</p>';
  $('upgradeBtn').addEventListener('click',()=>{if(state.coins<cost)return;state.coins-=cost;state.upgrade++;save();updateHUD();renderPanel();toast('Your pond is blooming! 🌼')});
  }
+ renderDuckIcons();
 }
-function duckEmoji(id){return ({sunny:'🦆',mint:'🦆',berry:'🦆',peach:'🦆',lilac:'🦆',gold:'🦆'})[id]||'🦆'}
 function roll(){
  if(rollBusy||state.coins<25)return;rollBusy=true;state.coins-=25;state.rolls++;save();updateHUD();$('rollBtn').disabled=true;$('result').textContent='Rattle, rattle… who could it be?';
  const c=$('capsules');if(c)c.style.transform='rotate(18deg) scale(1.13)';
@@ -225,34 +225,35 @@ function drawPad(p,t){
  if(p.flower){ellipse(p.r*.25,-p.r*.12,7,7,'#f6d77a');for(let i=0;i<5;i++){let a=i*Math.PI*2/5;ellipse(p.r*.25+Math.cos(a)*8,-p.r*.12+Math.sin(a)*7,5,4,'#fff0df')}}
  ctx.restore()
 }
-function drawDuck(d,t){
- const s=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx)+Math.abs(d.vy),moving=step>4,bob=Math.sin(t*5+d.phase)*2+(moving?Math.sin(t*13+d.phase)*2:0);
- ctx.save();ctx.translate(d.x,d.y+bob);ctx.scale(scale*d.dir,scale);
- // soft contact shadow
- ellipse(0,23,39,11,'#3c77664a');
- // tail and body
- ctx.fillStyle='#713c35';ctx.beginPath();ctx.ellipse(-1,5,37,27,0,0,Math.PI*2);ctx.fill();
- let body=ctx.createLinearGradient(-25,-15,25,31);body.addColorStop(0,'#fff17c');body.addColorStop(.55,s.color);body.addColorStop(1,s.belly);
- ctx.fillStyle=body;ctx.beginPath();ctx.ellipse(0,3,34,25,0,0,Math.PI*2);ctx.fill();
- // wing
- ctx.fillStyle=s.belly;ctx.strokeStyle='#713c35';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(-11,6,17,11,-.22,0,Math.PI*2);ctx.fill();ctx.stroke();
- // head
- let head=ctx.createRadialGradient(-12,-30,3,0,-16,35);head.addColorStop(0,'#fff8b8');head.addColorStop(.4,s.color);head.addColorStop(1,s.belly);
- ctx.fillStyle='#713c35';ctx.beginPath();ctx.ellipse(1,-24,30,31,0,0,Math.PI*2);ctx.fill();
- ctx.fillStyle=head;ctx.beginPath();ctx.ellipse(1,-24,26,27,0,0,Math.PI*2);ctx.fill();
- // eye blink
- const blink=d.blink<.13;ctx.fillStyle=s.eye;
- if(blink){ctx.strokeStyle=s.eye;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(8,-27);ctx.quadraticCurveTo(14,-22,20,-27);ctx.stroke()}
- else ellipse(14,-28,4.2,6,s.eye);
- if(!blink)ellipse(15,-30,1.5,2,'#fff');
- ellipse(22,-12,4,2.5,s.cheek);
- // beak
- ctx.fillStyle='#713c35';ctx.beginPath();ctx.ellipse(28,-15,13,7,.1,0,Math.PI*2);ctx.fill();
- ctx.fillStyle=s.beak;ctx.beginPath();ctx.ellipse(28,-17,11,5.5,.1,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle='#fff3c9';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(23,-20);ctx.quadraticCurveTo(27,-22,31,-20);ctx.stroke();
- // shine
- ellipse(-9,-43,6,3,'#ffffffb8');ellipse(-22,-7,3,2,'#ffffff80');
- ctx.restore()
+function drawDuck(d,t,targetCtx=ctx){
+ const c=targetCtx,e=(x,y,rx,ry,fill)=>{c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill()};
+ const sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
+ c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
+ e(0,23,39,11,'#3c77664a');
+ c.fillStyle='#713c35';c.beginPath();c.ellipse(-1,5,37,27,0,0,Math.PI*2);c.fill();
+ let body=c.createLinearGradient(-25,-15,25,31);body.addColorStop(0,'#fff17c');body.addColorStop(.55,sp.color);body.addColorStop(1,sp.belly);
+ c.fillStyle=body;c.beginPath();c.ellipse(0,3,34,25,0,0,Math.PI*2);c.fill();
+ c.fillStyle=sp.belly;c.strokeStyle='#713c35';c.lineWidth=4;c.beginPath();c.ellipse(-11,6,17,11,-.22,0,Math.PI*2);c.fill();c.stroke();
+ let head=c.createRadialGradient(-12,-30,3,0,-16,35);head.addColorStop(0,'#fff8b8');head.addColorStop(.4,sp.color);head.addColorStop(1,sp.belly);
+ c.fillStyle='#713c35';c.beginPath();c.ellipse(1,-24,30,31,0,0,Math.PI*2);c.fill();
+ c.fillStyle=head;c.beginPath();c.ellipse(1,-24,26,27,0,0,Math.PI*2);c.fill();
+ const blink=d.blink!==undefined&&d.blink<.13;c.fillStyle=sp.eye;
+ if(blink){c.strokeStyle=sp.eye;c.lineWidth=3;c.beginPath();c.moveTo(8,-27);c.quadraticCurveTo(14,-22,20,-27);c.stroke()}else e(14,-28,4.2,6,sp.eye);
+ if(!blink)e(15,-30,1.5,2,'#fff');
+ e(22,-12,4,2.5,sp.cheek);
+ c.fillStyle='#713c35';c.beginPath();c.ellipse(28,-15,13,7,.1,0,Math.PI*2);c.fill();
+ c.fillStyle=sp.beak;c.beginPath();c.ellipse(28,-17,11,5.5,.1,0,Math.PI*2);c.fill();
+ c.strokeStyle='#fff3c9';c.lineWidth=1.5;c.beginPath();c.moveTo(23,-20);c.quadraticCurveTo(27,-22,31,-20);c.stroke();
+ e(-9,-43,6,3,'#ffffffb8');e(-22,-7,3,2,'#ffffff80');
+ c.restore()
+}
+function renderDuckIcons(){
+ document.querySelectorAll('canvas[data-duck-icon]').forEach(icon=>{
+  const id=icon.dataset.duckIcon,g=icon.getContext('2d');
+  g.clearRect(0,0,icon.width,icon.height);
+  const scale=Math.min(icon.width/92,icon.height/68)*.82;
+  drawDuck({id,scale,dir:1,x:icon.width/2-2,y:icon.height*.66,phase:0,blink:1,vx:0,vy:0},0,g);
+ });
 }
 function drawScene(t,dt){
  ctx.clearRect(0,0,W,H);
