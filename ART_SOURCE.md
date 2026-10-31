@@ -197,3 +197,81 @@ Before an asset or screen is considered finished, check:
 - Is the UI tactile and illustrated rather than flat or computer-generated?
 - Does the pond remain visually calm enough for the ducks to stand out?
 - Are animations smooth, buoyant, and free of jitter or abrupt snapping?
+
+
+## 13. Mandatory art-source workflow
+
+This document is not optional inspiration. It is the required production reference for every visual change.
+
+- Before producing or modifying any character, sprite, prop, environment illustration, icon, UI surface, particle effect, or animation, read the relevant sections of this document.
+- Treat the full document as the style contract: silhouette, proportions, line weight, palette, lighting, materials, rendering, composition, and motion must remain coherent.
+- Do not rely on memory, generic art prompts, default libraries, emoji, or placeholder geometry when creating production visuals.
+- For a new visual idea not covered here, establish its style, palette, shape language, and animation behavior in this document before or alongside implementation.
+- Review new assets in the context of the existing game—not only in isolation—and revise mismatches before considering them finished.
+- The user may explicitly change the art direction. When that happens, update this source so later work follows the newest approved direction.
+
+## 14. Pond environment — lush illustrated storybook landscape
+
+The pond must be a visually stunning little outdoor world rendered in the same cute, polished 2D cartoon language as the ducks. The target is a complete illustrated landscape, not a flat pond graphic with a few decorations.
+
+### Overall feeling
+Think of a lovingly painted miniature nature diorama: lush, welcoming, colorful, layered, and full of small discoveries. The world should feel like a place the ducks inhabit. Keep the charm and simplicity of cute character art while giving the environment enough craftsmanship and detail to feel special.
+
+### Trees and leafy background
+- Place clusters of trees behind and around the pond, set back from the shoreline so they frame rather than crowd the water.
+- Use varied rounded canopy silhouettes, overlapping foliage clumps, subtle leaf highlights, and warm shadow pockets.
+- Show trunks and branches where composition allows. Avoid featureless green blobs.
+- Vary tree heights, widths, species-like silhouettes, and spacing. Avoid copy-pasted repeated tree shapes.
+- Add occasional smaller shrubs and bushes to transition between trees and shoreline.
+- Canopies and selected branches should have a soft, gentle breeze animation with subtle independent motion.
+
+### Grass and shoreline planting
+- Build flowing, layered grass along the banks, with curved tufts and individual blade clusters rather than a flat green strip.
+- Use varied greens and warm highlights to separate grass planes and establish depth.
+- Include cattails with recognizable brown seed heads, slender stems, and long leaves. Place them in small intentional clusters along selected edges of the water.
+- Add reeds, rushes, clover, rounded shrubs, tiny wildflowers, daisies, buttercups, and occasional larger blooms for color accents.
+- Include stones, pebbles, roots, and soft earth transitions to make the shoreline feel naturally formed.
+- Keep plant silhouettes clear and avoid letting tall plants obscure ducks or important gameplay space.
+
+### Pond water and edge
+- Give the pond an organic, carefully designed outline. Avoid a plain ellipse or generic blue rectangle.
+- Use multiple water tones and soft curved shapes to suggest depth, shallow edges, and reflected sky.
+- Add layered ripples, subtle current lines, glints, and soft reflections. Keep the water clean and inviting.
+- Integrate lily pads, small floating flowers, and occasional drifting leaves naturally into the composition.
+- Use gentle shoreline shadows and overlapping bank elements to connect the water to the surrounding landscape.
+- Preserve a clear central swimming area with enough room for multiple ducks of different sizes to move and remain readable.
+
+### Composition and depth
+- Compose the environment in at least four intentional visual planes: distant background, tree/shrub midground, pond and shoreline gameplay plane, and selective foreground framing.
+- Use overlap, scale variation, atmospheric color shifts, and contact shadows to communicate depth in 2D.
+- Let foliage frame the scene from the sides and corners, while leaving a clear visual window onto the ducks.
+- Keep trees set back from the water's edge; use grasses, cattails, reeds, and stones as the transition to the pond.
+- Distribute detail unevenly and naturally. Avoid symmetrical decoration, evenly spaced props, repeated stamps, or clutter.
+- The scene must look finished and beautiful when viewed as a whole at iPhone screen size.
+
+### Environmental motion
+- Grass and reed clusters sway gently with varied phase, amplitude, and timing; do not animate every blade in unison.
+- Cattail heads and flower stems should bend subtly with the breeze.
+- Tree foliage should have slight canopy/branch movement while trunks remain stable.
+- Water shimmer and ripples should loop at different speeds and positions to avoid obvious repetition.
+- Floating leaves, tiny insects, and occasional bubbles may add life, but remain secondary to the ducks.
+- Environmental motion must be smooth, restrained, lightweight, and performant on mobile.
+- Avoid jitter, abrupt snapping, synchronized mechanical loops, or excessive motion. Support reduced-motion preferences where available.
+
+### Environmental palette and rendering
+- Use layered fresh greens: deeper forest/leaf greens in the background, mid greens for shrubs and banks, and brighter yellow-greens for sunlit grass.
+- Use warm earth browns, soft stone neutrals, flower accents, and aqua/teal/blue-green water.
+- Keep outlines consistent with the duck world: deep warm burgundy/plum-brown or warm near-black, adjusted carefully for small details.
+- Use soft painted gradients, clean color separations, gentle highlights, and readable shadow shapes.
+- Avoid flat single-color fills, harsh neon colors, muddy low-contrast greens, heavy photorealism, and plastic 3D rendering.
+
+## 15. Completion and visual quality gates
+
+An asset or animation is not finished if it is only a rough stand-in or a partial visual pass.
+
+- No placeholder sprites, blank panels, temporary emoji, unfinished silhouettes, missing animation states, or TODO art in a completed feature.
+- Every visible state must have its intended art: idle, active, pressed, disabled, selected, reveal, transition, and error/empty states where applicable.
+- Animation work must include complete start, loop, transition, and settle behavior as appropriate—not a single disconnected moving part.
+- Inspect assets at native size and at actual iPhone display scale. Check outline closure, edge quality, clipping, layering, contrast, and visual consistency.
+- Test environmental motion alongside multiple ducks to ensure the combined scene remains calm, readable, and performant.
+- The full pond composition must feel rich and deliberate even when the ducks are stationary. The environment is a primary feature, not disposable background filler.
