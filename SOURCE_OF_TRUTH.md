@@ -242,3 +242,34 @@ The pond habitat is a major piece of the game's appeal. It must be a visually st
 
 ### Habitat acceptance standard
 The finished habitat should be attractive even when no menu is open and no duck is moving. A screenshot should communicate a complete, beautiful little pond world—not an unfinished prototype. Evaluate the whole composition at actual iPhone size as well as desktop size.
+
+
+## 15. Fifth non-negotiable rule — ducks physically affect their environment
+
+The pond is a shared, responsive world. Ducks must not behave like sprites moving over a static background. Acquired ducks become active inhabitants of the habitat and must physically interact with suitable environmental objects.
+
+### Interaction requirements
+- Ducks must recognize environmental objects as part of the world, not merely visual decoration.
+- Ducks must not swim or waddle straight through lily pads, floating objects, solid props, or other objects that should block or respond to their movement.
+- When a duck contacts a movable object such as a lily pad, it should gently push or displace it. Lily pads should shift across the water with believable momentum, buoyancy, and a soft settling motion.
+- Object reactions must be appropriate to the object's material and behavior. Floating objects can drift or bob; anchored shoreline plants should bend or sway when brushed; stones and fixed structures should block movement rather than slide.
+- Ducks should steer around objects they cannot move, and choose alternate paths when a route is blocked.
+- Interactions should account for duck size and movement so larger ducks can create more noticeable displacement where appropriate, without making the physics exaggerated or disruptive.
+- Ducks should also react to contact: slow down, turn, nudge, pause, or change direction naturally rather than clipping through objects.
+
+### World simulation and implementation
+- Define interaction properties for environmental objects, such as solid/anchored, movable/floating, flexible/bendable, and decorative/non-colliding.
+- Use collision detection and response in the habitat's coordinate space. Visual overlap alone is not a substitute for actual interaction.
+- Movable objects need coherent position, velocity, damping, and boundary behavior so nudges feel physical and objects settle naturally.
+- Prevent objects from being pushed outside the pond or into impossible positions. Resolve object-to-object and duck-to-object overlaps without jitter or teleporting.
+- Account for multiple ducks interacting with the same object. Avoid unstable force stacking, oscillation, or objects rapidly vibrating when several ducks approach.
+- Interactions must remain performant on iPhone Safari and behave consistently across different frame rates and device sizes.
+- Decorative objects that are intentionally non-interactive must be clearly designated as such; do not let ducks pass through objects that visually communicate solidity or physical presence.
+
+### Acceptance tests
+- A duck approaching a lily pad nudges it aside; it does not pass through it.
+- The lily pad moves smoothly, floats, and settles rather than snapping or jittering.
+- A duck approaching a fixed rock routes around it or stops naturally.
+- A duck brushing flexible shoreline plants causes an appropriate bend or sway where interaction is supported.
+- Multiple ducks can share the pond without tunneling through props, getting trapped, or causing unstable object motion.
+- All interactions remain inside the habitat boundaries and preserve clear, readable duck movement.
