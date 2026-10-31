@@ -132,16 +132,18 @@ function drawTree(x,y,s,shade){
 function drawGrass(x,y,s,color,t=0){
  ctx.save();ctx.translate(x,y);ctx.scale(s,s);
  ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';
- // Stable per-clump phases keep neighboring tufts moving independently without jitter.
+ // A broad, slow breeze with independent blade phases creates a soft flowing wave.
+ // Every tuft shares the wind direction, but never bends in perfect unison.
  const seed=Math.floor(x*3+y*7);
- const breeze=Math.sin(t*1.05+seed*.013)*2.4+Math.sin(t*.63+seed*.027)*1.2;
+ const breeze=Math.sin(t*.82+seed*.013)*4.2+Math.sin(t*.48+seed*.027)*2.1;
  for(let i=0;i<5;i++){
   const blade=27+((seed+i*17)%24);
   const phase=seed*.019+i*1.37;
-  const sway=Math.sin(t*.9+phase)*2.1+breeze;
+  const sway=Math.sin(t*.76+phase)*3.1+breeze;
+  const midSway=Math.sin(t*.76+phase-.5)*1.8+breeze*.52;
   const tipX=(i-2)*21-5+sway;
-  const midX=(i-2)*13+sway*.42;
-  const lift=Math.sin(t*.9+phase+.7)*.8;
+  const midX=(i-2)*13+midSway;
+  const lift=Math.sin(t*.76+phase+.7)*1.5;
   ctx.beginPath();ctx.moveTo(0,0);
   ctx.quadraticCurveTo(midX,-22+lift,tipX,-blade);
   ctx.stroke();
@@ -211,9 +213,14 @@ function drawScene(t,dt){
  // Restore grass on the darker, nearer rolling hill. Roots sit directly on
  // its curved crest, above the light-green foreground slope.
  const nearHillGrass=[
-  [29,286,.52],[71,281,.46],[112,280,.5],[152,285,.45],[191,295,.48],
-  [262,316,.46],[317,325,.42],[370,326,.46],[423,321,.44],[475,309,.48],
-  [566,286,.48],[634,281,.44],[702,282,.48],[771,287,.44],[839,298,.5]
+  // Denser tufts restore the darker foreground hill as a clearly visible grassy layer.
+  // Roots follow the crest of the dark-green hill, with gaps for a natural silhouette.
+  [18,288,.56],[49,282,.52],[82,279,.5],[112,281,.55],[145,286,.5],
+  [176,292,.52],[207,300,.5],[239,309,.48],[270,317,.52],[301,323,.48],
+  [334,329,.5],[367,329,.52],[399,326,.48],[431,319,.52],[463,312,.5],
+  [495,303,.52],[531,292,.5],[566,285,.54],[601,281,.48],[635,279,.52],
+  [669,279,.48],[703,281,.54],[737,284,.48],[771,289,.52],[805,294,.48],
+  [839,299,.54],[873,305,.5]
  ];
  nearHillGrass.forEach(([x,y,s],i)=>{
   const shades=['#477b50','#568b55','#69995b','#7ca765'];
