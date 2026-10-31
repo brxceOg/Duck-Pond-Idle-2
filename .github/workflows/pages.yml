@@ -20,6 +20,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Validate game JavaScript
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path("index.html").read_text()
+          scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
+          assert scripts, "No game script found"
+          Path("/tmp/duck-pond.js").write_text("\\n".join(scripts))
+          PY
+          node --check /tmp/duck-pond.js
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
