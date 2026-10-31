@@ -1,7 +1,3 @@
-[duck.zip](https://github.com/user-attachments/files/34213054/duck.zip)
-[jd_ducky.zip](https://github.com/user-attachments/files/34213053/jd_ducky.zip)
-[funny_duck.zip](https://github.com/user-attachments/files/34213052/funny_duck.zip)
-[ducky.zip](https://github.com/user-attachments/files/34213051/ducky.zip)
 # Duck Pond Idle 2 — Art Source & Visual Direction
 
 > **Purpose:** Canonical visual reference for all original game art, UI, animation, and presentation.  
