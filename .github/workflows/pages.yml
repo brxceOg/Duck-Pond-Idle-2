@@ -20,11 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Extract uploaded Upheaval font
+      - name: Verify uploaded game fonts
         run: |
-          mkdir -p assets/fonts
-          unzip -o upheaval.zip upheavtt.ttf -d /tmp/upheaval
-          cp /tmp/upheaval/upheavtt.ttf assets/fonts/upheavtt.ttf
+          test -s assets/fonts/duck-duck.ttf
+          test -s assets/fonts/ducky-ducky.ttf
+          test -s assets/fonts/funny_duck-funnyduck.ttf
       - name: Validate game JavaScript
         run: |
           python3 - <<'PY'
