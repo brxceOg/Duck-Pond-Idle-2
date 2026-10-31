@@ -227,6 +227,20 @@ function drawScene(t,dt){
   drawGrass(x,y,s,shades[(i*2)%shades.length],t);
   if(i%4===1)drawGrass(x+6,y+1,s*.5,shades[(i+1)%shades.length],t);
  });
+ // Extra grass grows down the exposed dark-green hill shoulders that meet the pond.
+ // These roots stay on dry ground just above the shoreline; none are placed in the water.
+ const pondSideGrass=[
+  // Left shoulder: the bank curves down toward the pond's left inlet.
+  [78,310,.34],[108,302,.38],[139,299,.32],[169,302,.36],[198,307,.3],
+  // Right shoulder: follow the dry bank above the pond's upper-right edge.
+  [602,282,.3],[637,280,.34],[671,283,.32],[706,287,.36],[741,291,.32],
+  [776,296,.35],[811,301,.31],[844,306,.34]
+ ];
+ pondSideGrass.forEach(([x,y,s],i)=>{
+  const shades=['#477b50','#568b55','#69995b','#7ca765'];
+  drawGrass(x,y,s,shades[(i+1)%shades.length],t);
+  if(i%3===1)drawGrass(x+5,y+2,s*.48,shades[(i+3)%shades.length],t);
+ });
  // pond shadow and water organic
  ellipse(455,402,410,176,'#477a63');
  let water=ctx.createLinearGradient(0,260,0,570);water.addColorStop(0,'#82cfc0');water.addColorStop(.5,'#65b8b1');water.addColorStop(1,'#438e8e');
