@@ -395,7 +395,6 @@ function roll(){
    createDuck(pick.id);save();updateHUD();
    if(result)result.innerHTML='<div class="reveal-stage"><canvas class="reveal-duck" width="180" height="160" data-duck-icon="'+pick.id+'" aria-label="'+pick.name+' rubber duck"></canvas><div class="reveal-copy"><strong>Meet '+pick.name+'! ✨</strong><small>'+pick.rarity+' · '+pick.desc+'</small><small>A new friend has joined your pond.</small></div></div>';
    renderDuckIcons();rollBusy=false;if(rollButton)rollButton.disabled=state.coins<25;
-   toast(pick.rarity==='Legendary'?'A legendary duck!! ✨':'A new duck joined the pond! 🦆');
   },420);
  },1050);
 }
