@@ -490,12 +490,17 @@ body *::before,body *::after{
 
 /* Just Ducky is reserved for compact supporting copy; primary labels and headings keep Rubber Duck. */
 .brand small,.scene-head span,.scene-foot,.stat span,.sub,.price,.duck-card small,.duck-detail-meta,.duck-points-wallet small,.duck-section p,.duck-section-empty,.upgrade-card small,.empty,.roll-info small{font-family:"Just Ducky","Ducky","Duck",sans-serif !important}
+
+
+/* Keep the game title on two deliberate lines at every viewport and font-load state. */
+.brand h1{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;width:max-content;white-space:normal;line-height:.9}
+.brand h1 span{display:block;white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="topbar">
- <div class="brand"><canvas class="brandmark" width="112" height="112" data-duck-icon="sunny" aria-label="Sunny rubber duck"></canvas><div><h1>Duck Pond</h1><small>a little place to quack</small></div></div>
+ <div class="brand"><canvas class="brandmark" width="112" height="112" data-duck-icon="sunny" aria-label="Sunny rubber duck"></canvas><div><h1><span>Duck</span><span>Pond</span></h1><small>a little place to quack</small></div></div>
  <div class="wallet"><div class="wallet-currency"><div class="wallet-pill"><span class="coin">¢</span><span id="coins">100</span></div><small class="wallet-rate"><span id="statRate">1</span> coins / sec</small></div><div class="wallet-pill"><canvas class="wallet-duck-icon" width="56" height="48" data-duck-icon="sunny" aria-hidden="true"></canvas><span id="duckCount">1</span></div></div>
 </header>
 <main class="screens" id="screens">
