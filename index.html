@@ -251,6 +251,29 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
 .machine-base .crank{top:7px;z-index:2}
 .machine-base .dispenser{z-index:1}
 
+
+/* More room between crank and retrieval hatch: give the pedestal enough
+   vertical face area for two clearly separated, readable controls. */
+.machine{height:242px;max-width:196px}
+.machine-base{height:94px;margin-top:-2px}
+.machine-base .crank{top:9px;width:56px;height:17px}
+.machine-base .crank span{width:25px;height:25px}
+.machine-base .dispenser{bottom:7px;width:46px;height:32px}
+@media(min-width:760px){
+ .machine{height:252px;max-width:208px}
+ .machine-base{height:98px}
+ .machine-base .crank{top:10px;width:60px;height:18px}
+ .machine-base .crank span{width:27px;height:27px}
+ .machine-base .dispenser{bottom:8px;width:50px;height:34px}
+}
+@media(max-width:390px){
+ .machine{height:207px;max-width:158px}
+ .machine-base{height:78px}
+ .machine-base .crank{top:7px;width:42px;height:13px}
+ .machine-base .crank span{width:19px;height:19px}
+ .machine-base .dispenser{bottom:5px;width:38px;height:27px}
+}
+
 </style>
 </head>
 <body>
