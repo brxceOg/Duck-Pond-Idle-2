@@ -471,3 +471,13 @@ The supporting-copy typeface added on 2026-11-04 is **Just Ducky** by **Duck Rei
 - Do not apply Just Ducky to tiny numerical counters or other information where its quirky punctuation/letterforms could reduce clarity.
 - The font is downloaded from the author's DaFont listing during the Pages build and placed at `assets/fonts/JustDucky.ttf`; do not replace it with a visually similar substitute.
 - Credit: **Just Ducky by Duck Reid**, [DaFont listing](https://www.dafont.com/justducky.font). The listing states it is free for personal use and requests credit and notification when used/shared. This game use is personal/non-commercial; obtain the appropriate permission or license before any commercial use.
+
+
+## 22. Individual duck coin-income indicators
+
+- Every duck in the pond gets its own floating payout indicator, anchored above its head and following its movement.
+- The indicator displays the duck species' current per-second coin value, including the active Pond Improvement multiplier. Different species therefore show their own actual income rather than a shared flock total.
+- Each duck triggers its own short payout animation on a staggered one-second rhythm: the cream sticker pops in, floats upward slightly, and fades away quickly so it can appear again on the next payout.
+- Use the readable **Rubber Duck** typeface for the numerical amount; do not use Just Ducky for numerical counters. Pair the amount with a tiny warm-gold coin mark, a plum outline, and a soft cream sticker surface for contrast against the water.
+- Keep the cue compact and close to the duck's head. It must not change duck movement, coin calculations, save data, or the pond layout.
+- Preserve continuous passive coin accumulation. The individual indicators are visual cues for each duck's per-second contribution, not a replacement payout system.
