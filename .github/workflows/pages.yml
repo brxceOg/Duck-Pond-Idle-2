@@ -24,6 +24,15 @@ jobs:
         run: |
           unzip -o rubber_duck.zip -d assets/fonts
           test -s assets/fonts/Rubber-Duck.ttf
+      - name: Download and install Just Ducky font
+        run: |
+          mkdir -p assets/fonts /tmp/justducky-font
+          curl --fail --location --retry 3 --user-agent "Mozilla/5.0" "https://dl.dafont.com/dl/?f=justducky" -o /tmp/justducky.zip
+          unzip -o /tmp/justducky.zip -d /tmp/justducky-font
+          FONT_FILE="$(find /tmp/justducky-font -type f -iname 'JustDucky.ttf' -print -quit)"
+          test -n "$FONT_FILE"
+          cp "$FONT_FILE" assets/fonts/JustDucky.ttf
+          test -s assets/fonts/JustDucky.ttf
       - name: Verify uploaded game fonts
         run: |
           test -s assets/fonts/duck-duck.ttf
