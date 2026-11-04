@@ -397,6 +397,20 @@ body{background:radial-gradient(ellipse at 18% 8%,#f0c6ee 0,transparent 36%),rad
 .footer{color:#82558c}
 @media(max-width:420px){.panel{padding:14px;border-radius:26px}.duck-card{gap:8px;padding:9px;border-radius:21px}.duck-thumb{width:56px;height:56px}.wallet-pill{padding:7px 10px}.scene-card{border-radius:27px}}
 
+
+/* Global typeface lock: the Pages build extracts Rubber-Duck.ttf from rubber_duck.zip. */
+@font-face{
+ font-family:"Rubber Duck";
+ src:url("./assets/fonts/Rubber-Duck.ttf?v=20261104-fontfix") format("truetype");
+ font-style:normal;
+ font-weight:100 900;
+ font-display:swap;
+}
+html,body,body *,
+button,input,select,textarea,optgroup,option{
+ font-family:"Rubber Duck",sans-serif !important;
+}
+
 </style>
 </head>
 <body>
