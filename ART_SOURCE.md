@@ -460,3 +460,14 @@ The approved interaction direction dated 2026-11-04 removes the permanent upgrad
 - On phones, anchor the sheet to the bottom with safe-area spacing and comfortable thumb-sized controls. On wider screens, present it as a centered, comfortably sized floating panel.
 - Keep the open/close motion soft and restrained, and respect reduced-motion preferences.
 - Do not add a permanent page-length upgrade section beneath the pond, introduce horizontal scrolling, or obscure the habitat when the sheet is closed.
+
+
+## 21. Just Ducky supporting typography
+
+The supporting-copy typeface added on 2026-11-04 is **Just Ducky** by **Duck Reid**.
+
+- Use Just Ducky for compact descriptions and secondary/supporting text such as subtitles, rarity descriptors, upgrade explanations, duck detail metadata, and small informational copy.
+- Keep **Rubber Duck** for primary headings, major labels, buttons, and important/high-priority text so the interface remains easy to scan.
+- Do not apply Just Ducky to tiny numerical counters or other information where its quirky punctuation/letterforms could reduce clarity.
+- The font is downloaded from the author's DaFont listing during the Pages build and placed at `assets/fonts/JustDucky.ttf`; do not replace it with a visually similar substitute.
+- Credit: **Just Ducky by Duck Reid**, [DaFont listing](https://www.dafont.com/justducky.font). The listing states it is free for personal use and requests credit and notification when used/shared. This game use is personal/non-commercial; obtain the appropriate permission or license before any commercial use.
