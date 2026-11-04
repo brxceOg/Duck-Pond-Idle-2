@@ -327,3 +327,56 @@ The environment is not a painted backdrop. Ducks are physical inhabitants of a s
 - Ducks and props remain visually coherent with the shared rounded shapes, warm palette, polished shading, and consistent outline style.
 
 These requirements apply to every new duck, acquired duck, environmental prop, and habitat animation. Do not ship a pond scene where ducks are merely layered on top of scenery.
+
+
+## 17. Updated UI direction — pastel sticker-book interface
+
+The user-approved visual reference dated 2026-11-04 establishes a new direction for the entire game interface. This direction supersedes the older cream-and-sage dashboard treatment in section 8. It applies to menus, cards, buttons, counters, tabs, modal/dialog surfaces, badges, and decorative UI elements. It does not require redesigning the pond environment or collectible duck sprites.
+
+### Core visual identity
+- Build a sweet, playful pastel interface inspired by illustrated sticker books, cute casual puzzle games, and hand-decorated stationery.
+- The dominant colors are bubblegum pink, blush, lavender, and soft periwinkle blue.
+- Use deep plum / purple-brown outlines consistently around panels, buttons, icons, and ornamental frames.
+- Favor rounded, inflated, softly scalloped, ribbon-like, or flower-edged silhouettes over plain generic rectangles.
+- Surfaces should feel like layered paper, enamel badges, or glossy stickers: soft highlights, subtle inner shading, and a small grounded shadow.
+- The visual should feel cohesive and deliberately illustrated, never like a generic web dashboard.
+
+### Palette
+- Background: soft lavender / orchid with gentle tonal variation.
+- Main panels: blush pink and pale rose.
+- Secondary panels and primary action buttons: powder blue / periwinkle.
+- Alternate buttons and selected states: bubblegum pink.
+- Accent details: lilac, pale yellow, peach, mint, and small floral colors.
+- Outlines and primary text: deep plum, with pale cream or white highlights where needed.
+- Keep functional text high-contrast and readable. Pastel fills must not make labels low-contrast.
+
+### Panel and button construction
+- Main content panels should have a clear plum outline, generous rounded corners, and a soft offset shadow or layered edge.
+- Use scalloped edges selectively for featured headers, special cards, level/reward-like elements, and decorative sections. Avoid applying scallops to every tiny component.
+- Primary action buttons should read as soft blue sticker buttons; secondary or alternate actions may use pink.
+- Buttons need distinct resting, pressed, disabled, and selected states. Pressed states should move or compress subtly without shifting surrounding layout.
+- Use pill, capsule, ribbon, flower, and rounded plaque silhouettes where they improve hierarchy.
+- Use small ornamental flowers, leaves, sparkles, stars, and bows as corner accents or separators. Keep them away from text and touch targets.
+- Counters, progress bars, currency indicators, and status chips should look like miniature decorated UI assets rather than plain text on a flat strip.
+
+### Iconography and typography
+- Replace generic emoji and inconsistent icon treatments with a unified set of chunky, outlined illustrated icons.
+- Icons should use the same plum outline, pastel fills, and simple readable silhouettes as the reference.
+- Keep important labels in the existing readable Rubber Duck font where it remains legible; use decorative display lettering only for short headings or special moments.
+- Do not allow decorative fonts to compromise small counters, long descriptions, or accessibility.
+- Maintain one-line currency/count labels where the layout calls for a compact counter, and prevent text from overflowing its card.
+
+### Layout and decoration
+- Keep the interface mobile-first, with comfortable thumb-sized controls and clear vertical hierarchy on iPhone.
+- Desktop may expand spacing and panel width, but should retain the same visual language rather than reverting to a different theme.
+- Use floral corners, sparkle marks, ribbons, and small decorative flourishes to add charm, not clutter.
+- Ensure decorative art never obscures text, duck sprites, interactive controls, or important information.
+- Preserve the pond scene as the habitat's own visual world; the new interface frames and complements it rather than recoloring or replacing it.
+
+### Implementation and acceptance checks
+- Apply the new treatment consistently across Roll, Pond, My Ducks, individual duck detail screens, upgrades, appearances, wallet/currency displays, dialogs, and future screens.
+- Keep existing game mechanics, save data, duck art, pond composition, capsule machine behavior, and navigation intact during UI-only redesigns.
+- Check the interface at narrow iPhone widths and desktop widths. No horizontal overflow, clipped labels, overlapping decorations, or tiny controls.
+- Check text contrast and preserve readable single-line counts in the My Ducks cards.
+- Avoid shipping a partial theme where only buttons change while the panels, cards, counters, and navigation remain in the old visual style.
+- The overall result should feel like a polished pastel sticker-game UI, using the supplied image as direction rather than copying it literally.
