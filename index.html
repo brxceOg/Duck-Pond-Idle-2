@@ -433,6 +433,34 @@ body *::before,body *::after{
 .wallet-currency .wallet-pill{min-width:74px;justify-content:center}
 @media(min-width:760px){.wallet-rate{font-size:11px}}
 
+
+/* Full-width terrarium habitat: let the illustrated pond become the main viewing window. */
+.app{width:100%;max-width:none;padding-left:0;padding-right:0}
+.topbar{padding-left:clamp(14px,2.4vw,32px);padding-right:clamp(14px,2.4vw,32px)}
+.screens{width:100%;min-width:0}
+.game-screen{padding-left:0;padding-right:0}
+.game-screen .scene-card{
+ width:100vw;max-width:none;flex:none;
+ margin-left:calc(50% - 50vw);
+ padding:7px 0;
+ border-left:0;border-right:0;border-radius:0;
+ box-shadow:0 7px 0 #bda17b,0 13px 28px #684b2c22;
+}
+.scene-head{padding-left:clamp(14px,2.4vw,32px);padding-right:clamp(14px,2.4vw,32px)}
+#pond{width:100%;height:auto;aspect-ratio:1.5;border-left:0;border-right:0;border-radius:0}
+.scene-foot{padding-left:clamp(14px,2.4vw,32px);padding-right:clamp(14px,2.4vw,32px)}
+.game-screen .pond-panel{
+ width:calc(100% - 28px);max-width:1100px;margin:4px auto 12px;
+}
+.bottom-nav{width:min(100%,760px)}
+@media(min-width:760px){
+ .app{max-width:none;padding-left:0;padding-right:0}
+ .topbar{padding-left:32px;padding-right:32px}
+ .game-screen .scene-card{width:100vw}
+ .game-screen .pond-panel{width:min(calc(100% - 48px),1100px);max-width:1100px}
+ .bottom-nav{width:min(100%,760px)}
+}
+
 </style>
 </head>
 <body>
