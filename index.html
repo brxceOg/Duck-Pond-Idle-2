@@ -289,6 +289,51 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
   from{transform:rotate(-24deg)}
   to{transform:rotate(696deg)}
 }
+
+/* Pastel sticker-book UI overhaul — inspired by the user's 2026-11-04 reference. */
+:root{--ink:#59345f;--ink2:#81568b;--cream:#fff0fb;--paper:#f5d9f2;--sage:#b8d5f4;--sage2:#d9eaff;--coral:#ed78c8;--gold:#f6b56f;--shadow:0 5px 0 #b78cbe,0 10px 22px #59345f20}
+html{background:#c985d5}
+body{color:var(--ink);background:radial-gradient(ellipse at 50% 0%,#e5b5eb 0,#cd8bd7 68%,#b875c6 100%)}
+.brandmark{background:#f4b1df;border-color:#61386b;box-shadow:0 4px 0 #9860a5}
+.brand h1,.scene-head strong,.panel-title h2,.stat b{color:#693d75;text-shadow:0 1px 0 #fff0fb}
+.brand small{color:#80518a}
+.wallet-pill{background:#f7c5e9;border:2px solid #704477;box-shadow:0 3px 0 #a96db2;color:#60366b}
+.coin{background:linear-gradient(#ffe9a0,#f3ad65);border-color:#9b5b83}
+.scene-card{background:linear-gradient(145deg,#efb8e5,#d69cde);border:3px solid #69416f;border-radius:27px;box-shadow:0 6px 0 #a96db2,0 12px 25px #59345f25}
+.scene-head span,.scene-foot{color:#704879}
+#pond{border:3px solid #69416f}
+.stat{background:linear-gradient(145deg,#f9d8f0,#efb8e4);border:2px solid #74467a;border-radius:18px;box-shadow:0 3px 0 #b77bc0}
+.stat span{color:#87578e}
+.tabs{gap:10px}
+.tab{background:linear-gradient(#f4c8e9,#e9a9dc);border:2px solid #704477;border-radius:16px;box-shadow:0 4px 0 #ae70b7;color:#63396e}
+.tab.active{background:linear-gradient(#d9ebff,#b7d5f5);border-color:#654274;box-shadow:0 4px 0 #8baed3;color:#4d6594}
+.panel{position:relative;overflow:hidden;background:linear-gradient(145deg,#f8d8f0,#f1bce5);border:3px solid #704477;border-radius:23px;box-shadow:0 5px 0 #b77bc0,0 10px 22px #59345f20}
+.panel:after{content:"✦";position:absolute;right:13px;top:9px;color:#d58ac4;font-size:15px;pointer-events:none;opacity:.75}
+.panel-title{position:relative}
+.panel-title h2{color:#6b4075}
+.sub,.price{color:#80578a}
+.roll-btn,.action-btn{background:linear-gradient(#d8eaff,#a9c9ef);border:2px solid #654274;border-radius:18px;color:#526e9b;text-shadow:0 1px #fff;box-shadow:0 5px 0 #89a9d0}
+.roll-btn:active,.action-btn:active{box-shadow:0 2px 0 #89a9d0}
+.roll-btn:disabled{opacity:.55}
+.result{background:#f7d8ef;border:2px dashed #b779b9;border-radius:18px;color:#694273}
+.duck-card{background:linear-gradient(145deg,#f9e0f2,#f0c5e8);border:2px solid #80518a;border-radius:18px;box-shadow:0 3px 0 #c38ac8;color:#613b6b}
+.duck-thumb{background:#dcecff;border-radius:16px}
+.duck-card small,.duck-point-count{color:#81568b}
+.duck-detail-head{background:#dcecff;border-color:#80518a}
+.duck-points-wallet,.duck-section{background:linear-gradient(145deg,#f9e0f2,#efc5e8);border:2px solid #80518a;border-radius:18px}
+.duck-points-wallet small,.duck-section p,.duck-section-empty{color:#80578a}
+.back-ducks{background:#dcecff;border:2px solid #654274;color:#526e9b;border-radius:14px;box-shadow:0 3px 0 #9bb9dc}
+.upgrade-card{background:#f8def1;border:2px solid #80518a;border-radius:18px}
+.upgrade-icon{background:#dcecff;border-radius:15px}
+.buy{background:linear-gradient(#d8eaff,#b4d1f3);border:2px solid #654274;color:#526e9b;border-radius:13px;box-shadow:0 3px 0 #9bb9dc}
+.empty{color:#80578a}
+.toast{background:#684273;color:#fff0fb}
+.footer{color:#80578a}
+button{transition:filter .12s,transform .12s}
+button:hover{filter:brightness(1.035)}
+@media(min-width:760px){.panel{border-radius:27px}.tab{border-radius:18px}.duck-card{border-radius:20px}}
+@media(prefers-reduced-motion:no-preference){.panel,.scene-card,.duck-card,.tab,.roll-btn,.action-btn{transition:transform .16s ease,box-shadow .16s ease,background .16s ease}}
+
 </style>
 </head>
 <body>
