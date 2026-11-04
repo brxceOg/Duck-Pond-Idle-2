@@ -701,7 +701,7 @@ function drawCoinIndicator(d){
  ctx.font='800 17px "Rubber Duck","Ducky","Duck",sans-serif';
  const textWidth=ctx.measureText(label).width;
  const pillW=Math.max(55,textWidth+34),pillH=25;
- const x=d.x-pillW/2,y=d.y-57*d.scale-lift-17;
+ const x=d.x-pillW/2,y=d.y-57*d.scale-lift-29;
  ctx.fillStyle='rgba(255,248,233,.97)';
  ctx.strokeStyle='#713c35';ctx.lineWidth=2.5;
  ctx.beginPath();ctx.roundRect(x,y,pillW,pillH,12);ctx.fill();ctx.stroke();
