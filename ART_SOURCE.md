@@ -433,3 +433,16 @@ The follow-up direction approved on 2026-11-04 clarifies that the interface must
 - The pastel palette should be cohesive and soft while keeping all functional text readable.
 - Existing duck sprites, pond art, capsule machine, saved data, and game mechanics remain unchanged during a styling-only pass.
 - Check narrow iPhone and desktop layouts for overflow, clipping, touch-target size, and readable counts.
+
+## 19. Full-width terrarium viewing experience
+
+The approved direction dated 2026-11-04 expands the pond into a full-width habitat viewing window. The pond should feel like a miniature living terrarium that the player is observing, not a small game viewport contained inside a narrow card.
+
+- The pond scene spans the full available horizontal viewport, including the screen edges.
+- Keep the existing illustrated landscape, water, shoreline, plants, and duck animation composition intact; expand the viewing canvas responsively rather than stretching or replacing individual artwork.
+- Keep the habitat as the dominant visual feature on the Pond screen. The Pond Improvements content remains directly beneath it and may scroll below the viewing area.
+- Header and navigation remain readable and comfortably inset; they do not constrain the habitat width.
+- On wide screens, let the habitat use the full browser width while keeping supporting upgrade content at a comfortable reading width.
+- Preserve the pond's natural aspect ratio and crisp rendering. Do not crop important scenery, distort ducks, or introduce horizontal scrolling.
+- The habitat edge should feel like looking into a little environment, not a rigid inset video-game screen. Avoid adding a heavy frame or artificial monitor-like border.
+- Keep mobile performance, touch interaction coordinates, duck movement bounds, and all saved game state unchanged.
