@@ -380,3 +380,56 @@ The user-approved visual reference dated 2026-11-04 establishes a new direction 
 - Check text contrast and preserve readable single-line counts in the My Ducks cards.
 - Avoid shipping a partial theme where only buttons change while the panels, cards, counters, and navigation remain in the old visual style.
 - The overall result should feel like a polished pastel sticker-game UI, using the supplied image as direction rather than copying it literally.
+
+
+## 18. UI refinement — plush, cuddly character-world finish
+
+The follow-up direction approved on 2026-11-04 clarifies that the interface must feel less like stationery, a printed planner, or a business dashboard and more like a soft, lovable character game. This section refines and takes priority over any conflicting surface-treatment language in section 17.
+
+### Emotional target
+- The interface should feel warm, huggable, playful, and slightly magical—as if the ducks live inside a cute little toy world.
+- Aim for a plush-toy / enamel charm / soft candy aesthetic: rounded, pillowy, soft-edged, friendly, and inviting.
+- The reference's pastel colors and outlined illustrations remain useful, but avoid the rigid printed-card or office-stationery impression.
+- The broad Hello-Kitty-like appeal is about sweetness, simplicity, expressive charm, and friendly character-world design. Do not copy protected character art, logos, or proprietary assets.
+
+### Surface and shape language
+- Prefer inflated rounded shapes, soft capsules, cloud-like panels, puffy buttons, scalloped edges, and gently irregular organic silhouettes.
+- Panels should feel softly cushioned, with gentle inner highlights and rounded depth rather than hard flat frames.
+- Use outlines as a warm illustration contour, not as rigid boxes around every single element.
+- Avoid repeated nested rectangular borders, sharp dividers, dense grids, stiff card layouts, and excessive uniform corner radii.
+- Use asymmetry and gentle variation in decorative elements so the screen feels hand-crafted and alive.
+- Let some elements float visually with soft shadows instead of placing everything inside a bordered container.
+
+### Color and lighting
+- Keep the pastel pink, blush, lavender, and powder-blue family, but use soft tonal transitions and warm light.
+- Add subtle creamy highlights, gentle rosy shadows, and restrained gradients that suggest rounded volume.
+- Avoid high-contrast black outlines, harsh drop shadows, metallic shine, flat printed fills, and overly crisp corporate UI polish.
+- Plum outlines should remain friendly and soft, with enough weight for phone readability.
+
+### Buttons and interaction
+- Buttons should look like soft candy pieces or puffy toy controls, not rectangular web buttons.
+- Use rounded capsule and cloud silhouettes, slight inner highlights, and a small soft grounding shadow.
+- Press feedback should feel like a cushion compressing or a soft button gently sinking; do not cause neighboring elements to jump.
+- Selected states should feel like a favorite sticker or special charm, not a spreadsheet selection.
+- Disabled states should remain clear but gently faded, not greyed-out in a businesslike way.
+
+### Decoration and icon treatment
+- Use small flowers, bows, hearts, stars, leaves, and sparkles as charming accents, with varied placement and scale.
+- Prefer bespoke illustrated icons with soft fills and friendly contours over emoji or generic line-icon sets.
+- Decoration should feel integrated into the interface, not like a repeated border pattern or printed ornament.
+- Keep the duck artwork as the emotional center. UI flourishes must never compete with duck expressions or habitat movement.
+
+### Layout and content density
+- Favor breathing room, friendly groupings, and clear touch targets over dense dashboards.
+- Avoid making every statistic a separate rigid tile. Combine related information in softer groupings where appropriate.
+- Use small organic section headers, friendly microcopy, and clear visual hierarchy.
+- The iPhone layout should feel like a cute little game screen, not a shrunken desktop application.
+- Retain desktop responsiveness without introducing a more formal desktop-only visual language.
+
+### Acceptance checklist
+- At first glance, the UI should feel cute, cuddly, warm, and characterful—not businesslike, computerized, or print/stationery themed.
+- Main panels and buttons should feel pillowy and tactile.
+- The interface should not rely on repeated rectangular cards and nested borders to organize every item.
+- The pastel palette should be cohesive and soft while keeping all functional text readable.
+- Existing duck sprites, pond art, capsule machine, saved data, and game mechanics remain unchanged during a styling-only pass.
+- Check narrow iPhone and desktop layouts for overflow, clipping, touch-target size, and readable counts.
