@@ -446,3 +446,17 @@ The approved direction dated 2026-11-04 expands the pond into a full-width habit
 - Preserve the pond's natural aspect ratio and crisp rendering. Do not crop important scenery, distort ducks, or introduce horizontal scrolling.
 - The habitat edge should feel like looking into a little environment, not a rigid inset video-game screen. Avoid adding a heavy frame or artificial monitor-like border.
 - Keep mobile performance, touch interaction coordinates, duck movement bounds, and all saved game state unchanged.
+
+## 20. Pond Improvements — floating button and bottom sheet
+
+The approved interaction direction dated 2026-11-04 removes the permanent upgrade panel from the main Pond screen so players can enjoy and interact with the full-width habitat without scrolling past a large upgrade section.
+
+- Place one friendly, clearly labeled **Pond Improvements** button directly beneath the terrarium.
+- Style it as a soft, pillowy garden-themed control that belongs to the existing plush pastel interface.
+- Activating it opens a rounded bottom sheet over the pond screen; the habitat remains in place behind the overlay rather than being pushed down or replaced.
+- The sheet contains the existing Pond Improvements content and purchase controls. Preserve all upgrade costs, levels, coin deductions, income calculations, save behavior, and existing copy unless separately requested.
+- The sheet has its own vertical scrolling area. Scrolling upgrade content must not scroll the underlying Pond screen.
+- Include a clear close control and allow tapping the dimmed backdrop or pressing Escape to dismiss the sheet.
+- On phones, anchor the sheet to the bottom with safe-area spacing and comfortable thumb-sized controls. On wider screens, present it as a centered, comfortably sized floating panel.
+- Keep the open/close motion soft and restrained, and respect reduced-motion preferences.
+- Do not add a permanent page-length upgrade section beneath the pond, introduce horizontal scrolling, or obscure the habitat when the sheet is closed.
