@@ -426,8 +426,8 @@ body *::before,body *::after{
 }
 
 
-/* Compact top-right HUD: flock and currency live in the header, income nests under coins. */
-.wallet{align-items:center;gap:8px}
+/* Keep the two header pills top-aligned; income sits beneath coins without shifting its pill upward. */
+.wallet{align-items:flex-start;gap:8px}
 .wallet-currency{display:flex;flex-direction:column;align-items:center;gap:2px}
 .wallet-rate{font-size:10px;line-height:1.1;white-space:nowrap;color:#80578a;font-weight:700;text-shadow:0 1px #fff8}
 .wallet-currency .wallet-pill{min-width:74px;justify-content:center}
