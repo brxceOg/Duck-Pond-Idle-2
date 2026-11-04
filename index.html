@@ -461,6 +461,30 @@ body *::before,body *::after{
  .bottom-nav{width:min(100%,760px)}
 }
 
+
+/* Floating pond-care control and independently scrolling improvements sheet. */
+.pond-upgrades-trigger{width:min(calc(100% - 32px),460px);margin:18px auto 24px;padding:12px 18px;display:flex;align-items:center;gap:12px;text-align:left;border:2px solid #704579;border-radius:27px;background:linear-gradient(155deg,#fff0fb,#f3c9ec);color:#633c70;box-shadow:inset 0 3px 6px #fff9,0 5px 0 #b879c1,0 9px 18px #70427b20}
+.pond-upgrades-trigger:active{transform:translateY(3px);box-shadow:inset 0 2px 4px #fff8,0 2px 0 #b879c1}
+.pond-upgrades-flower{width:43px;height:43px;flex:none;display:grid;place-items:center;border-radius:50%;font-size:25px;color:#85538d;background:linear-gradient(145deg,#e4f2ff,#c2ddf8);border:2px solid #80528a;box-shadow:inset 0 2px 4px #fff}
+.pond-upgrades-trigger>span:nth-child(2){display:flex;flex:1;min-width:0;flex-direction:column;gap:2px}
+.pond-upgrades-trigger strong{font-size:18px}.pond-upgrades-trigger small{font-size:12px;color:#80578a}.pond-upgrades-arrow{font-size:24px;color:#80528a}
+.pond-upgrade-overlay{position:fixed;inset:0;z-index:30;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;pointer-events:none}
+.pond-upgrade-overlay.open{visibility:visible;pointer-events:auto}
+.pond-upgrade-backdrop{position:absolute;inset:0;width:100%;height:100%;background:#39234270;opacity:0;transition:opacity .24s ease}
+.pond-upgrade-overlay.open .pond-upgrade-backdrop{opacity:1}
+.pond-upgrade-sheet{position:relative;width:min(100%,720px);max-height:min(78dvh,720px);overflow-y:auto;overscroll-behavior:contain;padding:12px 16px calc(18px + env(safe-area-inset-bottom));border:2px solid #704579;border-bottom:0;border-radius:32px 32px 0 0;background:radial-gradient(ellipse at 12% 0%,#fff0fb 0,transparent 45%),linear-gradient(155deg,#f8d8f0,#edb8e3);box-shadow:0 -8px 35px #39234230,inset 0 3px 8px #fff9;transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+.pond-upgrade-overlay.open .pond-upgrade-sheet{transform:translateY(0)}
+.pond-upgrade-sheet:before{content:"";display:block;width:42px;height:5px;border-radius:9px;background:#b77cc0;margin:0 auto 12px;opacity:.7}
+.pond-upgrade-sheet-head{position:sticky;top:-12px;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 -2px 8px;padding:8px 2px 12px;background:linear-gradient(180deg,#f8d8f0 78%,#f8d8f000)}
+.pond-sheet-kicker{font-size:11px;letter-spacing:.7px;text-transform:uppercase;color:#95649c}.pond-upgrade-sheet-head h2{margin:1px 0 0;font-size:24px;color:#633c70}
+.pond-upgrade-close{width:40px;height:40px;flex:none;border:2px solid #704579;border-radius:50%;background:linear-gradient(#fff0fb,#edc3e9);color:#704579;font-size:27px;line-height:1;box-shadow:inset 0 2px 4px #fff,0 3px 0 #bd80c6}
+.pond-upgrade-sheet .pond-panel{width:100%;max-width:none;margin:0;padding:8px 4px 14px;min-height:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible}
+.pond-upgrade-sheet .pond-panel:before,.pond-upgrade-sheet .pond-panel:after{display:none}
+.pond-upgrade-sheet .pond-panel .panel-title{padding:0 2px}.pond-upgrade-sheet .pond-panel .panel-title h2{display:none}
+.pond-upgrade-sheet .pond-panel .sub{margin:4px 2px 12px}.pond-upgrade-sheet .pond-panel .upgrade-card{margin-top:10px}
+@media(min-width:760px){.pond-upgrades-trigger{margin-top:20px;margin-bottom:28px}.pond-upgrade-overlay{align-items:center;padding:24px}.pond-upgrade-sheet{border-bottom:2px solid #704579;border-radius:32px;max-height:min(78dvh,760px);padding:16px 22px 22px}.pond-upgrade-sheet:before{margin-bottom:8px}.pond-upgrade-sheet-head{top:-16px}}
+@media(prefers-reduced-motion:reduce){.pond-upgrade-backdrop,.pond-upgrade-sheet{transition:none}}
+
 </style>
 </head>
 <body>
@@ -478,9 +502,22 @@ body *::before,body *::after{
    <canvas id="pond" width="900" height="600" aria-label="Animated pond with your rubber ducks"></canvas>
    <div class="scene-foot"><span>✿ Take a little look around</span><span id="duckHint">Tap a duck to say hello</span></div>
   </div>
-  
-  <main class="panel pond-panel" id="pondPanel"></main>
- </section>
+   <button class="pond-upgrades-trigger" id="openPondUpgrades" type="button" aria-haspopup="dialog" aria-controls="pondUpgradeOverlay" aria-expanded="false">
+    <span class="pond-upgrades-flower" aria-hidden="true">✿</span>
+    <span><strong>Pond Improvements</strong><small>A little care makes your pond bloom</small></span>
+    <span class="pond-upgrades-arrow" aria-hidden="true">⌃</span>
+   </button>
+   <div class="pond-upgrade-overlay" id="pondUpgradeOverlay" aria-hidden="true">
+    <button class="pond-upgrade-backdrop" id="closePondUpgradesBackdrop" type="button" aria-label="Close Pond Improvements"></button>
+    <section class="pond-upgrade-sheet" role="dialog" aria-modal="true" aria-labelledby="pondUpgradeSheetTitle">
+     <div class="pond-upgrade-sheet-head">
+      <div><span class="pond-sheet-kicker">A little pond care</span><h2 id="pondUpgradeSheetTitle">Pond Improvements</h2></div>
+      <button class="pond-upgrade-close" id="closePondUpgrades" type="button" aria-label="Close Pond Improvements">×</button>
+     </div>
+     <main class="panel pond-panel" id="pondPanel"></main>
+    </section>
+   </div>
+  </section>
 </main>
 <nav class="bottom-nav" aria-label="Game navigation">
  <button class="nav-item" data-tab="machine"><span class="nav-icon">🎁</span><span>Roll</span></button>
@@ -539,6 +576,7 @@ function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duc
 function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statRate').textContent=Number(coinsPerSecond().toFixed(1))}
 function setTab(t){
  const order=['machine','collection','upgrades'],old=tab;tab=t;
+ if(t!=='upgrades')closePondUpgrades();
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
  document.querySelectorAll('.game-screen').forEach(el=>{
   const active=el.dataset.screen===t;
@@ -548,6 +586,22 @@ function setTab(t){
  renderPanel();
 }
 document.querySelectorAll('.nav-item').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+const pondUpgradeOverlay=$('pondUpgradeOverlay'),openPondUpgrades=$('openPondUpgrades');
+const closePondUpgrades=()=>{
+ pondUpgradeOverlay.classList.remove('open');
+ pondUpgradeOverlay.setAttribute('aria-hidden','true');
+ openPondUpgrades.setAttribute('aria-expanded','false');
+};
+const showPondUpgrades=()=>{
+ pondUpgradeOverlay.classList.add('open');
+ pondUpgradeOverlay.setAttribute('aria-hidden','false');
+ openPondUpgrades.setAttribute('aria-expanded','true');
+ $('closePondUpgrades').focus();
+};
+openPondUpgrades.addEventListener('click',showPondUpgrades);
+$('closePondUpgrades').addEventListener('click',closePondUpgrades);
+$('closePondUpgradesBackdrop').addEventListener('click',closePondUpgrades);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pondUpgradeOverlay.classList.contains('open')){closePondUpgrades();openPondUpgrades.focus()}});
 function renderPanel(){
  const p=tab==='machine'?$('machinePanel'):tab==='collection'?$('collectionPanel'):$('pondPanel');
  if(tab==='machine'){
