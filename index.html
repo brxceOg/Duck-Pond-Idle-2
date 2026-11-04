@@ -339,6 +339,7 @@ const species=[
 const byId=id=>species.find(s=>s.id===id)||species[0];
 const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0});
 let state;
+const save=()=>{try{localStorage.setItem('duckPondIdle2Save',JSON.stringify(state))}catch{}};
 try{state=JSON.parse(localStorage.getItem('duckPondIdle2Save'))||fresh()}catch{state=fresh()}
 if(!state||!Array.isArray(state.ducks)||!state.ducks.length)state=fresh();
 state.coins=Math.max(0,Number(state.coins)||0);state.upgrade=Number(state.upgrade)||0;state.next=Number(state.next)||2;
@@ -356,7 +357,7 @@ if(!state.duplicateConversionV1){
  state.duplicateConversionV1=true;
  save();
 }
-const save=()=>{try{localStorage.setItem('duckPondIdle2Save',JSON.stringify(state))}catch{}};
+
 let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
