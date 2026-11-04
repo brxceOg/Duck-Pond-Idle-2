@@ -239,7 +239,7 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
   <div class="stats">
    <div class="stat"><b id="statDucks">1</b><span>Your flock</span></div>
    <div class="stat"><b id="statCoins">100</b><span>Pond coins</span></div>
-   <div class="stat"><b id="statRate">0.2</b><span>Coins / min</span></div>
+   <div class="stat"><b id="statRate">0.2</b><span>Coins / sec</span></div>
   </div>
   <main class="panel pond-panel" id="pondPanel"></main>
  </section>
@@ -259,12 +259,12 @@ const $=id=>document.getElementById(id);
 const canvas=$('pond'),ctx=canvas.getContext('2d');
 const W=900,H=600;
 const species=[
- {id:'sunny',name:'Sunny',rarity:'Common',color:'#ffd83f',belly:'#ffae26',beak:'#f36c37',eye:'#4b2225',size:1,weight:42,coinsPerMinute:1,cheek:'#ff987c',desc:'A cheerful little sunshine.'},
- {id:'mint',name:'Minty',rarity:'Uncommon',color:'#a9dfb9',belly:'#70bf9b',beak:'#ee9860',eye:'#3d4840',size:.88,weight:25,coinsPerMinute:2,cheek:'#f39c9a',desc:'Calm, curious, and a little shy.'},
- {id:'berry',name:'Berry',rarity:'Rare',color:'#d9a9e8',belly:'#b783d0',beak:'#f18a83',eye:'#442d4c',size:1.04,weight:17,coinsPerMinute:4,cheek:'#f6a6b2',desc:'A sweet duck with big daydreams.'},
- {id:'peach',name:'Peaches',rarity:'Rare',color:'#ffb58d',belly:'#f58a69',beak:'#d95d45',eye:'#58312b',size:1.1,weight:10,coinsPerMinute:4,cheek:'#ff8e8b',desc:'Always looking for a snack.'},
- {id:'lilac',name:'Lulu',rarity:'Epic',color:'#aeb8f2',belly:'#8496dc',beak:'#f2a06c',eye:'#34345b',size:.95,weight:5,coinsPerMinute:8,cheek:'#e7a1c5',desc:'A tiny pond daydreamer.'},
- {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f27b37',eye:'#57351e',size:1.28,weight:1,coinsPerMinute:15,cheek:'#ffad80',desc:'A rare little ray of light.'}
+ {id:'sunny',name:'Sunny',rarity:'Common',color:'#ffd83f',belly:'#ffae26',beak:'#f36c37',eye:'#4b2225',size:1,weight:42,coinsPerSecond:1,cheek:'#ff987c',desc:'A cheerful little sunshine.'},
+ {id:'mint',name:'Minty',rarity:'Uncommon',color:'#a9dfb9',belly:'#70bf9b',beak:'#ee9860',eye:'#3d4840',size:.88,weight:25,coinsPerSecond:2,cheek:'#f39c9a',desc:'Calm, curious, and a little shy.'},
+ {id:'berry',name:'Berry',rarity:'Rare',color:'#d9a9e8',belly:'#b783d0',beak:'#f18a83',eye:'#442d4c',size:1.04,weight:17,coinsPerSecond:4,cheek:'#f6a6b2',desc:'A sweet duck with big daydreams.'},
+ {id:'peach',name:'Peaches',rarity:'Rare',color:'#ffb58d',belly:'#f58a69',beak:'#d95d45',eye:'#58312b',size:1.1,weight:10,coinsPerSecond:4,cheek:'#ff8e8b',desc:'Always looking for a snack.'},
+ {id:'lilac',name:'Lulu',rarity:'Epic',color:'#aeb8f2',belly:'#8496dc',beak:'#f2a06c',eye:'#34345b',size:.95,weight:5,coinsPerSecond:8,cheek:'#e7a1c5',desc:'A tiny pond daydreamer.'},
+ {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f27b37',eye:'#57351e',size:1.28,weight:1,coinsPerSecond:15,cheek:'#ffad80',desc:'A rare little ray of light.'}
 ];
 const byId=id=>species.find(s=>s.id===id)||species[0];
 const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],next:2,upgrade:0,rolls:0});
@@ -281,8 +281,8 @@ function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');
 function createDuck(id,initial=false){const s=byId(id);const d={uid:state.next++,id,x:rand(220,700),y:rand(235,465),vx:0,vy:0,dir:Math.random()<.5?-1:1,scale:s.size,phase:rand(0,8),blink:rand(2,6),targetX:rand(180,720),targetY:rand(365,490),pause:rand(1,3),bob:0};ducks.push(d);if(!initial){state.ducks.push({id,uid:d.uid});save()}}
 state.ducks.forEach((d,i)=>{const s=byId(d.id);ducks.push({uid:d.uid||i+1,id:d.id,x:rand(210,700),y:rand(365,475),vx:0,vy:0,dir:Math.random()<.5?-1:1,scale:s.size,phase:rand(0,8),blink:rand(2,6),targetX:rand(180,720),targetY:rand(365,490),pause:rand(1,3),bob:0})});
 for(let i=0;i<8;i++)pads.push({x:rand(190,750),y:rand(210,490),r:rand(22,37),vx:0,vy:0,rot:rand(-.2,.2),phase:rand(0,7),flower:i%3===0});
-function coinsPerMinute(){return state.ducks.reduce((total,duck)=>total+byId(duck.id).coinsPerMinute,0)*(1+state.upgrade*.5)}
-function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statDucks').textContent=state.ducks.length;$('statCoins').textContent=Math.floor(state.coins);$('statRate').textContent=Math.round(coinsPerMinute())}
+function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duck.id).coinsPerSecond,0)*(1+state.upgrade*.5)}
+function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statDucks').textContent=state.ducks.length;$('statCoins').textContent=Math.floor(state.coins);$('statRate').textContent=Math.round(coinsPerSecond())}
 function setTab(t){
  const order=['machine','collection','upgrades'],old=tab;tab=t;
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
@@ -304,7 +304,7 @@ function renderPanel(){
  p.innerHTML='<div class="panel-title"><h2>Your Duckies</h2><span>♡ '+state.ducks.length+' collected</span></div><p class="sub">Every duck has its own little personality. Duplicates become pond pals too!</p><div class="duck-grid">'+species.filter(s=>counts[s.id]).map(s=>'<div class="duck-card"><canvas class="duck-thumb" width="124" height="112" data-duck-icon="'+s.id+'" aria-label="'+s.name+' rubber duck" style="background:linear-gradient(145deg,'+s.color+',#fff1d2)"></canvas><div><b>'+s.name+(counts[s.id]>1?' ×'+counts[s.id]:'')+'</b><small>'+s.rarity+'</small></div></div>').join('')+(Object.keys(counts).length===0?'<div class="empty">Your pond is waiting for its first duck.</div>':'')+'</div>';
  }else{
  const cost=100+state.upgrade*90;
- p.innerHTML='<div class="panel-title"><h2>Pond Improvements</h2><span>✿ Make it cozy</span></div><p class="sub">Little improvements help your pond earn more coins while you spend time together.</p><div class="upgrade-card"><div class="upgrade-icon">🌼</div><div><b>Flowering Banks</b><small>Increase coin earnings by 50% per level · Level '+state.upgrade+'</small></div><button class="buy" id="upgradeBtn" '+(state.coins<cost?'disabled':'')+'>'+cost+' ¢</button></div><div class="upgrade-card"><div class="upgrade-icon">🫧</div><div><b>Happy Habitat</b><small>Your ducks bring a little pond magic just by being here.</small></div><span style="font-size:11px;color:#9a8069">Always on</span></div><p class="sub" style="margin-top:15px">Your ducks make <b>'+Math.round(coinsPerMinute())+' coins</b> every minute. Common ducks earn 1 coin/min, with rarer friends earning more. Keep collecting to grow your little sanctuary.</p>';
+ p.innerHTML='<div class="panel-title"><h2>Pond Improvements</h2><span>✿ Make it cozy</span></div><p class="sub">Little improvements help your pond earn more coins while you spend time together.</p><div class="upgrade-card"><div class="upgrade-icon">🌼</div><div><b>Flowering Banks</b><small>Increase coin earnings by 50% per level · Level '+state.upgrade+'</small></div><button class="buy" id="upgradeBtn" '+(state.coins<cost?'disabled':'')+'>'+cost+' ¢</button></div><div class="upgrade-card"><div class="upgrade-icon">🫧</div><div><b>Happy Habitat</b><small>Your ducks bring a little pond magic just by being here.</small></div><span style="font-size:11px;color:#9a8069">Always on</span></div><p class="sub" style="margin-top:15px">Your ducks make <b>'+Math.round(coinsPerSecond())+' coins</b> every second. Common ducks earn 1 coin/sec, with rarer friends earning more. Keep collecting to grow your little sanctuary.</p>';
  $('upgradeBtn').addEventListener('click',()=>{if(state.coins<cost)return;state.coins-=cost;state.upgrade++;save();updateHUD();renderPanel();toast('Your pond is blooming! 🌼')});
  }
  renderDuckIcons();
@@ -549,7 +549,7 @@ function drawScene(t,dt){
 }
 function step(dt,t){
  // passive coins
- state.coins+=dt*coinsPerMinute()/60;
+ state.coins+=dt*coinsPerSecond();
  // ducks select destinations and gently steer
  ducks.forEach(d=>{
  d.phase+=dt;d.blink-=dt;if(d.blink<0)d.blink=rand(2.5,6);
