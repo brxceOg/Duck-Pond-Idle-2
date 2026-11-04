@@ -219,6 +219,32 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
 }
 @media(prefers-reduced-motion:reduce){.game-screen,.nav-item{transition:none!important}}
 
+
+/* Toy-like capsule reveal sequence, matched to the pastel dispenser artwork. */
+.machine{transform-origin:50% 82%}
+.machine.is-rolling{animation:machine-rattle .14s ease-in-out 0s 7}
+.machine.is-rolling .capsules{animation:capsule-tumble .72s ease-in-out 0s 2}
+.machine.is-rolling .crank{animation:crank-turn .65s ease-in-out 0s 2}
+.result{position:relative;overflow:hidden;min-height:74px}
+.result .reveal-stage{display:flex;align-items:center;justify-content:center;gap:13px;min-height:92px;flex-wrap:wrap}
+.result .reveal-capsule{position:relative;width:54px;height:50px;border:4px solid #71334f;border-radius:50%;background:linear-gradient(180deg,#fffaf2 0 48%,#f4a2d1 49%);box-shadow:inset -5px -5px 0 #71334f12,0 4px 0 #c88cae;animation:capsule-drop .75s cubic-bezier(.2,.8,.25,1) both}
+.result .reveal-capsule:before{content:"";position:absolute;left:6px;right:6px;top:46%;height:3px;background:#71334f88}
+.result .reveal-capsule:after{content:"";position:absolute;left:9px;top:7px;width:11px;height:6px;border-radius:50%;background:#fff;transform:rotate(-25deg)}
+.result .reveal-capsule.open{animation:capsule-pop .5s cubic-bezier(.2,1.5,.4,1) forwards}
+.result .reveal-burst{position:absolute;width:115px;height:115px;border-radius:50%;background:radial-gradient(circle,#fff8cf 0 8%,#ffda83 9% 20%,#ffb6c9 21% 35%,transparent 68%);animation:reveal-burst .6s ease-out both}
+.result .reveal-duck{width:94px;height:84px;animation:duck-arrive .55s cubic-bezier(.2,1.4,.4,1) both;filter:drop-shadow(0 3px 0 #71334f35)}
+.result .reveal-copy{flex:1 1 140px;text-align:left}
+.result .reveal-copy strong{display:block;font-size:20px;color:#71334f}
+.result .reveal-copy small{display:block;margin-top:4px;color:#987d67}
+@keyframes machine-rattle{0%,100%{transform:rotate(0)}25%{transform:rotate(-2deg) translateY(-2px)}75%{transform:rotate(2deg) translateY(1px)}}
+@keyframes capsule-tumble{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-7px) rotate(5deg)}70%{transform:translateY(2px) rotate(-4deg)}}
+@keyframes crank-turn{to{transform:rotate(720deg)}}
+@keyframes capsule-drop{0%{transform:translateY(-28px) scale(.75);opacity:0}65%{transform:translateY(5px) scale(1.08);opacity:1}100%{transform:translateY(0) scale(1)}}
+@keyframes capsule-pop{0%{transform:scale(1) rotate(0)}45%{transform:scale(1.3) rotate(14deg)}100%{transform:scale(.15) rotate(35deg);opacity:0}}
+@keyframes reveal-burst{0%{transform:scale(.15);opacity:0}45%{opacity:1}100%{transform:scale(1.5);opacity:0}}
+@keyframes duck-arrive{0%{transform:translateY(25px) scale(.45) rotate(-10deg);opacity:0}70%{transform:translateY(-5px) scale(1.12) rotate(5deg);opacity:1}100%{transform:translateY(0) scale(1) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.machine.is-rolling,.machine.is-rolling .capsules,.machine.is-rolling .crank,.result .reveal-capsule,.result .reveal-capsule.open,.result .reveal-burst,.result .reveal-duck{animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -310,12 +336,24 @@ function renderPanel(){
  renderDuckIcons();
 }
 function roll(){
- if(rollBusy||state.coins<25)return;rollBusy=true;state.coins-=25;state.rolls++;save();updateHUD();$('rollBtn').disabled=true;$('result').textContent='Rattle, rattle… who could it be?';
+ if(rollBusy||state.coins<25)return;
+ rollBusy=true;state.coins-=25;state.rolls++;save();updateHUD();
+ const rollButton=$('rollBtn');if(rollButton)rollButton.disabled=true;
+ const result=$('result');
+ if(result)result.innerHTML='<div class="reveal-stage"><span class="reveal-capsule" aria-hidden="true"></span><span>Rattle, rattle… a little surprise is on its way!</span></div>';
  const machine=$('machinePanel').querySelector('.machine');if(machine)machine.classList.add('is-rolling');
- setTimeout(()=>{let total=species.reduce((a,s)=>a+s.weight,0),n=Math.random()*total,pick=species[0];for(const s of species){n-=s.weight;if(n<=0){pick=s;break}}
- createDuck(pick.id);save();updateHUD();const result=$('result');if(result)result.innerHTML='<strong>Meet '+pick.name+'! ✨</strong>'+pick.rarity+' · '+pick.desc+'<br><span style="font-size:11px;color:#987d67">A new friend has joined your pond.</span>';
- if(machine)machine.classList.remove('is-rolling');rollBusy=false;renderPanel();toast(pick.rarity==='Legendary'?'A legendary duck!! ✨':'A new duck joined the pond! 🦆');
- },950)
+ const total=species.reduce((a,s)=>a+s.weight,0);let n=Math.random()*total,pick=species[0];
+ for(const sp of species){n-=sp.weight;if(n<=0){pick=sp;break}}
+ setTimeout(()=>{
+  if(machine)machine.classList.remove('is-rolling');
+  if(result)result.innerHTML='<div class="reveal-stage"><span class="reveal-capsule open" aria-hidden="true"></span><span class="reveal-burst" aria-hidden="true"></span></div>';
+  setTimeout(()=>{
+   createDuck(pick.id);save();updateHUD();
+   if(result)result.innerHTML='<div class="reveal-stage"><canvas class="reveal-duck" width="180" height="160" data-duck-icon="'+pick.id+'" aria-label="'+pick.name+' rubber duck"></canvas><div class="reveal-copy"><strong>Meet '+pick.name+'! ✨</strong><small>'+pick.rarity+' · '+pick.desc+'</small><small>A new friend has joined your pond.</small></div></div>';
+   renderDuckIcons();rollBusy=false;renderPanel();
+   toast(pick.rarity==='Legendary'?'A legendary duck!! ✨':'A new duck joined the pond! 🦆');
+  },420);
+ },1050);
 }
 function rr(x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=5;ctx.stroke()}}
 function ellipse(x,y,rx,ry,fill){ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill()}
