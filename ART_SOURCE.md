@@ -481,3 +481,28 @@ The supporting-copy typeface added on 2026-11-04 is **Just Ducky** by **Duck Rei
 - Use the readable **Rubber Duck** typeface for the numerical amount; do not use Just Ducky for numerical counters. Pair the amount with a tiny warm-gold coin mark, a plum outline, and a soft cream sticker surface for contrast against the water.
 - Keep the cue compact and close to the duck's head. It must not change duck movement, coin calculations, save data, or the pond layout.
 - Preserve continuous passive coin accumulation. The individual indicators are visual cues for each duck's per-second contribution, not a replacement payout system.
+
+
+
+## 23. Duck Games — collectible accessory sprite family
+
+Duck Games introduces collectible, equippable duck accessories as preparation for future boss fights and raids. All new pieces must look like tiny glossy toy-world treasures that belong to the established rubber-duck family.
+
+### Shared accessory art rules
+- Use the established warm plum-brown outline, rounded silhouettes, soft pastel fills, gentle dimensional shading, creamy highlights, and subtle contact shadows.
+- Accessories must remain readable at small iPhone gameplay scale and must not obscure duck eyes, beaks, or expressions.
+- Keep accessory sprites as transparent-background SVG or high-resolution raster art in `assets/accessories/`; do not use emoji or generic icon placeholders for collected rewards.
+- The inventory must display the actual accessory sprite, not a text symbol. The pond duck renderer should draw the corresponding equipped piece on the correct body location.
+- Hats sit naturally on the crown; wing-held props follow the near wing; beak accessories sit around the beak without hiding the duck's mouth shape.
+- Equipment is cosmetic for now. The data model should preserve item identity and equipment slots so later boss/raid systems can use accessories as armor/stat inputs without replacing this collection.
+
+### Initial reward set
+- **Berry Bonnet** (`berry_bonnet`, hat): a soft berry-pink bonnet with a curved crown, broad rounded brim, tiny cream bow, and warm golden center detail.
+- **Starry Wand** (`star_wand`, hand): a golden wand with a dimensional butter-yellow star, plum outline, and tiny pastel sparkles. It is held beside the duck's near wing.
+- **Peachy Beak Bow** (`peachy_beak_bow`, beak): a small peach-pink bow charm that decorates the beak while leaving its silhouette and expression visible.
+
+### Lily Pad Hop presentation and motion
+- The minigame is a miniature pond vignette: three rounded green lily pads, aqua/mint water tones, warm highlights, and soft plum outlines.
+- The active target pad receives a gentle golden glow/lift; the player taps it during a five-hop run.
+- Keep the game readable and thumb-friendly on iPhone. Motion should be brief and soft, and honor reduced-motion preferences.
+- Reward reveal uses the exact inventory sprite. Do not substitute text-only rewards.
