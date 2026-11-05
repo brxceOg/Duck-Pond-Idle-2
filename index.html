@@ -691,14 +691,14 @@ const $=id=>document.getElementById(id);
 const canvas=$('pond'),ctx=canvas.getContext('2d');
 const W=900,H=600;
 const species=[
- {id:'sunny',name:'Sunny',rarity:'Common',color:'#ffd83f',belly:'#ffae26',beak:'#f36c37',eye:'#4b2225',size:1,weight:42,premiumWeight:24,coinsPerSecond:1,cheek:'#ff987c',desc:'A cheerful little sunshine.'},
- {id:'mint',name:'Minty',rarity:'Uncommon',color:'#a9dfb9',belly:'#70bf9b',beak:'#ee9860',eye:'#3d4840',size:.88,weight:25,premiumWeight:22,coinsPerSecond:2,cheek:'#f39c9a',desc:'Calm, curious, and a little shy.'},
- {id:'berry',name:'Berry',rarity:'Rare',color:'#d9a9e8',belly:'#b783d0',beak:'#f18a83',eye:'#442d4c',size:1.04,weight:17,premiumWeight:17,coinsPerSecond:4,cheek:'#f6a6b2',desc:'A sweet duck with big daydreams.'},
- {id:'peach',name:'Peaches',rarity:'Rare',color:'#ffb58d',belly:'#f58a69',beak:'#d95d45',eye:'#58312b',size:1.1,weight:10,premiumWeight:14,coinsPerSecond:4,cheek:'#ff8e8b',desc:'Always looking for a snack.'},
- {id:'lilac',name:'Lulu',rarity:'Epic',color:'#aeb8f2',belly:'#8496dc',beak:'#f2a06c',eye:'#34345b',size:.95,weight:5,premiumWeight:9,coinsPerSecond:8,cheek:'#e7a1c5',desc:'A tiny pond daydreamer.'},
- {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f27b37',eye:'#57351e',size:1.28,weight:1,premiumWeight:8,coinsPerSecond:15,cheek:'#ffad80',desc:'A rare little ray of light.'},
- {id:'zombie',name:'Zomduck',rarity:'Mythic',color:'#a8b99a',belly:'#748b78',beak:'#a77a52',eye:'#d6e66d',size:1.04,weight:0,premiumWeight:4,coinsPerSecond:12,cheek:'#9eaa83',desc:'A sweet little shambler with a stitched-up shell.'},
- {id:'vampire',name:'Count Quackula',rarity:'Mythic',color:'#62506f',belly:'#b8a4c5',beak:'#b94d61',eye:'#e64f72',size:1.12,weight:0,premiumWeight:2,coinsPerSecond:20,cheek:'#d77c98',desc:'A midnight pond aristocrat with a tiny velvet cape.'}
+ {id:'sunny',name:'Sunny',rarity:'Common',color:'#ffd83f',belly:'#ffae26',beak:'#f36c37',eye:'#4b2225',size:1,weight:42,premiumWeight:24,coinsPerSecond:1,cheek:'#ff987c',desc:'A classic sunny-yellow rubber duck.'},
+ {id:'mint',name:'Minty',rarity:'Uncommon',color:'#a9dfb9',belly:'#70bf9b',beak:'#f36c37',eye:'#4b2225',size:1,weight:25,premiumWeight:22,coinsPerSecond:2,cheek:'#ff987c',desc:'A pastel mint-green rubber duck with cool shades.'},
+ {id:'berry',name:'Berry',rarity:'Rare',color:'#d9a9e8',belly:'#b783d0',beak:'#f36c37',eye:'#4b2225',size:1,weight:17,premiumWeight:17,coinsPerSecond:4,cheek:'#ff987c',desc:'A lavender rubber duck with a flower clip.'},
+ {id:'peach',name:'Peaches',rarity:'Rare',color:'#ffb58d',belly:'#f58a69',beak:'#f36c37',eye:'#4b2225',size:1,weight:10,premiumWeight:14,coinsPerSecond:4,cheek:'#ff987c',desc:'A peach-colored rubber duck with a cute bow.'},
+ {id:'lilac',name:'Lulu',rarity:'Epic',color:'#aeb8f2',belly:'#8496dc',beak:'#f36c37',eye:'#4b2225',size:1,weight:5,premiumWeight:9,coinsPerSecond:8,cheek:'#ff987c',desc:'A periwinkle rubber duck with a little star badge.'},
+ {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f36c37',eye:'#4b2225',size:1,weight:1,premiumWeight:8,coinsPerSecond:15,cheek:'#ff987c',desc:'A shiny golden rubber duck wearing a tiny crown.'},
+ {id:'zombie',name:'Zomduck',rarity:'Mythic',color:'#a8b99a',belly:'#748b78',beak:'#f36c37',eye:'#4b2225',size:1,weight:0,premiumWeight:4,coinsPerSecond:12,cheek:'#ff987c',desc:'A moss-green rubber duck with a playful patch accessory.'},
+ {id:'vampire',name:'Count Quackula',rarity:'Mythic',color:'#62506f',belly:'#b8a4c5',beak:'#f36c37',eye:'#4b2225',size:1,weight:0,premiumWeight:2,coinsPerSecond:20,cheek:'#ff987c',desc:'A midnight-purple rubber duck with a tiny cape collar and bow.'}
 ];
 const byId=id=>species.find(s=>s.id===id)||species[0];
 const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0,gameInventory:{},gameEquipped:{},gameDuckStats:{},gameWins:0,gamePlays:0});
@@ -908,161 +908,61 @@ function drawDuck(d,t,targetCtx=ctx){
 }
 
  function drawDuckSpeciesTail(d,c,sp){
-  c.save();c.lineJoin='round';c.lineCap='round';
-  if(sp.id==='mint'){
-   // Minty's signature soft three-feather tail.
-   c.fillStyle='#70bf9b';c.strokeStyle='#713c35';c.lineWidth=2.8;
-   c.beginPath();c.moveTo(-27,3);c.quadraticCurveTo(-48,-12,-46,-1);c.quadraticCurveTo(-43,7,-29,9);c.quadraticCurveTo(-48,8,-43,19);c.quadraticCurveTo(-36,22,-25,12);c.quadraticCurveTo(-39,16,-32,25);c.quadraticCurveTo(-23,24,-20,12);c.closePath();c.fill();c.stroke();
-   c.strokeStyle='#b8efd0';c.lineWidth=1.8;c.beginPath();c.moveTo(-31,5);c.quadraticCurveTo(-39,1,-42,-3);c.moveTo(-29,12);c.quadraticCurveTo(-37,15,-39,17);c.stroke();
-  }else if(sp.id==='sunny'){
-   c.fillStyle='#f6ad29';c.strokeStyle='#713c35';c.lineWidth=2.6;c.beginPath();c.moveTo(-28,3);c.quadraticCurveTo(-48,-8,-44,5);c.quadraticCurveTo(-39,14,-25,11);c.quadraticCurveTo(-42,18,-34,23);c.quadraticCurveTo(-23,22,-18,11);c.closePath();c.fill();c.stroke();
-  }else if(sp.id==='berry'){
-   c.fillStyle='#b783d0';c.strokeStyle='#713c35';c.lineWidth=2.6;
-   c.beginPath();c.moveTo(-27,2);c.quadraticCurveTo(-49,-13,-46,1);c.quadraticCurveTo(-44,8,-30,10);c.quadraticCurveTo(-45,4,-42,17);c.quadraticCurveTo(-34,23,-23,12);c.quadraticCurveTo(-36,18,-29,24);c.quadraticCurveTo(-19,21,-18,10);c.closePath();c.fill();c.stroke();
-   c.fillStyle='#e9c5f5';c.beginPath();c.arc(-40,1,2,0,Math.PI*2);c.fill();
-  }else if(sp.id==='peach'){
-   c.fillStyle='#f58a69';c.strokeStyle='#713c35';c.lineWidth=2.7;
-   c.beginPath();c.moveTo(-28,2);c.bezierCurveTo(-48,-12,-49,8,-34,13);c.bezierCurveTo(-43,22,-27,25,-20,10);c.closePath();c.fill();c.stroke();
-   c.fillStyle='#ffd0a5';c.beginPath();c.arc(-37,5,2,0,Math.PI*2);c.fill();
-  }else if(sp.id==='lilac'){
-   c.fillStyle='#8496dc';c.strokeStyle='#713c35';c.lineWidth=2.7;
-   c.beginPath();c.moveTo(-27,3);c.quadraticCurveTo(-47,-13,-44,2);c.quadraticCurveTo(-40,11,-28,11);c.quadraticCurveTo(-43,13,-36,23);c.quadraticCurveTo(-25,22,-19,10);c.closePath();c.fill();c.stroke();
-   c.fillStyle='#f5d9ff';c.beginPath();c.arc(-39,1,2,0,Math.PI*2);c.fill();
-  }else if(sp.id==='gold'){
-   c.fillStyle='#e9b83f';c.strokeStyle='#713c35';c.lineWidth=2.8;
-   c.beginPath();c.moveTo(-28,4);c.quadraticCurveTo(-50,-14,-46,2);c.quadraticCurveTo(-43,12,-29,12);c.quadraticCurveTo(-43,10,-40,21);c.quadraticCurveTo(-29,25,-19,11);c.closePath();c.fill();c.stroke();
-   c.strokeStyle='#fff0a1';c.lineWidth=2;c.beginPath();c.moveTo(-35,5);c.quadraticCurveTo(-43,0,-44,-3);c.stroke();
-  }else if(sp.id==='zombie'){
-   // A softly ragged, stitched-looking tail keeps the undead theme playful.
-   c.fillStyle='#748b78';c.strokeStyle='#713c35';c.lineWidth=2.8;
-   c.beginPath();c.moveTo(-27,4);c.quadraticCurveTo(-47,-11,-46,1);c.lineTo(-39,8);c.quadraticCurveTo(-48,18,-37,22);c.lineTo(-29,15);c.quadraticCurveTo(-28,27,-18,20);c.closePath();c.fill();c.stroke();
-   c.strokeStyle='#c4d0a6';c.lineWidth=1.7;c.beginPath();c.moveTo(-38,4);c.lineTo(-34,8);c.moveTo(-34,15);c.lineTo(-30,18);c.stroke();
-  }else if(sp.id==='vampire'){
-   // A tiny velvet bat-cape fans out behind the familiar duck body.
-   c.fillStyle='#56384f';c.strokeStyle='#713c35';c.lineWidth=2.8;
-   c.beginPath();c.moveTo(-26,2);c.quadraticCurveTo(-43,-13,-52,-8);c.quadraticCurveTo(-48,2,-42,7);c.quadraticCurveTo(-48,13,-43,20);c.quadraticCurveTo(-34,17,-29,12);c.quadraticCurveTo(-26,20,-18,17);c.closePath();c.fill();c.stroke();
-   c.strokeStyle='#bd596d';c.lineWidth=2;c.beginPath();c.moveTo(-43,4);c.quadraticCurveTo(-35,8,-29,10);c.stroke();
-  }
-  c.restore();
+  // Every collectible uses the same molded rubber-duck silhouette. No species-specific tails.
  }
  function drawDuckSpeciesWingMarkings(d,c,sp){
-  if(!['sunny','mint','berry','peach','gold','lilac','zombie','vampire'].includes(sp.id))return;
-  c.save();
-  // This texture is painted immediately after the wing panel and before the
-  // head. Its inset clip follows the panel interior; normal sprite layering
-  // then lets the head cover the rear/top edge exactly as in the base artwork.
-  c.beginPath();c.ellipse(-11,6,12,6,-.22,0,Math.PI*2);c.clip();
-
-  if(sp.id==='sunny'){
-   c.fillStyle='#ffe99a';c.beginPath();c.ellipse(-14,5,4.2,1.8,-.3,0,Math.PI*2);c.ellipse(-7,8,3,1.4,-.2,0,Math.PI*2);c.fill();
-  }else if(sp.id==='berry'){
-   c.fillStyle='#f5d7ef';c.beginPath();c.arc(-15,5,2,0,Math.PI*2);c.arc(-9,8,1.8,0,Math.PI*2);c.arc(-4,5,1.4,0,Math.PI*2);c.fill();
-  }else if(sp.id==='mint'){
-   c.fillStyle='#d8f5e2';c.beginPath();
-   c.ellipse(-14,5,5.5,2.1,-.35,0,Math.PI*2);c.fill();
-   c.fillStyle='#c3ead2';c.beginPath();
-   c.ellipse(-6,8,3.2,1.5,-.2,0,Math.PI*2);c.fill();
-  }else if(sp.id==='peach'){
-   c.fillStyle='#ffd0a5';c.beginPath();
-   c.ellipse(-15,5,3.2,1.7,-.25,0,Math.PI*2);
-   c.ellipse(-8,7,2.8,1.5,.2,0,Math.PI*2);
-   c.ellipse(-2,5,2.2,1.3,-.2,0,Math.PI*2);
-   c.fill();
-  }else if(sp.id==='gold'){
-   c.fillStyle='#fff1b2';c.beginPath();
-   c.ellipse(-14,6,4.5,1.7,-.25,0,Math.PI*2);
-   c.ellipse(-6,7,3,1.3,.15,0,Math.PI*2);
-   c.fill();
-  }else if(sp.id==='zombie'){
-   c.fillStyle='#7d9a83';c.strokeStyle='#4f6658';c.lineWidth=1.5;
-   c.beginPath();c.roundRect(-17,3,10,7,2);c.fill();c.stroke();
-   c.strokeStyle='#d5d9ae';c.lineWidth=1.1;c.beginPath();c.moveTo(-15,3);c.lineTo(-13,5);c.moveTo(-11,3);c.lineTo(-9,5);c.stroke();
-  }else if(sp.id==='vampire'){
-   c.fillStyle='#8f526d';c.strokeStyle='#50364f';c.lineWidth=1.2;
-   c.beginPath();c.moveTo(-17,4);c.quadraticCurveTo(-13,2,-10,5);c.quadraticCurveTo(-7,3,-5,6);c.quadraticCurveTo(-10,9,-16,8);c.closePath();c.fill();c.stroke();
-  }else if(sp.id==='lilac'){
-   c.fillStyle='#e9d9ff';c.strokeStyle='#7d83c3';c.lineWidth=1.5;
-   c.beginPath();
-   for(let i=0;i<10;i++){
-    const an=-Math.PI/2+i*Math.PI/5,r=i%2?2.1:4.1;
-    c.lineTo(-15+Math.cos(an)*r,6.5+Math.sin(an)*r);
-   }
-   c.closePath();c.fill();c.stroke();
-  }
-  c.restore();
+  // Color and toy accessories create variety; the shared wing stays clean and identical.
  }
-
  function drawDuckSpeciesDetails(d,c,sp){
+  // Built-in toy accessories sit on top of the same base duck model.
+  // All outlines use the base rubber-duck plum border.
+  const outline='#713c35';
   c.save();c.lineJoin='round';c.lineCap='round';
-
-  // Surface details on the main body/head are clipped to the same filled
-  // silhouettes used by the sprite, with the existing outer border left clear.
-  c.beginPath();
-  c.ellipse(0,3,34,25,0,0,Math.PI*2);
-  c.ellipse(1,-24,26,27,0,0,Math.PI*2);
-  c.clip();
-
-  // Face-side markings stay comfortably inside the head fill, away from its outline.
   if(sp.id==='mint'){
-   c.fillStyle='#e4fff0';c.beginPath();
-   // Three separate, round, evenly readable freckles form a small cheek cluster.
-   c.arc(-16,-10,1.8,0,Math.PI*2);c.arc(-10,-7,1.65,0,Math.PI*2);c.arc(-16,-4,1.45,0,Math.PI*2);c.fill();
+   // Small molded sunglasses: one visible lens and a short bridge.
+   c.fillStyle='#4a6670';c.strokeStyle=outline;c.lineWidth=2.2;
+   c.beginPath();c.arc(14,-28,7.2,0,Math.PI*2);c.fill();c.stroke();
+   c.strokeStyle='#d8f2e5';c.lineWidth=1.2;c.beginPath();c.arc(14,-28,4.8,Math.PI,Math.PI*1.8);c.stroke();
+   c.strokeStyle=outline;c.lineWidth=2;c.beginPath();c.moveTo(21,-28);c.lineTo(24,-28);c.stroke();
+  }else if(sp.id==='berry'){
+   // A little five-petal toy flower clip, separate from the duck's silhouette.
+   c.save();c.translate(-15,-47);
+   c.fillStyle='#fff0fa';c.strokeStyle=outline;c.lineWidth=1.8;
+   for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;c.beginPath();c.ellipse(Math.cos(a)*4.2,Math.sin(a)*4.2,3.1,4, a,0,Math.PI*2);c.fill();c.stroke()}
+   c.fillStyle='#f5c85b';c.beginPath();c.arc(0,0,2.8,0,Math.PI*2);c.fill();c.stroke();
+   c.restore();
   }else if(sp.id==='peach'){
-   c.fillStyle='#b85d4e';c.beginPath();
-   // Three distinct, rounded freckles with clear spacing avoid a stray-line appearance.
-   c.arc(-16,-10,1.8,0,Math.PI*2);c.arc(-10,-7,1.6,0,Math.PI*2);c.arc(-16,-4,1.4,0,Math.PI*2);c.fill();
+   // A soft pink bow tied at the front of the duck's neck.
+   c.save();c.translate(13,-1);c.fillStyle='#f5a1bd';c.strokeStyle=outline;c.lineWidth=2;
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-16,-15,-17,-2);c.quadraticCurveTo(-15,7,0,0);c.fill();c.stroke();
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(16,-15,17,-2);c.quadraticCurveTo(15,7,0,0);c.fill();c.stroke();
+   c.fillStyle='#ffe18b';c.beginPath();c.arc(0,0,3.8,0,Math.PI*2);c.fill();c.stroke();c.restore();
+  }else if(sp.id==='lilac'){
+   // A small enamel star badge sits on the front of the molded wing.
+   c.save();c.translate(-10,8);c.fillStyle='#f8e9ff';c.strokeStyle=outline;c.lineWidth=1.8;
+   c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?2.8:5.4;c.lineTo(Math.cos(a)*r,Math.sin(a)*r)}c.closePath();c.fill();c.stroke();c.restore();
+  }else if(sp.id==='gold'){
+   // A tiny toy crown accessory, not a feather or crest.
+   c.fillStyle='#f6d76e';c.strokeStyle=outline;c.lineWidth=2.2;
+   c.beginPath();c.moveTo(-13,-49);c.lineTo(-15,-59);c.lineTo(-7,-54);c.lineTo(0,-62);c.lineTo(6,-54);c.lineTo(13,-59);c.lineTo(12,-49);c.closePath();c.fill();c.stroke();
+   c.fillStyle='#fff3b5';c.beginPath();c.arc(-7,-52,1.6,0,Math.PI*2);c.arc(0,-55,1.6,0,Math.PI*2);c.arc(7,-52,1.6,0,Math.PI*2);c.fill();
   }else if(sp.id==='zombie'){
-   c.strokeStyle='#627b69';c.lineWidth=2.1;c.beginPath();
-   c.moveTo(-14,-36);c.lineTo(-6,-38);c.moveTo(-12,-39);c.lineTo(-10,-35);c.moveTo(-8,-40);c.lineTo(-6,-36);c.stroke();
+   // A playful sewn-on fabric patch accessory; the duck itself stays smooth.
+   c.fillStyle='#d6d5ad';c.strokeStyle=outline;c.lineWidth=1.8;
+   c.beginPath();c.roundRect(-18,1,12,10,2);c.fill();c.stroke();
+   c.strokeStyle='#71836e';c.lineWidth=1.3;c.beginPath();c.moveTo(-16,2);c.lineTo(-14,4);c.moveTo(-12,2);c.lineTo(-10,4);c.moveTo(-16,8);c.lineTo(-14,10);c.stroke();
   }else if(sp.id==='vampire'){
-   c.fillStyle='#ead9e6';c.beginPath();c.arc(-8,-38,3.1,0,Math.PI*2);c.fill();
-   c.fillStyle='#8b627d';c.beginPath();c.arc(-7,-38,1.2,0,Math.PI*2);c.fill();
+   // A small costume bow and cape clasp make this a themed rubber-duck toy.
+   c.save();c.translate(13,-1);c.fillStyle='#56384f';c.strokeStyle=outline;c.lineWidth=2;
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-13,-12,-15,-2);c.quadraticCurveTo(-13,6,0,0);c.fill();c.stroke();
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(13,-12,15,-2);c.quadraticCurveTo(13,6,0,0);c.fill();c.stroke();
+   c.fillStyle='#c64e6b';c.beginPath();c.arc(0,0,3.4,0,Math.PI*2);c.fill();c.stroke();c.restore();
+   c.fillStyle='#56384f';c.strokeStyle=outline;c.lineWidth=1.8;
+   c.beginPath();c.moveTo(-7,-5);c.quadraticCurveTo(0,3,7,-5);c.lineTo(5,2);c.lineTo(0,0);c.lineTo(-5,2);c.closePath();c.fill();c.stroke();
   }
   c.restore();
-
-
-
-  // Raised/above-surface features are intentionally outside the body clip.
-  if(sp.id==='berry'){
-   c.save();c.translate(-16,-47);
-   c.fillStyle='#fff0fa';c.strokeStyle='#8e5b9b';c.lineWidth=1.7;
-   for(let i=0;i<5;i++){
-    const an=i*Math.PI*2/5-Math.PI/2;
-    c.beginPath();c.ellipse(Math.cos(an)*4,Math.sin(an)*4,3.2,4.1,an,0,Math.PI*2);
-    c.fill();c.stroke();
-   }
-   c.fillStyle='#f5c85b';c.beginPath();c.arc(0,0,2.8,0,Math.PI*2);c.fill();
-   c.restore();
-  }else if(sp.id==='zombie'){
-   // A tiny uneven crown tuft, like a feather that refuses to lie flat.
-   c.save();c.fillStyle='#91a987';c.strokeStyle='#713c35';c.lineWidth=2;
-   c.beginPath();c.moveTo(-5,-49);c.quadraticCurveTo(-13,-60,-7,-62);c.quadraticCurveTo(-1,-61,0,-50);c.closePath();c.fill();c.stroke();c.restore();
-  }else if(sp.id==='vampire'){
-   // Soft bat-ear crest and two tiny ivory fangs make the theme readable at phone size.
-   c.save();c.fillStyle='#56384f';c.strokeStyle='#713c35';c.lineWidth=2;
-   c.beginPath();c.moveTo(-10,-49);c.lineTo(-13,-59);c.quadraticCurveTo(-5,-56,-2,-50);c.lineTo(4,-59);c.quadraticCurveTo(9,-54,5,-48);c.closePath();c.fill();c.stroke();
-   c.fillStyle='#fff0dc';c.strokeStyle='#8b627d';c.lineWidth=1;
-   c.beginPath();c.moveTo(23.5,-17);c.lineTo(25.2,-13.5);c.lineTo(27,-17);c.closePath();c.fill();c.stroke();
-   c.beginPath();c.moveTo(29.5,-17);c.lineTo(31.2,-13.5);c.lineTo(33,-17);c.closePath();c.fill();c.stroke();
-   c.restore();
-  }else if(sp.id==='sunny'||sp.id==='gold'){
-   c.save();c.lineJoin='round';
-   if(sp.id==='sunny'){
-    c.fillStyle='#f6ad29';c.strokeStyle='#713c35';c.lineWidth=2.4;
-    c.beginPath();c.moveTo(-5,-49);c.quadraticCurveTo(-17,-64,-9,-66);
-    c.quadraticCurveTo(1,-66,0,-52);c.closePath();c.fill();c.stroke();
-    c.strokeStyle='#ffe98b';c.lineWidth=1.6;c.beginPath();
-    c.moveTo(-8,-57);c.quadraticCurveTo(-5,-61,-3,-59);c.stroke();
-   }else{
-    c.fillStyle='#f6d76e';c.strokeStyle='#713c35';c.lineWidth=2.3;
-    c.beginPath();c.moveTo(-10,-49);c.quadraticCurveTo(-18,-61,-12,-62);
-    c.quadraticCurveTo(-5,-63,-3,-52);c.quadraticCurveTo(2,-64,7,-59);
-    c.quadraticCurveTo(11,-54,2,-48);c.closePath();c.fill();c.stroke();
-   }
-   c.restore();
-  }
  }
-
+ 
  const GAME_ITEMS={
   berry_bonnet:{name:'Berry Bonnet',slot:'hat',rarity:'Common',src:'assets/accessories/berry-bonnet.svg'},
   star_wand:{name:'Starry Wand',slot:'hand',rarity:'Uncommon',src:'assets/accessories/starry-wand.svg'},
