@@ -878,36 +878,24 @@ function drawCoinIndicator(d){
  ctx.fillText(label,x+24,y+12.5);
  ctx.restore();
 }
+const duckSpriteImages={};
+species.forEach(sp=>{
+ const img=new Image();
+ img.src=`assets/ducks/${sp.id==='peach'?'peach':sp.id==='lilac'?'lilac':sp.id==='gold'?'gold':sp.id==='zombie'?'zombie':sp.id==='vampire'?'vampire':sp.id}.svg?v=20261105-rubberduck`;
+ duckSpriteImages[sp.id]=img;
+});
 function drawDuck(d,t,targetCtx=ctx){
- const c=targetCtx,e=(x,y,rx,ry,fill)=>{c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill()};
- const sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
+ const c=targetCtx,sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
- drawDuckSpeciesTail(d,c,sp);
- e(0,23,39,11,'#3c77664a');
- c.fillStyle='#713c35';c.beginPath();c.ellipse(-1,5,37,27,0,0,Math.PI*2);c.fill();
- let body=c.createLinearGradient(-25,-15,25,31);body.addColorStop(0,'#fff17c');body.addColorStop(.55,sp.color);body.addColorStop(1,sp.belly);
- c.fillStyle=body;c.beginPath();c.ellipse(0,3,34,25,0,0,Math.PI*2);c.fill();
- c.fillStyle=sp.belly;c.strokeStyle='#713c35';c.lineWidth=4;c.beginPath();c.ellipse(-11,6,17,11,-.22,0,Math.PI*2);c.fill();c.stroke();
- drawDuckSpeciesWingMarkings(d,c,sp);
- let head=c.createRadialGradient(-12,-30,3,0,-16,35);head.addColorStop(0,'#fff8b8');head.addColorStop(.4,sp.color);head.addColorStop(1,sp.belly);
- c.fillStyle='#713c35';c.beginPath();c.ellipse(1,-24,30,31,0,0,Math.PI*2);c.fill();
- c.fillStyle=head;c.beginPath();c.ellipse(1,-24,26,27,0,0,Math.PI*2);c.fill();
- const blink=d.blink!==undefined&&d.blink<.13;c.fillStyle=sp.eye;
- if(blink){c.strokeStyle=sp.eye;c.lineWidth=3;c.beginPath();c.moveTo(8,-27);c.quadraticCurveTo(14,-22,20,-27);c.stroke()}else e(14,-28,4.2,6,sp.eye);
- if(!blink)e(15,-30,1.5,2,'#fff');
- e(22,-12,4,2.5,sp.cheek);
- c.fillStyle='#713c35';c.beginPath();c.ellipse(28,-15,13,7,.1,0,Math.PI*2);c.fill();
- c.fillStyle=sp.beak;c.beginPath();c.ellipse(28,-17,11,5.5,.1,0,Math.PI*2);c.fill();
- c.strokeStyle='#fff3c9';c.lineWidth=1.5;c.beginPath();c.moveTo(23,-20);c.quadraticCurveTo(27,-22,31,-20);c.stroke();
- e(-9,-43,6,3,'#ffffffb8');e(-22,-7,3,2,'#ffffff80');
- // Species-specific molded details keep each collectible recognizable beyond its color.
- drawDuckSpeciesDetails(d,c,sp);
- // Draw this duck's equipped cosmetics in the same local sprite space so they
- // follow its position, bob, scale, and facing direction in every renderer.
- drawDuckAccessories(d,c);
+ const sprite=duckSpriteImages[sp.id];
+ if(sprite&&sprite.complete&&sprite.naturalWidth){
+  // Transparent illustrated sprite: no baked-in background or ground shadow.
+  c.drawImage(sprite,-47,-43,94,86);
+ }
+ // Keep player-equipped cosmetics attached to the new shared rubber-duck sprite.
+ c.save();c.scale(1.2,1.2);drawDuckAccessories(d,c);c.restore();
  c.restore()
 }
-
  function drawDuckSpeciesTail(d,c,sp){
   // Every collectible uses the same molded rubber-duck silhouette. No species-specific tails.
  }
