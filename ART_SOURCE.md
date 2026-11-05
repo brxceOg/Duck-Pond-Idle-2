@@ -401,7 +401,7 @@ The user-approved visual reference dated 2026-11-04 establishes a new direction 
 ### Iconography and typography
 - Replace generic emoji and inconsistent icon treatments with a unified set of chunky, outlined illustrated icons.
 - Icons should use the same plum outline, pastel fills, and simple readable silhouettes as the reference.
-- Keep important labels in the existing readable Rubber Duck font where it remains legible; use decorative display lettering only for short headings or special moments.
+- Keep important labels, headings, buttons, and counters in **Just Ducky**; use **Rubber Duck** for supporting descriptions and secondary copy. Do not introduce system fonts.
 - Do not allow decorative fonts to compromise small counters, long descriptions, or accessibility.
 - Maintain one-line currency/count labels where the layout calls for a compact counter, and prevent text from overflowing its card.
 
