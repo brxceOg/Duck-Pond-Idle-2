@@ -273,3 +273,29 @@ The pond is a shared, responsive world. Ducks must not behave like sprites movin
 - A duck brushing flexible shoreline plants causes an appropriate bend or sway where interaction is supported.
 - Multiple ducks can share the pond without tunneling through props, getting trapped, or causing unstable object motion.
 - All interactions remain inside the habitat boundaries and preserve clear, readable duck movement.
+
+
+
+## 16. Duck Games and future battle preparation
+
+Duck Games is a permanent bottom-navigation destination. It must not replace or disrupt Roll, Pond, or My Ducks.
+
+### Current playable activity
+- **Lily Pad Hop** is the first minigame. The player selects an individually owned duck and sends that duck into a five-hop reaction challenge across three lily pads.
+- The player must tap the highlighted pad on each hop. Three or more correct hops earn one accessory; fewer than three earn no item but allow another attempt.
+- A duck selected for a run is the participant. Keep the activity tied to that duck's identity/UID so later game modes can apply duck-specific progression.
+- The minigame is self-contained, thumb-friendly, responsive, and must not interrupt passive pond income or normal pond simulation.
+
+### Accessory inventory and equipment
+- Rewards persist in the existing local save alongside coins, ducks, and upgrades. Existing saves must migrate safely with empty accessory inventory/equipment defaults.
+- The initial reward pool contains a hat, a wing-held wand, and a beak bow. Each item has a stable ID and a defined equipment slot.
+- The inventory displays the original sprite for each collected item and its available quantity. Equipped pieces remain owned and are tracked against the individual duck UID.
+- Players can equip, swap, and remove pieces from each duck. Swapping returns the previously equipped piece to inventory; removing a piece returns it to inventory. Never allow an item count to become negative or duplicate a single physical item.
+- Equipped accessories must render on the corresponding duck in the pond and in duck preview icons where appropriate. Keep duck facial features and body silhouette readable.
+- Accessory data is intentionally structured so future boss fights and raids can read equipment slots and extend items with defensive/offensive stats. Do not invent battle stats or boss systems before those features are requested.
+
+### Navigation and quality gates
+- Add Duck Games as a fourth bottom navigation item, keeping all four controls comfortably tappable on iPhone and readable on desktop.
+- Maintain the established plush pastel UI and the accessory art standards in `ART_SOURCE.md`.
+- Keep the game screen scrollable independently from the fixed bottom navigation. Prevent horizontal overflow and ensure the minigame and inventory fit narrow screens.
+- Preserve existing save fields, duck collection rules, passive income, pond movement, capsule machine, and all existing navigation.
