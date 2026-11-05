@@ -286,7 +286,21 @@ Think of a lovingly painted miniature nature diorama: lush, welcoming, colorful,
 - Use soft painted gradients, clean color separations, gentle highlights, and readable shadow shapes.
 - Avoid flat single-color fills, harsh neon colors, muddy low-contrast greens, heavy photorealism, and plastic 3D rendering.
 
-## 15. Completion and visual quality gates
+## 16. Species-specific character features
+
+Each species should have a recognizable silhouette and at least one molded-toy detail beyond its base color. Details should be painted directly into the shared duck renderer so they appear consistently in the pond, outfit preview, collection, and mini-game canvases. Keep features readable at phone size, use the shared warm plum outlines and soft highlights, and ensure tail shapes sit behind the body.
+
+Current character signatures:
+- **Sunny:** warm curled crown feather and a sunny tapered tail.
+- **Minty:** a soft three-feather mint tail, delicate pale wing feather mark, and tiny mint freckles.
+- **Berry:** a small five-petal blossom and a rounded lavender feather tail.
+- **Peaches:** warm cheek freckles, a scalloped wing marking, and a peach-shaped tail.
+- **Lulu:** a tiny lavender star marking and a cool-toned feather tail.
+- **Goldie:** a three-point golden crown plume, bright wing feather, and fuller golden tail.
+
+New species details should be distinctive without becoming costume accessories. Preserve clear faces and avoid crowding the beak, eyes, or equipment slots. Equipped accessories must continue to render above the species details where they overlap.
+
+## 17. Completion and visual quality gates
 
 An asset or animation is not finished if it is only a rough stand-in or a partial visual pass.
 
