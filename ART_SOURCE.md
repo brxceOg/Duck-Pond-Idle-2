@@ -13,7 +13,7 @@ The art should feel authored and cohesive. It must not look like a collection of
 
 ## 2. Duck reference archetype
 
-The user-supplied image is the main reference for the base rubber-duck design.
+The user-approved isolated rubber-duck sprite is the canonical base archetype for every collectible. All ducks must use the same toy silhouette, proportions, face placement, beak shape, wing shape, and outline.
 
 ### Defining visual traits
 - Plump, rounded, bright-yellow rubber duck.
@@ -34,22 +34,13 @@ The user-supplied image is the main reference for the base rubber-duck design.
 - Keep expressions simple and emotionally readable: happy, curious, sleepy, surprised, smug, bashful, excited.
 
 ### Important asset rule
-The uploaded reference contains a stock-image watermark. It is for visual direction only. Never reproduce the watermark, use the watermarked image as a shipped game asset, or trace/copy the exact stock illustration. Produce original duck artwork that follows the broad design traits above.
+Use only the user-approved isolated transparent sprite archetype and the original game-made variations derived from it. Do not ship the yellow reference background, stock watermark, or ground shadow. Keep the sprite background fully transparent. The reference is a visual direction; do not reintroduce stock-image branding.
 
 ## 3. Duck family design system
 
 Every collectible duck must belong to the same visual family while remaining individually recognizable.
 
-Differentiate ducks through a combination of:
-- **Scale:** tiny, standard, large, oversized, or other deliberately designed size classes.
-- **Silhouette:** head-to-body ratio, body width, wing shape, tail, and stance.
-- **Color:** body colors and accent colors chosen to work with the shared outline and shading style.
-- **Face:** eye shape/spacing, beak shape, cheek details, brows, and expression.
-- **Accessories:** hats, bows, charms, scarves, floaties, or themed props where appropriate.
-- **Surface details:** spots, stripes, speckles, gradients, patches, and molded-toy details.
-- **Personality:** communicate character through pose and expression rather than text alone.
-
-Avoid making the roster feel like one base sprite with only a hue shift. Even color variants should receive at least one additional identity detail.
+Differentiate ducks using the approved shared rubber-duck sprite archetype only. Keep the silhouette, head/body proportions, face, beak, wing, and outline identical across the entire roster. Individual ducks may vary by body color, glossy finish, and a small molded-toy detail or accessory that does not alter the underlying anatomy. Higher-rarity ducks must each receive their own distinct treatment while remaining unmistakably the same kind of rubber duck. Never turn a collectible into another bird species or change its anatomy.
 
 ### Size readability
 Large and small ducks must feel meaningfully different in the pond. Preserve clear outlines and readable facial features at every scale. Do not scale down so far that eyes and beaks disappear.
