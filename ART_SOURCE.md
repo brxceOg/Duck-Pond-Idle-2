@@ -299,8 +299,18 @@ Current character signatures:
 - **Peaches:** warm cheek freckles, a scalloped wing marking, and a peach-shaped tail.
 - **Lulu:** a tiny lavender star marking and a cool-toned feather tail.
 - **Goldie:** a three-point golden crown plume, bright wing feather, and fuller golden tail.
+- **Zomduck:** muted mossy-green rubber, a ragged stitched tail, a little repaired wing patch, and a crooked crown feather. Keep the undead theme playful and toy-like, never graphic.
+- **Count Quackula:** deep plum rubber, a pale chest, ruby eye, tiny bat-ear crest, two small ivory beak fangs, and a velvet bat-cape tail.
 
 New species details should be distinctive without becoming costume accessories. Preserve clear faces and avoid crowding the beak, eyes, or equipment slots. Equipped accessories must continue to render above the species details where they overlap.
+
+### New rarity and capsule progression
+- Rarity order is **Common → Uncommon → Rare → Epic → Legendary → Mythic**.
+- The **Classic Capsule** remains 25 Pond Coins and keeps the original six-species odds unchanged.
+- The **Premium Capsule** costs 250 Pond Coins and uses its own improved rarity distribution. Its current weighted mix is Sunny 24%, Minty 22%, Berry 17%, Peaches 14%, Lulu 9%, Goldie 8%, Zomduck 4%, and Count Quackula 2%.
+- Mythic ducks are exclusive to Premium Capsules for now. Premium rolls therefore have a 6% combined Mythic chance, while also improving the combined chance of Rare-or-better ducks.
+- Premium is a long-term coin sink, not a replacement for Classic. Both options remain available, and duplicates continue converting into the matching species' Duck Points.
+- Keep the two capsule prices, odds, rarity labels, collection icons, pond sprites, and per-species coin rates in sync whenever the roster changes.
 
 ## 17. Completion and visual quality gates
 
