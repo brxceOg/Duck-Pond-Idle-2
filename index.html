@@ -894,7 +894,7 @@ function drawDuck(d,t,targetCtx=ctx){
 
   }
   renderDuckIcons();
-  if(gameStage==='playing'&&hopActive)requestAnimationFrame(()=>positionHopRunner(Math.max(0,hopTarget)));
+  if(gameStage==='playing')requestAnimationFrame(()=>positionHopRunner(Math.max(0,hopTarget)));
   const screen=document.querySelector('.game-screen[data-screen="games"]');if(screen)screen.scrollTop=0;
  }
  function startHop(){
