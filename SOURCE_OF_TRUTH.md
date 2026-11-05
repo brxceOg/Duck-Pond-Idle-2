@@ -297,5 +297,5 @@ Duck Games is a permanent bottom-navigation destination. It must not replace or 
 ### Navigation and quality gates
 - Add Duck Games as a fourth bottom navigation item, keeping all four controls comfortably tappable on iPhone and readable on desktop.
 - Maintain the established plush pastel UI and the accessory art standards in `ART_SOURCE.md`.
-- Keep the game screen scrollable independently from the fixed bottom navigation. Prevent horizontal overflow and ensure the minigame and inventory fit narrow screens.
+- Duck Games follows a focused three-step navigation flow: (1) landing page with its description and owned duck choices, (2) a game-selection page after choosing a duck, and (3) a dedicated full minigame display after choosing an activity. Keep each step visually separate rather than stacking all steps into one long page. The game screen may scroll independently from the fixed bottom navigation when its content requires it; preserve the duck-specific wardrobe and inventory as a separate subview.
 - Preserve existing save fields, duck collection rules, passive income, pond movement, capsule machine, and all existing navigation.
