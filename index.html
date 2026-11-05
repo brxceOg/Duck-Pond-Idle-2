@@ -532,6 +532,17 @@ body *::before,body *::after{
 .game-duck-option:disabled{opacity:.5}
 .game-duck-option canvas{width:46px;height:42px;flex:none}
 .game-duck-option b{display:block;font-size:14px}.game-duck-option small{display:block;font-size:10px;color:#80578a}
+/* Autonomous Lily Pad Hop spectator course. */
+.hop-course{position:relative;max-width:430px;margin:8px auto 0;padding:9px 0 34px}
+.hop-course .hop-pads{max-width:none;gap:8px}
+.hop-course .hop-pad{pointer-events:none}
+.hop-course .hop-runner{position:absolute;z-index:2;left:16.6667%;bottom:0;width:76px;height:68px;transform:translateX(-50%);transition:left .48s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 3px 2px #416d5844)}
+.hop-course .hop-runner canvas{display:block;width:100%;height:100%}
+.hop-course .hop-runner.bouncing{animation:duck-hop-bounce .62s ease-in-out}
+@keyframes duck-hop-bounce{0%,100%{translate:0 0}45%{translate:0 -34px}70%{translate:0 -8px}}
+.hop-away-note{margin:12px auto 0;max-width:430px;padding:11px 13px;border-radius:16px;background:#f2f7e8;border:1.5px solid #a7c59e;color:#55745e;text-align:center;font-size:12px;line-height:1.45}
+@media(max-width:420px){.hop-course .hop-runner{width:65px;height:58px}}
+@media(prefers-reduced-motion:reduce){.hop-course .hop-runner{transition:none}.hop-course .hop-runner.bouncing{animation:none}}
 .hop-arena{margin-top:13px;padding:13px;border-radius:25px;background:radial-gradient(ellipse at 50% 0%,#e3f7e7,#b8e3d2 70%,#a0d4c6);border:2px solid #6d997e;box-shadow:inset 0 3px 8px #fff8,0 4px 0 #82b99d}
 .hop-arena-head{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#456c5c;font-size:13px}
 .hop-arena-head strong{font-size:18px;color:#4d725f}
@@ -646,7 +657,7 @@ if(!state.duplicateConversionV1){
  save();
 }
 
-let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,gameStage='duck-select',hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
+let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,gameStage='duck-select',hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null,hopFinished=false,hopWon=false,hopRewardId=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -658,8 +669,9 @@ for(let i=0;i<8;i++)pads.push({x:rand(190,750),y:rand(210,490),r:rand(22,37),vx:
 function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duck.id).coinsPerSecond,0)*(1+state.upgrade*.5)}
 function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statRate').textContent=Number(coinsPerSecond().toFixed(1))}
 function setTab(t){
- if(hopActive&&t!=='games'){toast('Finish this little adventure first!');return;}
-  const order=['machine','collection','upgrades','games'],old=tab;if(t==='games'&&old!=='games'){gameStage='duck-select';gameDuckUid=null;}tab=t;
+  const order=['machine','collection','upgrades','games'],old=tab;
+  if(t==='games'&&old!=='games'&&gameStage!=='playing'){gameStage='duck-select';gameDuckUid=null;}
+  tab=t;
  if(t!=='upgrades')closePondUpgrades();
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
  document.querySelectorAll('.game-screen').forEach(el=>{
@@ -869,59 +881,61 @@ function drawDuck(d,t,targetCtx=ctx){
     '<button type="button" class="game-choice-card" id="openLilyPadHop"><span class="game-choice-art" aria-hidden="true"><svg viewBox="0 0 72 64"><ellipse cx="20" cy="43" rx="17" ry="10" fill="#83c68d" stroke="#54866b" stroke-width="2"/><path d="M20 43l-1-8" stroke="#54866b" stroke-width="2"/><ellipse cx="51" cy="34" rx="16" ry="9" fill="#9bd99d" stroke="#54866b" stroke-width="2"/><path d="M51 34l-1-7" stroke="#54866b" stroke-width="2"/><path d="M35 8l4 9 10 1-8 6 3 10-9-6-9 6 3-10-8-6 10-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></span><span class="game-choice-copy"><strong>Lily Pad Hop</strong><small>Follow the glowing lily pads in a five-hop reaction challenge. Get at least three right to win a wearable accessory.</small><em>Play this game <b>→</b></em></span></button>'+
     '<section class="duck-section"><div class="duck-section-head"><h3>Your duck’s outfit</h3><span>'+(equippedNames.length?equippedNames.length+' equipped':'Not dressed yet')+'</span></div><p>'+(equippedNames.length?equippedNames.join(' · '):'Collect accessories in games and equip them to your favorite ducks.')+'</p><button type="button" class="back-ducks" id="openDuckWardrobe">✿ Dress up '+byId(selected.id).name+'</button></section>';
    $('backToGameDucks').addEventListener('click',()=>{gameStage='duck-select';gameDuckUid=null;renderPanel()});
-   $('openLilyPadHop').addEventListener('click',()=>{gameStage='playing';renderPanel()});
+   $('openLilyPadHop').addEventListener('click',()=>{gameStage='playing';if(!hopActive&&!hopFinished)startHop();else renderPanel()});
    $('openDuckWardrobe').addEventListener('click',()=>renderWardrobeForDuck(gameDuckUid));
   }else{
    const participant=selected||ducksOwned[0];
-   p.innerHTML='<div class="panel-title"><h2>Lily Pad Hop</h2><button class="back-ducks" id="backToGameMenu" '+(hopActive?'disabled':'')+'>← Games</button></div>'+
-    '<div class="game-selected-duck mini-game-duck"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas><div><strong>'+byId(participant.id).name+'</strong><small>Your little hopping champion</small></div></div>'+
-    '<div class="hop-arena mini-game-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span>'+(hopActive?'Hop '+hopRound+' of 5':'5 hops · 3 wins needed')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(hopActive?'Tap the glowing lily pad!':'Ready, '+byId(participant.id).name+'? Press start when you’re ready to hop.')+'</p><div class="hop-pads">'+[0,1,2].map(i=>'<button type="button" class="hop-pad '+(hopActive&&hopTarget===i?'target':'')+'" data-hop="'+i+'" aria-label="Lily pad '+(i+1)+'" '+(!hopActive||hopLocked?'disabled':'')+'></button>').join('')+'</div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><button class="roll-btn hop-start" id="hopStart" '+(hopActive?'disabled':'')+'>✦ '+(hopRound?'Play again':'Start hopping')+'</button><div id="hopOutcome"></div></div>';
-   const back=$('backToGameMenu');if(back)back.addEventListener('click',()=>{gameStage='game-select';renderPanel()});
-   p.querySelectorAll('[data-hop]').forEach(b=>b.addEventListener('click',()=>playHop(Number(b.dataset.hop))));
-   $('hopStart').addEventListener('click',startHop);
+   const result=hopFinished?(hopWon?'<div class="hop-result"><strong>Wonderful hopping! '+hopScore+'/5</strong><br>'+byId(participant.id).name+' won a '+GAME_ITEMS[hopRewardId].name+'!<br><img src="'+GAME_ITEMS[hopRewardId].src+'" alt="'+GAME_ITEMS[hopRewardId].name+'" style="width:72px;height:72px;object-fit:contain"></div>':'<div class="hop-result"><strong>Adventure complete · '+hopScore+'/5</strong><br>'+byId(participant.id).name+' had a lovely time. They can try again for an accessory.</div>'):'';
+   p.innerHTML='<div class="panel-title"><h2>Lily Pad Hop</h2><button class="back-ducks" id="backToGameMenu">← Games</button></div>'+
+    '<div class="game-selected-duck mini-game-duck"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas><div><strong>'+byId(participant.id).name+'</strong><small>'+(hopActive?'Out playing Lily Pad Hop':'Adventure finished')+'</small></div></div>'+
+    '<div class="hop-arena mini-game-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span id="hopStepLabel">'+(hopActive?'Hop '+Math.min(hopRound+1,5)+' of 5':'5 hops complete')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(hopActive?byId(participant.id).name+' is away on an adventure…':'Your duck has finished their little adventure.')+'</p><div class="hop-course"><div class="hop-pads">'+[0,1,2].map(i=>'<div class="hop-pad '+(hopActive&&hopTarget===i?'target':'')+'" data-hop-pad="'+i+'"></div>').join('')+'</div><div class="hop-runner '+(hopActive?'bouncing':'')+'" id="hopRunner" style="left:'+((Math.max(0,hopTarget)*33.3333)+16.6667)+'%"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas></div></div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><div class="hop-away-note">'+(hopActive?'Your duck is playing all by themselves. You can head back to your pond, collect coins, or do other tasks while they hop!':'Your duck has returned. You can send them on another adventure whenever you like.')+'</div><div id="hopOutcome">'+result+'</div>'+(hopActive?'':'<button class="roll-btn hop-start" id="hopAgain">✦ Send '+byId(participant.id).name+' again</button>')+'</div>';
+   $('backToGameMenu').addEventListener('click',()=>{gameStage='game-select';renderPanel()});
+   const again=$('hopAgain');if(again)again.addEventListener('click',()=>{hopFinished=false;hopRewardId=null;gameStage='playing';startHop()});
+
   }
   renderDuckIcons();
   const screen=document.querySelector('.game-screen[data-screen="games"]');if(screen)screen.scrollTop=0;
  }
  function startHop(){
   if(hopActive||!gameDuckUid)return;
-  gameStage='playing';hopActive=true;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();nextHop();renderPanel();
+  gameStage='playing';hopActive=true;hopFinished=false;hopWon=false;hopRewardId=null;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;hopTarget=0;
+  state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();renderPanel();nextHop();
  }
  function nextHop(){
+  if(!hopActive)return;
   if(hopRound>=5){finishHop();return}
-  hopTarget=Math.floor(Math.random()*3);hopLocked=false;
-  const instruction=$('hopInstruction');if(instruction)instruction.textContent='Quick! Tap the glowing lily pad!';
-  document.querySelectorAll('.hop-pad').forEach((b,i)=>{b.classList.toggle('target',i===hopTarget);b.disabled=false});
- }
- function playHop(index){
-  if(!hopActive||hopLocked)return;
-  hopLocked=true;
-  if(index===hopTarget)hopScore++;
-  hopRound++;
-  document.querySelectorAll('.hop-pad').forEach(b=>b.disabled=true);
-  document.querySelectorAll('.hop-progress i').forEach((dot,i)=>dot.classList.toggle('done',i<hopRound));
-  const instruction=$('hopInstruction');if(instruction)instruction.textContent=index===hopTarget?'Perfect hop! ✨':'Splash! Try the next one!';
-  const pads=document.querySelectorAll('.hop-pad');if(pads[index])pads[index].style.filter=index===hopTarget?'brightness(1.3)':'grayscale(.5)';
-  setTimeout(()=>{document.querySelectorAll('.hop-pad').forEach(b=>b.style.filter='');if(hopRound>=5)finishHop();else nextHop()},420);
+  hopTarget=Math.floor(Math.random()*3);hopLocked=true;
+  const runner=$('hopRunner');if(runner){runner.style.left=((hopTarget*33.3333)+16.6667)+'%';runner.classList.remove('bouncing');void runner.offsetWidth;runner.classList.add('bouncing')}
+  document.querySelectorAll('[data-hop-pad]').forEach((pad,i)=>pad.classList.toggle('target',i===hopTarget));
+  const duck=state.ducks.find(d=>String(d.uid)===String(gameSessionUid));
+  const name=duck?byId(duck.id).name:'Your duck';
+  const instruction=$('hopInstruction');if(instruction)instruction.textContent=name+' is hopping to lily pad '+(hopTarget+1)+'!';
+  const label=$('hopStepLabel');if(label)label.textContent='Hop '+(hopRound+1)+' of 5';
+  const success=Math.random()<.72;
+  hopTimer=setTimeout(()=>{
+   if(!hopActive)return;
+   if(success)hopScore++;
+   hopRound++;
+   document.querySelectorAll('.hop-progress i').forEach((dot,i)=>dot.classList.toggle('done',i<hopRound));
+   const instruction=$('hopInstruction');if(instruction)instruction.textContent=success?'A lovely landing! ✨':'A little splash, but '+name+' keeps going!';
+   const label=$('hopStepLabel');if(label)label.textContent=hopRound>=5?'Adventure complete':'Hop '+Math.min(hopRound+1,5)+' of 5';
+   hopTimer=setTimeout(nextHop,550);
+  },1150);
  }
  function finishHop(){
-  hopActive=false;hopLocked=false;hopTarget=-1;
-  const won=hopScore>=3;
+  if(!hopActive)return;
+  hopActive=false;hopLocked=false;hopTarget=-1;hopFinished=true;
+  const won=hopScore>=3;hopWon=won;
+  const duck=state.ducks.find(d=>String(d.uid)===String(gameSessionUid));
+  const name=duck?byId(duck.id).name:'Your duck';
   if(won){
    state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].wins++;
    const roll=Math.random(),id=roll<.48?'berry_bonnet':roll<.82?'star_wand':'peachy_beak_bow';
-   state.gameInventory[id]=ownedAccessoryCount(id)+1;state.gameWins++;
-   const item=GAME_ITEMS[id];save();toast('You won a '+item.name+'! ✨');
-   const outcome=$('hopOutcome');if(outcome)outcome.innerHTML='<div class="hop-result"><strong>Wonderful hopping! '+hopScore+'/5</strong><br>You found a '+item.name+'!<br><img src="'+item.src+'" alt="'+item.name+'" style="width:72px;height:72px;object-fit:contain"></div>';
-  }else{
-   save();const outcome=$('hopOutcome');if(outcome)outcome.innerHTML='<div class="hop-result"><strong>Nice try! '+hopScore+'/5</strong><br>Get 3 or more hops next time to earn an accessory.</div>';
-  }
-  const instruction=$('hopInstruction');if(instruction)instruction.textContent='Adventure complete!';
-  document.querySelectorAll('.hop-pad').forEach(b=>{b.disabled=true;b.classList.remove('target')});
-  const start=$('hopStart');if(start){start.disabled=false;start.textContent='✦ Play again'};
+   hopRewardId=id;state.gameInventory[id]=ownedAccessoryCount(id)+1;state.gameWins++;
+   const item=GAME_ITEMS[id];save();toast(name+' won a '+item.name+'! ✨');
+  }else{save();toast(name+' finished Lily Pad Hop!');}
+  if(tab==='games'&&gameStage==='playing')renderPanel();
   renderDuckIcons();
-  // Re-render after the result so the reward and inventory count are immediately visible.
-  const outcomeHtml=$('hopOutcome')?.innerHTML||'';renderPanel();if($('hopOutcome'))$('hopOutcome').innerHTML=outcomeHtml;
  }
  function renderWardrobeForDuck(uid){
   const duck=state.ducks.find(d=>String(d.uid)===String(uid));if(!duck)return;
