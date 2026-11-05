@@ -195,7 +195,7 @@ The collectible machine is a pastel-pink capsule dispenser, guided by the reposi
 - Currency, collection, upgrades, and settings icons must be immediately distinguishable.
 - Use a friendly rounded typeface for functional text and a more expressive display style for occasional titles.
 - Prioritize legibility at common iPhone sizes; do not use decorative fonts for long descriptions or tiny labels.
-- Keep the approved font hierarchy: Rubber Duck is the main typeface across the interface, including headings, buttons, important labels, numerical indicators, and primary UI text. Just Ducky is reserved for supporting descriptions and secondary text. The uploaded Duck and Ducky fonts remain fallback faces only; do not replace the approved hierarchy with system fonts or apply a single decorative face indiscriminately.
+- Keep the approved font hierarchy: **Just Ducky** is the main typeface across the interface, including headings, buttons, important labels, numerical indicators, and primary UI text. **Rubber Duck** is reserved for supporting descriptions and secondary text. The uploaded Duck and Ducky fonts may be used only as custom-font fallbacks; never use system fonts or generic system-font fallbacks anywhere in the game.
 
 ## 11. Asset production standards
 
@@ -501,13 +501,13 @@ The approved interaction direction dated 2026-11-04 removes the permanent upgrad
 - Do not add a permanent page-length upgrade section beneath the pond, introduce horizontal scrolling, or obscure the habitat when the sheet is closed.
 
 
-## 21. Just Ducky supporting typography
+## 21. Just Ducky primary UI typography
 
-The supporting-copy typeface added on 2026-11-04 is **Just Ducky** by **Duck Reid**.
+**Just Ducky** by **Duck Reid** is the approved primary interface typeface.
 
-- Use Just Ducky for compact descriptions and secondary/supporting text such as subtitles, rarity descriptors, upgrade explanations, duck detail metadata, and small informational copy.
-- Keep **Rubber Duck** for primary headings, major labels, buttons, and important/high-priority text so the interface remains easy to scan.
-- Do not apply Just Ducky to tiny numerical counters or other information where its quirky punctuation/letterforms could reduce clarity.
+- Use Just Ducky for all primary UI text: headings, titles, buttons, tabs, important labels, counters, numerical indicators, and other high-priority interface text.
+- Use **Rubber Duck** for supporting descriptions and secondary copy such as subtitles, rarity descriptors, upgrade explanations, duck detail metadata, and small informational text.
+- Do not use system fonts, generic `sans-serif`/`serif` fallbacks, or browser-default typography anywhere in the game. Keep the uploaded Duck and Ducky faces only as optional custom-font fallbacks behind the two approved typefaces.
 - The font is downloaded from the author's DaFont listing during the Pages build and placed at `assets/fonts/JustDucky.ttf`; do not replace it with a visually similar substitute.
 - Credit: **Just Ducky by Duck Reid**, [DaFont listing](https://www.dafont.com/justducky.font). The listing states it is free for personal use and requests credit and notification when used/shared. This game use is personal/non-commercial; obtain the appropriate permission or license before any commercial use.
 
@@ -517,7 +517,7 @@ The supporting-copy typeface added on 2026-11-04 is **Just Ducky** by **Duck Rei
 - Every duck in the pond gets its own floating payout indicator, anchored above its head and following its movement.
 - The indicator displays the duck species' current per-second coin value, including the active Pond Improvement multiplier. Different species therefore show their own actual income rather than a shared flock total.
 - Each duck triggers its own short payout animation on a staggered one-second rhythm: the cream sticker pops in, floats upward slightly, and fades away quickly so it can appear again on the next payout.
-- Use the readable **Rubber Duck** typeface for the numerical amount; do not use Just Ducky for numerical counters. Pair the amount with a tiny warm-gold coin mark, a plum outline, and a soft cream sticker surface for contrast against the water.
+- Use the primary **Just Ducky** typeface for the numerical amount and all other important counters. Pair the amount with a tiny warm-gold coin mark, a plum outline, and a soft cream sticker surface for contrast against the water.
 - Keep the cue compact and close to the duck's head. It must not change duck movement, coin calculations, save data, or the pond layout.
 - Preserve continuous passive coin accumulation. The individual indicators are visual cues for each duck's per-second contribution, not a replacement payout system.
 
