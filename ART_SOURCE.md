@@ -292,6 +292,9 @@ Each species should have a recognizable silhouette and at least one molded-toy d
 - Body markings must read as intentional, finished shapes—not loose decorative strokes or scribbled curves. Prefer small filled feather marks, spots, patches, or clearly enclosed motifs with clean edges. Avoid thin wandering lines across the wing or body; inspect every species at normal phone gameplay scale.
 - Clip all surface markings (feathers, freckles, patches, and flank motifs) to the filled duck silhouette so they never paint over the warm plum perimeter/border strokes. Wing-feather markings must also be clipped separately to the inset filled wing/belly panel, leaving a visible gap before that panel's own plum outline; clipping only to the outer body is not sufficient. Any raised silhouette feature such as a crest or tail must be drawn as a separate, intentional shape with its own clean outline—not as a surface texture crossing the body border.
 
+The base duck outer contour is `#713c35`; every species tail and raised hair/crest silhouette must use this exact outline color and a comparable rounded stroke weight. Species colors may vary in the fill and interior accents, but not in the outer contour.
+- Freckles must be unmistakably small, filled, round dots with visible spacing in a compact cheek cluster. Avoid overlapping dots, tiny dashes, or irregular strokes that can read as stray linework at phone scale.
+
 Current character signatures:
 - **Sunny:** warm curled crown feather and a sunny tapered tail.
 - **Minty:** a soft three-feather mint tail, delicate pale wing feather mark, and tiny mint freckles.
