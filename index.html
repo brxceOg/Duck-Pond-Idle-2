@@ -205,6 +205,7 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
 .bottom-nav{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,760px);padding:9px 14px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;background:linear-gradient(180deg,#f8efdcf2,#f8efdc 28%);border-top:1px solid #dfceb0;box-shadow:0 -6px 22px #63452a18}
 .nav-item{min-width:0;min-height:58px;border:2px solid #d8c6a7;border-radius:17px;background:#eee4ce;box-shadow:0 3px 0 #c9b796;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column;color:var(--ink);font:800 14px "Rubber Duck",sans-serif;transition:background .18s,transform .18s,border-color .18s}
 .nav-item .nav-icon{font-size:20px;line-height:1}
+@media(max-width:420px){.bottom-nav{gap:5px;padding-left:8px;padding-right:8px}.nav-item{font-size:10px;gap:4px}.nav-item .nav-icon{font-size:18px}.nav-item .tab-duck-icon{width:28px;height:21px}}
 .nav-item .tab-duck-icon{margin:0;width:31px;height:23px}
 .nav-item.active{background:#dce8c9;border-color:#91a77a;box-shadow:0 3px 0 #a6b58b;transform:translateY(-2px)}
 .nav-item:active{transform:translateY(1px)}
@@ -616,7 +617,7 @@ body *::before,body *::after{
 </main>
 <nav class="bottom-nav" aria-label="Game navigation">
  <button class="nav-item" data-tab="machine"><span class="nav-icon">✿</span><span>Roll</span></button>
- <button class="nav-item" data-tab="outfits"><span class="nav-icon">✿</span><span>Outfits</span></button>
+ <button class="nav-item" data-tab="outfits"><span class="nav-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 5c-2.4 0-4 1.5-4 3.4 0 1.5 1.1 2.7 2.7 2.7h2.6c1.6 0 2.7-1.2 2.7-2.7C20 6.5 18.4 5 16 5Z" fill="none" stroke="#80528a" stroke-width="2.2" stroke-linecap="round"/><path d="M16 11 7 18m9-7 9 7M7 18h18l-2 10H9L7 18Z" fill="#f8d7ef" stroke="#704579" stroke-width="2.2" stroke-linejoin="round"/><path d="m12 19 4 3 4-3" fill="none" stroke="#b76b9d" stroke-width="1.7" stroke-linecap="round"/></svg></span><span>Outfits</span></button>
  <button class="nav-item active" data-tab="upgrades"><span class="nav-icon">❀</span><span>Pond</span></button>
  <button class="nav-item" data-tab="collection"><canvas class="tab-duck-icon" width="56" height="44" data-duck-icon="sunny" aria-hidden="true"></canvas><span>My Ducks</span></button>
  <button class="nav-item" data-tab="games"><span class="nav-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 12c-3 0-5 3-5 8 0 4 2 6 5 4l5-4h8l5 4c3 2 5 0 5-4 0-5-2-8-5-8z" fill="#f8d7ef" stroke="#704579" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 14v7m-3.5-3.5h7" stroke="#704579" stroke-width="2.5" stroke-linecap="round"/><circle cx="22" cy="16" r="1.8" fill="#e98ac9"/><circle cx="25" cy="20" r="1.8" fill="#e98ac9"/></svg></span><span>Duck Games</span></button>
