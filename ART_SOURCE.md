@@ -289,6 +289,7 @@ Think of a lovingly painted miniature nature diorama: lush, welcoming, colorful,
 ## 16. Species-specific character features
 
 Each species should have a recognizable silhouette and at least one molded-toy detail beyond its base color. Details should be painted directly into the shared duck renderer so they appear consistently in the pond, outfit preview, collection, and mini-game canvases. Keep features readable at phone size, use the shared warm plum outlines and soft highlights, and ensure tail shapes sit behind the body.
+- Body markings must read as intentional, finished shapes—not loose decorative strokes or scribbled curves. Prefer small filled feather marks, spots, patches, or clearly enclosed motifs with clean edges. Avoid thin wandering lines across the wing or body; inspect every species at normal phone gameplay scale.
 
 Current character signatures:
 - **Sunny:** warm curled crown feather and a sunny tapered tail.
