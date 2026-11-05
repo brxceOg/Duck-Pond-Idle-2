@@ -536,7 +536,7 @@ body *::before,body *::after{
 .hop-course{position:relative;max-width:430px;margin:8px auto 0;padding:9px 0 34px}
 .hop-course .hop-pads{max-width:none;gap:8px}
 .hop-course .hop-pad{pointer-events:none}
-.hop-course .hop-runner{position:absolute;z-index:2;left:16.6667%;bottom:0;width:76px;height:68px;transform:translateX(-50%);transition:left .48s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 3px 2px #416d5844)}
+.hop-course .hop-runner{position:absolute;z-index:2;left:16.6667%;bottom:34px;width:76px;height:68px;transform:translateX(-50%);transition:left .48s cubic-bezier(.2,.8,.2,1),bottom .48s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(0 3px 2px #416d5844)}
 .hop-course .hop-runner canvas{display:block;width:100%;height:100%}
 .hop-course .hop-runner.bouncing{animation:duck-hop-bounce .62s ease-in-out}
 @keyframes duck-hop-bounce{0%,100%{translate:0 0}45%{translate:0 -34px}70%{translate:0 -8px}}
@@ -894,6 +894,7 @@ function drawDuck(d,t,targetCtx=ctx){
 
   }
   renderDuckIcons();
+  if(gameStage==='playing'&&hopActive)requestAnimationFrame(()=>positionHopRunner(Math.max(0,hopTarget)));
   const screen=document.querySelector('.game-screen[data-screen="games"]');if(screen)screen.scrollTop=0;
  }
  function startHop(){
@@ -901,11 +902,19 @@ function drawDuck(d,t,targetCtx=ctx){
   gameStage='playing';hopActive=true;hopFinished=false;hopWon=false;hopRewardId=null;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;hopTarget=0;
   state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();renderPanel();nextHop();
  }
+ function positionHopRunner(index){
+  const runner=$('hopRunner'),course=runner&&runner.closest('.hop-course'),pad=course&&course.querySelector('[data-hop-pad="'+index+'"]');
+  if(!runner||!course||!pad)return;
+  const courseRect=course.getBoundingClientRect(),padRect=pad.getBoundingClientRect();
+  runner.style.left=(padRect.left+padRect.width/2-courseRect.left)+'px';
+  // The duck's feet (the bottom edge of its sprite box) meet the pad's center.
+  runner.style.bottom=(courseRect.bottom-(padRect.top+padRect.height/2))+'px';
+ }
  function nextHop(){
   if(!hopActive)return;
   if(hopRound>=5){finishHop();return}
   hopTarget=Math.floor(Math.random()*3);hopLocked=true;
-  const runner=$('hopRunner');if(runner){runner.style.left=((hopTarget*33.3333)+16.6667)+'%';runner.classList.remove('bouncing');void runner.offsetWidth;runner.classList.add('bouncing')}
+  const runner=$('hopRunner');if(runner){positionHopRunner(hopTarget);runner.classList.remove('bouncing');void runner.offsetWidth;runner.classList.add('bouncing')}
   document.querySelectorAll('[data-hop-pad]').forEach((pad,i)=>pad.classList.toggle('target',i===hopTarget));
   const duck=state.ducks.find(d=>String(d.uid)===String(gameSessionUid));
   const name=duck?byId(duck.id).name:'Your duck';
