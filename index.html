@@ -919,13 +919,11 @@ function drawDuck(d,t,targetCtx=ctx){
   const ducksOwned=state.ducks;
   if(!gameDuckUid||!ducksOwned.some(d=>String(d.uid)===String(gameDuckUid)))gameDuckUid=ducksOwned[0]?.uid||null;
   const selected=ducksOwned.find(d=>String(d.uid)===String(gameDuckUid));
-  const inventory=Object.keys(GAME_ITEMS).filter(id=>ownedAccessoryCount(id)>0||equippedCount(id)>0);
-  const ownedTotal=Object.keys(GAME_ITEMS).reduce((n,id)=>n+ownedAccessoryCount(id)+equippedCount(id),0);
-  if(gameStage==='duck-select'){
+    if(gameStage==='duck-select'){
    p.innerHTML='<div class="panel-title"><h2>Duck Games</h2><span>✦ '+state.gameWins+' wins</span></div>'+
     '<div class="game-intro"><div class="game-intro-art" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 42c8-10 15-10 23 0s16 10 25-1" fill="none" stroke="#5c9a82" stroke-width="5" stroke-linecap="round"/><ellipse cx="21" cy="42" rx="13" ry="7" fill="#7fc68e" stroke="#54866b" stroke-width="2"/><ellipse cx="44" cy="35" rx="12" ry="7" fill="#8fd39b" stroke="#54866b" stroke-width="2"/><path d="M34 15l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></div><div><strong>A little fun for your flock</strong><small>Send one of your ducks off on an adventure while you keep tending the pond. They will play on their own and may bring back accessories for you.</small></div></div>'+
     '<h3 class="game-section-title">Choose a duck to play</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option" data-game-duck="'+d.uid+'"><canvas width="92" height="76" data-duck-icon="'+d.id+'" data-duck-uid="'+d.uid+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(state.gameDuckStats[String(d.uid)]?.plays||0)+' games played · Choose duck →</small></span></button>').join('')+'</div>'+
-    '<section class="duck-section game-wardrobe-summary"><div class="duck-section-head"><h3>Accessory collection</h3><span>'+ownedTotal+' owned</span></div><p>'+inventory.length+' accessory types collected so far. Choose a duck to view its games and wardrobe.</p></section>';
+    '';
    p.querySelectorAll('[data-game-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.gameDuck;gameStage='game-select';renderPanel()}));
   }else if(gameStage==='game-select'){
    const equipped=selected?state.gameEquipped[String(selected.uid)]||{}:{};
