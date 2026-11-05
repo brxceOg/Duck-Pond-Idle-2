@@ -506,3 +506,11 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - The active target pad receives a gentle golden glow/lift; the player taps it during a five-hop run.
 - Keep the game readable and thumb-friendly on iPhone. Motion should be brief and soft, and honor reduced-motion preferences.
 - Reward reveal uses the exact inventory sprite. Do not substitute text-only rewards.
+
+## Duck Games — autonomous activity presentation
+- Lily Pad Hop is an activity the duck completes independently; the player does not tap pads, time reactions, or control the duck.
+- When a duck is sent, show a dedicated illustrated activity screen with that exact duck visibly hopping between three lily pads. Use the duck's normal sprite and equipped accessories.
+- The lily-pad course should feel like a small animated diorama: rounded layered pads, soft water/grass tones, gentle highlights, and a clear jumping arc. The duck should visibly travel from pad to pad and bounce on landing.
+- Keep motion playful and readable, with a short pause between hops. Respect reduced-motion settings; the activity must still communicate progress without animation.
+- The player can leave the activity screen to collect coins, roll capsules, inspect ducks, or improve the pond. The duck's activity continues in the background and resolves its reward automatically. Do not block normal navigation or passive income.
+- Keep the activity display focused on the duck, course, progress, and result. Never add player-facing reaction buttons or instructions to tap a pad.
