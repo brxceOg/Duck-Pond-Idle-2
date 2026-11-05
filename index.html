@@ -191,7 +191,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:0;-webkit-tap-highlight-
 /* Dedicated app scenes and fixed thumb-friendly navigation */
 html,body{min-height:100%;height:100%;overflow:hidden}
 body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
-.app{height:100svh;min-height:0;max-width:760px;margin:0 auto;padding:12px 14px calc(88px + env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow:hidden}
+.app{height:100svh;min-height:0;max-width:760px;margin:0 auto;padding:12px 14px calc(98px + env(safe-area-inset-bottom));display:flex;flex-direction:column;overflow:hidden}
 .topbar{flex:none;margin-bottom:12px}
 .screens{position:relative;flex:1;min-height:0;overflow:hidden}
 .game-screen{position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;overflow-y:auto;overscroll-behavior:contain;padding:1px 1px 14px;opacity:0;visibility:hidden;transform:translateX(22px) scale(.985);pointer-events:none;transition:opacity .22s ease,transform .22s ease,visibility .22s}
@@ -202,8 +202,8 @@ body{min-height:100svh;padding:env(safe-area-inset-top) 0 0}
 .game-screen .stats{flex:none;margin:0}
 .collection-panel{min-height:100%;align-content:start}
 .pond-panel{margin-bottom:4px}
-.bottom-nav{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,760px);padding:9px 14px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(3,1fr);gap:9px;background:linear-gradient(180deg,#f8efdcf2,#f8efdc 28%);border-top:1px solid #dfceb0;box-shadow:0 -6px 22px #63452a18}
-.nav-item{min-height:58px;border:2px solid #d8c6a7;border-radius:17px;background:#eee4ce;box-shadow:0 3px 0 #c9b796;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column;color:var(--ink);font:800 14px "Rubber Duck",sans-serif;transition:background .18s,transform .18s,border-color .18s}
+.bottom-nav{position:fixed;z-index:20;left:50%;bottom:0;transform:translateX(-50%);width:min(100%,760px);padding:9px 14px calc(9px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;background:linear-gradient(180deg,#f8efdcf2,#f8efdc 28%);border-top:1px solid #dfceb0;box-shadow:0 -6px 22px #63452a18}
+.nav-item{min-width:0;min-height:58px;border:2px solid #d8c6a7;border-radius:17px;background:#eee4ce;box-shadow:0 3px 0 #c9b796;display:flex;align-items:center;justify-content:center;gap:5px;flex-direction:column;color:var(--ink);font:800 14px "Rubber Duck",sans-serif;transition:background .18s,transform .18s,border-color .18s}
 .nav-item .nav-icon{font-size:20px;line-height:1}
 .nav-item .tab-duck-icon{margin:0;width:31px;height:23px}
 .nav-item.active{background:#dce8c9;border-color:#91a77a;box-shadow:0 3px 0 #a6b58b;transform:translateY(-2px)}
@@ -495,6 +495,50 @@ body *::before,body *::after{
 /* Keep the game title on two deliberate lines at every viewport and font-load state. */
 .brand h1{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;width:max-content;white-space:normal;line-height:.9}
 .brand h1 span{display:block;white-space:nowrap}
+
+/* Duck Games — soft, playful lily-pad challenge and accessory collection. */
+.duck-games-panel{overflow:visible}
+.game-intro{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:23px;background:linear-gradient(145deg,#e7f5ff,#c9e3fa);border:2px solid #795487;box-shadow:inset 0 3px 6px #fff9,0 4px 0 #a6c4e3;margin:10px 0 13px}
+.game-intro-art{width:58px;height:58px;flex:none;border-radius:19px;background:linear-gradient(145deg,#f9e2f5,#e9c4eb);display:grid;place-items:center;border:2px solid #80528a}
+.game-intro-art svg{width:45px;height:45px}
+.game-intro strong{display:block;font-size:18px;color:#61396e}.game-intro small{display:block;color:#80578a;font-size:12px;line-height:1.35;margin-top:3px}
+.game-section-title{font-size:19px;color:#693f75;margin:14px 2px 8px}
+.game-duck-select{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.game-duck-option{display:flex;align-items:center;gap:8px;text-align:left;min-width:0;padding:8px;border-radius:19px;border:2px solid #b78abf;background:linear-gradient(145deg,#fff0fb,#f3d0ef);box-shadow:0 3px 0 #d19bd2}
+.game-duck-option.selected{background:linear-gradient(145deg,#e5f2ff,#c5def8);border-color:#6e548b;box-shadow:0 3px 0 #9bb9dc}
+.game-duck-option:disabled{opacity:.5}
+.game-duck-option canvas{width:46px;height:42px;flex:none}
+.game-duck-option b{display:block;font-size:14px}.game-duck-option small{display:block;font-size:10px;color:#80578a}
+.hop-arena{margin-top:13px;padding:13px;border-radius:25px;background:radial-gradient(ellipse at 50% 0%,#e3f7e7,#b8e3d2 70%,#a0d4c6);border:2px solid #6d997e;box-shadow:inset 0 3px 8px #fff8,0 4px 0 #82b99d}
+.hop-arena-head{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#456c5c;font-size:13px}
+.hop-arena-head strong{font-size:18px;color:#4d725f}
+.hop-instruction{text-align:center;color:#456c5c;font-size:13px;margin:10px 0}
+.hop-pads{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:390px;margin:0 auto}
+.hop-pad{position:relative;aspect-ratio:1.18;border-radius:45% 48% 42% 46%;border:2px solid #57866c;background:radial-gradient(ellipse at 35% 25%,#b9e79d,#6eaf79 70%,#4e8c68);box-shadow:inset 0 3px 5px #fff8,0 4px 0 #4c8062;display:grid;place-items:center;transition:transform .15s,filter .15s}
+.hop-pad:before{content:"";width:55%;height:55%;border-radius:50%;background:linear-gradient(145deg,#bcebd5,#75c7a7);border:2px solid #548e78;box-shadow:inset 0 2px 4px #fff9}
+.hop-pad:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#fff4bf;opacity:0;box-shadow:0 0 15px 8px #fff4bf}
+.hop-pad.target{filter:brightness(1.16);transform:translateY(-4px) scale(1.04);box-shadow:inset 0 3px 5px #fff9,0 5px 0 #4c8062,0 0 0 4px #fff4bf,0 0 17px #fff4bf}
+.hop-pad.target:after{opacity:1}
+.hop-pad:disabled{cursor:default;opacity:.7}
+.hop-start{width:100%;margin-top:11px}
+.hop-progress{display:flex;justify-content:center;gap:7px;margin-top:11px}
+.hop-progress i{width:13px;height:13px;border-radius:50%;background:#e7f0d9;border:2px solid #6d997e}
+.hop-progress i.done{background:#f7cb6b;border-color:#a77948}
+.hop-result{text-align:center;padding:12px;border-radius:19px;background:#fff0c9;color:#714c39;margin-top:11px;border:2px solid #d7aa6e}
+.accessory-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.accessory-card{min-width:0;text-align:center;padding:9px 5px 8px;border-radius:19px;background:linear-gradient(145deg,#fff0fb,#f1d0ed);border:2px solid #b68abd;box-shadow:0 3px 0 #d19bd2}
+.accessory-card img{width:58px;height:58px;object-fit:contain;display:block;margin:0 auto 3px;filter:drop-shadow(0 2px 1px #70427b24)}
+.accessory-card b{display:block;font-size:12px;line-height:1.15}.accessory-card small{display:block;color:#80578a;font-size:10px;margin-top:3px}
+.accessory-card button{margin-top:6px;padding:5px 7px;border-radius:13px;background:linear-gradient(#e4f2ff,#c2ddf8);border:1.5px solid #704579;color:#526b98;font-size:11px}
+.accessory-card button:disabled{opacity:.5}
+.accessory-empty{grid-column:1/-1;padding:14px;text-align:center;color:#85588e;font-size:12px;border-radius:18px;background:#f7e1f3}
+.equip-row{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:17px;background:#f7e0f3;margin-top:7px}
+.equip-row canvas{width:42px;height:38px;flex:none}.equip-row div{flex:1;min-width:0}.equip-row b{display:block;font-size:13px}.equip-row small{display:block;color:#80578a;font-size:10px}
+.equip-row button{padding:6px 8px;border-radius:12px;background:#e4f2ff;border:1.5px solid #704579;color:#526b98;font-size:11px}
+.nav-item .nav-icon svg{width:25px;height:25px;display:block}
+@media(max-width:390px){.game-duck-select{grid-template-columns:1fr}.accessory-card img{width:48px;height:48px}}
+@media(prefers-reduced-motion:reduce){.hop-pad{transition:none}}
+
 </style>
 </head>
 <body>
@@ -506,6 +550,7 @@ body *::before,body *::after{
 <main class="screens" id="screens">
  <section class="game-screen" data-screen="machine" aria-label="Roll for a duck"><main class="panel" id="machinePanel"></main></section>
  <section class="game-screen" data-screen="collection" aria-label="My ducks"><main class="panel collection-panel" id="collectionPanel"></main></section>
+  <section class="game-screen" data-screen="games" aria-label="Duck Games"><main class="panel collection-panel duck-games-panel" id="gamesPanel"></main></section>
  <section class="game-screen active" data-screen="upgrades" aria-label="Your pond">
   <div class="scene-card">
    <div class="scene-head"><strong>♡ Your little pond</strong><span id="pondMood">A lovely day outside</span></div>
@@ -552,7 +597,7 @@ const species=[
  {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f27b37',eye:'#57351e',size:1.28,weight:1,coinsPerSecond:15,cheek:'#ffad80',desc:'A rare little ray of light.'}
 ];
 const byId=id=>species.find(s=>s.id===id)||species[0];
-const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0});
+const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0,gameInventory:{},gameEquipped:{},gameWins:0,gamePlays:0});
 let state;
 const save=()=>{try{localStorage.setItem('duckPondIdle2Save',JSON.stringify(state))}catch{}};
 try{state=JSON.parse(localStorage.getItem('duckPondIdle2Save'))||fresh()}catch{state=fresh()}
@@ -560,6 +605,9 @@ if(!state||!Array.isArray(state.ducks)||!state.ducks.length)state=fresh();
 state.coins=Math.max(0,Number(state.coins)||0);state.upgrade=Number(state.upgrade)||0;state.next=Number(state.next)||2;
 state.duckPoints=state.duckPoints&&typeof state.duckPoints==='object'?state.duckPoints:{};
 species.forEach(sp=>state.duckPoints[sp.id]=Math.max(0,Math.floor(Number(state.duckPoints[sp.id])||0)));
+ state.gameInventory=state.gameInventory&&typeof state.gameInventory==='object'?state.gameInventory:{};
+ state.gameEquipped=state.gameEquipped&&typeof state.gameEquipped==='object'?state.gameEquipped:{};
+ state.gameWins=Math.max(0,Number(state.gameWins)||0);state.gamePlays=Math.max(0,Number(state.gamePlays)||0);
 if(!state.duplicateConversionV1){
  const firstBySpecies=new Map(),converted={};
  state.ducks.forEach((duck,index)=>{
@@ -573,7 +621,7 @@ if(!state.duplicateConversionV1){
  save();
 }
 
-let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null;
+let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -585,7 +633,7 @@ for(let i=0;i<8;i++)pads.push({x:rand(190,750),y:rand(210,490),r:rand(22,37),vx:
 function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duck.id).coinsPerSecond,0)*(1+state.upgrade*.5)}
 function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statRate').textContent=Number(coinsPerSecond().toFixed(1))}
 function setTab(t){
- const order=['machine','collection','upgrades'],old=tab;tab=t;
+ const order=['machine','collection','upgrades','games'],old=tab;tab=t;
  if(t!=='upgrades')closePondUpgrades();
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
  document.querySelectorAll('.game-screen').forEach(el=>{
@@ -613,11 +661,12 @@ $('closePondUpgrades').addEventListener('click',closePondUpgrades);
 $('closePondUpgradesBackdrop').addEventListener('click',closePondUpgrades);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pondUpgradeOverlay.classList.contains('open')){closePondUpgrades();openPondUpgrades.focus()}});
 function renderPanel(){
- const p=tab==='machine'?$('machinePanel'):tab==='collection'?$('collectionPanel'):$('pondPanel');
+ const p=tab==='machine'?$('machinePanel'):tab==='collection'?$('collectionPanel'):tab==='games'?$('gamesPanel'):$('pondPanel');
  if(tab==='machine'){
  p.innerHTML='<div class="panel-title"><h2>Lucky Duck Machine</h2><span>✧ Gacha ✧</span></div><p class="sub">Give the little machine a turn and see who waddles out! Every capsule holds a surprise friend.</p><div class="machine-wrap"><div class="machine" role="img" aria-label="Pastel pink duck capsule dispenser"><div class="machine-top"><span></span></div><div class="globe"><div class="capsules" id="capsules">'+Array.from({length:12},()=>'<i class="capsule"></i>').join('')+'</div><span class="glass-glint"></span></div><div class="machine-collar"></div><div class="machine-base"><div class="crank"><span></span></div><div class="dispenser"><span></span></div></div></div><div class="roll-info"><div class="price">One mystery capsule<br><b>25 Pond Coins</b></div><button class="roll-btn" id="rollBtn">✦ Roll for a duck</button><small style="color:#9a8069;font-size:10px">New friends join your pond automatically.</small></div></div><div class="result" id="result">Your next little friend is waiting…</div>';
  $('rollBtn').disabled=state.coins<25;$('rollBtn').addEventListener('click',roll);
- }else if(tab==='collection'){
+ }else if(tab==='games'){renderDuckGames(p);
+  }else if(tab==='collection'){
  const counts={};state.ducks.forEach(d=>counts[d.id]=(counts[d.id]||0)+1);
  if(selectedDuckId&&counts[selectedDuckId]){
   const sp=byId(selectedDuckId),points=state.duckPoints[selectedDuckId]||0;
@@ -739,7 +788,124 @@ function drawDuck(d,t,targetCtx=ctx){
  e(-9,-43,6,3,'#ffffffb8');e(-22,-7,3,2,'#ffffff80');
  c.restore()
 }
-function renderDuckIcons(){
+
+ const GAME_ITEMS={
+  berry_bonnet:{name:'Berry Bonnet',slot:'hat',rarity:'Common',src:'assets/accessories/berry-bonnet.svg'},
+  star_wand:{name:'Starry Wand',slot:'hand',rarity:'Uncommon',src:'assets/accessories/starry-wand.svg'},
+  peachy_beak_bow:{name:'Peachy Beak Bow',slot:'beak',rarity:'Rare',src:'assets/accessories/peachy-beak-bow.svg'}
+ };
+ const itemById=id=>GAME_ITEMS[id];
+ function drawDuckAccessories(d,c){
+  const equipped=state.gameEquipped[String(d.uid)]||{};
+  if(equipped.hat==='berry_bonnet'){
+   c.save();c.translate(-1,-49);
+   c.fillStyle='#713c35';c.beginPath();c.ellipse(0,-1,25,7,0,0,Math.PI*2);c.fill();
+   const g=c.createLinearGradient(-15,-22,15,-2);g.addColorStop(0,'#ffc4df');g.addColorStop(1,'#d77eb5');
+   c.fillStyle=g;c.strokeStyle='#713c35';c.lineWidth=3;c.beginPath();c.moveTo(-17,-3);c.quadraticCurveTo(-14,-24,0,-23);c.quadraticCurveTo(17,-24,18,-3);c.quadraticCurveTo(0,3,-17,-3);c.fill();c.stroke();
+   c.fillStyle='#fff0f7';c.beginPath();c.arc(-7,-14,3,0,Math.PI*2);c.fill();
+   c.fillStyle='#f5d16d';c.beginPath();c.arc(12,-5,5,0,Math.PI*2);c.fill();c.stroke();c.restore();
+  }
+  if(equipped.hand==='star_wand'){
+   c.save();c.translate(-20,4);c.rotate(-.55);
+   c.lineCap='round';c.strokeStyle='#713c35';c.lineWidth=5;c.beginPath();c.moveTo(0,3);c.lineTo(1,-24);c.stroke();
+   c.strokeStyle='#f5c85b';c.lineWidth=3;c.beginPath();c.moveTo(0,3);c.lineTo(1,-24);c.stroke();
+   c.fillStyle='#ffe58c';c.strokeStyle='#713c35';c.lineWidth=2.5;c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?5:11;c.lineTo(Math.cos(a)*r,Math.sin(a)*r-27)}c.closePath();c.fill();c.stroke();
+   c.fillStyle='#fff8d8';c.beginPath();c.arc(-2,-30,2,0,Math.PI*2);c.fill();c.restore();
+  }
+  if(equipped.beak==='peachy_beak_bow'){
+   c.save();c.translate(38,-23);c.fillStyle='#713c35';c.strokeStyle='#713c35';c.lineWidth=2;
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-17,-17,-18,-2);c.quadraticCurveTo(-16,8,0,0);c.fill();
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(17,-17,18,-2);c.quadraticCurveTo(16,8,0,0);c.fill();
+   c.fillStyle='#f5a1bd';c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-15,-15,-15,-2);c.quadraticCurveTo(-12,6,0,0);c.fill();c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(15,-15,15,-2);c.quadraticCurveTo(12,6,0,0);c.fill();
+   c.fillStyle='#ffe18b';c.beginPath();c.arc(0,0,4.5,0,Math.PI*2);c.fill();c.stroke();c.restore();
+  }
+ }
+ function ownedAccessoryCount(id){return Math.max(0,Math.floor(Number(state.gameInventory[id])||0))}
+ function equippedCount(id){return Object.values(state.gameEquipped).reduce((n,slots)=>n+Object.values(slots||{}).filter(v=>v===id).length,0)}
+ function renderDuckGames(p){
+  const ducksOwned=state.ducks;
+  if(!gameDuckUid||!ducksOwned.some(d=>String(d.uid)===String(gameDuckUid)))gameDuckUid=ducksOwned[0]?.uid||null;
+  const selected=ducksOwned.find(d=>String(d.uid)===String(gameDuckUid));
+  const busy=hopActive;
+  const inventory=Object.keys(GAME_ITEMS).filter(id=>ownedAccessoryCount(id)>0||equippedCount(id)>0);
+  const ownedTotal=Object.keys(GAME_ITEMS).reduce((n,id)=>n+ownedAccessoryCount(id)+equippedCount(id),0);
+  p.innerHTML='<div class="panel-title"><h2>Duck Games</h2><span>✦ '+state.gameWins+' wins</span></div><p class="sub">Send a duck on a little lily-pad adventure! Win accessories to dress up your pond pals before the boss battles arrive.</p>'+
+   '<div class="game-intro"><div class="game-intro-art" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 42c8-10 15-10 23 0s16 10 25-1" fill="none" stroke="#5c9a82" stroke-width="5" stroke-linecap="round"/><ellipse cx="21" cy="42" rx="13" ry="7" fill="#7fc68e" stroke="#54866b" stroke-width="2"/><ellipse cx="44" cy="35" rx="12" ry="7" fill="#8fd39b" stroke="#54866b" stroke-width="2"/><path d="M34 15l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></div><div><strong>Lily Pad Hop</strong><small>Hop across five lily pads. Land at least three to win a surprise accessory!</small></div></div>'+
+   '<h3 class="game-section-title">Choose your duck</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option '+(String(d.uid)===String(gameDuckUid)?'selected':'')+'" data-game-duck="'+d.uid+'" '+(busy?'disabled':'')+'><canvas width="92" height="76" data-duck-icon="'+d.id+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(Object.values(state.gameEquipped[String(d.uid)]||{}).length?'Adventure ready':'Ready to play')+'</small></span></button>').join('')+'</div>'+
+   '<div class="hop-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span>'+(busy?'Hop '+hopRound+' of 5':'5 hops · 3 wins needed')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(busy?'Tap the glowing lily pad!':'Send '+(selected?byId(selected.id).name:'your duck')+' to play a quick game.')+'</p><div class="hop-pads">'+[0,1,2].map(i=>'<button type="button" class="hop-pad '+(busy&&hopTarget===i?'target':'')+'" data-hop="'+i+'" aria-label="Lily pad '+(i+1)+'" '+(!busy||hopLocked?'disabled':'')+'></button>').join('')+'</div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><button class="roll-btn hop-start" id="hopStart" '+(busy?'disabled':'')+'>✦ Start Lily Pad Hop</button><div id="hopOutcome"></div></div>'+
+   '<h3 class="game-section-title">Accessory wardrobe <small style="font-size:11px;color:#91639a">('+ownedTotal+' collected)</small></h3><p class="sub">Your rewards are saved here. Equip a hat, hand-held charm, or beak accessory to each duck.</p><div class="accessory-shelf">'+inventory.map(id=>{const item=GAME_ITEMS[id];return '<article class="accessory-card"><img src="'+item.src+'" alt="'+item.name+'"><b>'+item.name+'</b><small>'+item.rarity+' · '+ownedAccessoryCount(id)+' in bag</small></article>'}).join('')+(inventory.length?'':'<div class="accessory-empty">Your wardrobe is waiting for its first treasure. Win Lily Pad Hop to find a cute accessory!</div>')+'</div>'+
+   '<h3 class="game-section-title">Dress up your duck</h3><div class="equip-list">'+ducksOwned.map(d=>{const slots=state.gameEquipped[String(d.uid)]||{};return '<div class="equip-row"><canvas width="92" height="76" data-duck-icon="'+d.id+'"></canvas><div><b>'+byId(d.id).name+'</b><small>'+['hat','hand','beak'].map(slot=>{const item=GAME_ITEMS[slots[slot]];return item?item.name:(slot==='hand'?'Wing':'')}).filter(Boolean).join(' · ')||'No accessories equipped'+'</small></div><button type="button" data-dress-duck="'+d.uid+'">Equip</button></div>'}).join('')+'</div>';
+  p.querySelectorAll('[data-game-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.gameDuck;renderPanel()}));
+  p.querySelectorAll('[data-hop]').forEach(b=>b.addEventListener('click',()=>playHop(Number(b.dataset.hop))));
+  $('hopStart').addEventListener('click',startHop);
+  p.querySelectorAll('[data-dress-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.dressDuck;renderWardrobeForDuck(gameDuckUid)}));
+  renderDuckIcons();
+ }
+ function startHop(){
+  if(hopActive||!gameDuckUid)return;
+  hopActive=true;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;save();nextHop();renderPanel();
+ }
+ function nextHop(){
+  if(hopRound>=5){finishHop();return}
+  hopTarget=Math.floor(Math.random()*3);hopLocked=false;
+  const instruction=$('hopInstruction');if(instruction)instruction.textContent='Quick! Tap the glowing lily pad!';
+  document.querySelectorAll('.hop-pad').forEach((b,i)=>{b.classList.toggle('target',i===hopTarget);b.disabled=false});
+ }
+ function playHop(index){
+  if(!hopActive||hopLocked)return;
+  hopLocked=true;
+  if(index===hopTarget)hopScore++;
+  hopRound++;
+  document.querySelectorAll('.hop-pad').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.hop-progress i').forEach((dot,i)=>dot.classList.toggle('done',i<hopRound));
+  const instruction=$('hopInstruction');if(instruction)instruction.textContent=index===hopTarget?'Perfect hop! ✨':'Splash! Try the next one!';
+  const pads=document.querySelectorAll('.hop-pad');if(pads[index])pads[index].style.filter=index===hopTarget?'brightness(1.3)':'grayscale(.5)';
+  setTimeout(()=>{document.querySelectorAll('.hop-pad').forEach(b=>b.style.filter='');if(hopRound>=5)finishHop();else nextHop()},420);
+ }
+ function finishHop(){
+  hopActive=false;hopLocked=false;hopTarget=-1;
+  const won=hopScore>=3;
+  if(won){
+   const roll=Math.random(),id=roll<.48?'berry_bonnet':roll<.82?'star_wand':'peachy_beak_bow';
+   state.gameInventory[id]=ownedAccessoryCount(id)+1;state.gameWins++;
+   const item=GAME_ITEMS[id];save();toast('You won a '+item.name+'! ✨');
+   const outcome=$('hopOutcome');if(outcome)outcome.innerHTML='<div class="hop-result"><strong>Wonderful hopping! '+hopScore+'/5</strong><br>You found a '+item.name+'!<br><img src="'+item.src+'" alt="'+item.name+'" style="width:72px;height:72px;object-fit:contain"></div>';
+  }else{
+   save();const outcome=$('hopOutcome');if(outcome)outcome.innerHTML='<div class="hop-result"><strong>Nice try! '+hopScore+'/5</strong><br>Get 3 or more hops next time to earn an accessory.</div>';
+  }
+  const instruction=$('hopInstruction');if(instruction)instruction.textContent='Adventure complete!';
+  document.querySelectorAll('.hop-pad').forEach(b=>{b.disabled=true;b.classList.remove('target')});
+  const start=$('hopStart');if(start){start.disabled=false;start.textContent='✦ Play again'};
+  renderDuckIcons();
+  // Re-render after the result so the reward and inventory count are immediately visible.
+  const outcomeHtml=$('hopOutcome')?.innerHTML||'';renderPanel();if($('hopOutcome'))$('hopOutcome').innerHTML=outcomeHtml;
+ }
+ function renderWardrobeForDuck(uid){
+  const duck=state.ducks.find(d=>String(d.uid)===String(uid));if(!duck)return;
+  const slots=state.gameEquipped[String(uid)]||{};
+  const choices=Object.keys(GAME_ITEMS).filter(id=>GAME_ITEMS[id].slot);
+  const p=$('gamesPanel');
+  const current=p.innerHTML;
+  const html='<div class="panel-title"><h2>Dress up '+byId(duck.id).name+'</h2><button class="back-ducks" id="wardrobeBack">← Duck Games</button></div><p class="sub">Pick a treasure for each accessory spot. You can swap or remove pieces whenever you like.</p>'+
+   ['hat','hand','beak'].map(slot=>{const label=slot==='hat'?'Hats':slot==='hand'?'Wing-held charms':'Beak accessories';const available=choices.filter(id=>GAME_ITEMS[id].slot===slot);return '<section class="duck-section"><h3>'+label+'</h3><div class="accessory-shelf">'+available.map(id=>'<article class="accessory-card"><img src="'+GAME_ITEMS[id].src+'" alt="'+GAME_ITEMS[id].name+'"><b>'+GAME_ITEMS[id].name+'</b><small>'+ownedAccessoryCount(id)+' available</small><button type="button" data-equip-item="'+id+'" data-equip-slot="'+slot+'" '+(ownedAccessoryCount(id)===0?'disabled':'')+'>'+(slots[slot]===id?'Equipped':'Equip')+'</button></article>').join('')+'</div>'+(slots[slot]?'<button class="back-ducks" style="margin-top:8px" data-unequip="'+slot+'">Remove '+label.toLowerCase()+'</button>':'')+'</section>'}).join('')+
+   '<div class="duck-section"><h3>Currently equipped</h3><p>'+['hat','hand','beak'].map(slot=>GAME_ITEMS[slots[slot]]?.name||'No '+slot+' item').join(' · ')+'</p></div>';
+  p.innerHTML=html;
+  $('wardrobeBack').addEventListener('click',renderPanel);
+  p.querySelectorAll('[data-equip-item]').forEach(b=>b.addEventListener('click',()=>equipItem(uid,b.dataset.equipSlot,b.dataset.equipItem)));
+  p.querySelectorAll('[data-unequip]').forEach(b=>b.addEventListener('click',()=>unequipItem(uid,b.dataset.unequip)));
+ }
+ function equipItem(uid,slot,id){
+  if(!ownedAccessoryCount(id))return;
+  const key=String(uid);state.gameEquipped[key]=state.gameEquipped[key]||{};
+  const old=state.gameEquipped[key][slot];if(old)state.gameInventory[old]=ownedAccessoryCount(old)+1;
+  state.gameInventory[id]=ownedAccessoryCount(id)-1;state.gameEquipped[key][slot]=id;
+  save();renderWardrobeForDuck(uid);renderDuckIcons();toast(GAME_ITEMS[id].name+' equipped!');
+ }
+ function unequipItem(uid,slot){
+  const key=String(uid),slots=state.gameEquipped[key]||{},old=slots[slot];if(!old)return;
+  state.gameInventory[old]=ownedAccessoryCount(old)+1;delete slots[slot];save();renderWardrobeForDuck(uid);renderDuckIcons();
+ }
+ function renderDuckIcons(){
  document.querySelectorAll('canvas[data-duck-icon]').forEach(icon=>{
   const id=icon.dataset.duckIcon,g=icon.getContext('2d');
   g.clearRect(0,0,icon.width,icon.height);
