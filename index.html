@@ -879,6 +879,9 @@ function drawDuck(d,t,targetCtx=ctx){
  c.fillStyle=sp.beak;c.beginPath();c.ellipse(28,-17,11,5.5,.1,0,Math.PI*2);c.fill();
  c.strokeStyle='#fff3c9';c.lineWidth=1.5;c.beginPath();c.moveTo(23,-20);c.quadraticCurveTo(27,-22,31,-20);c.stroke();
  e(-9,-43,6,3,'#ffffffb8');e(-22,-7,3,2,'#ffffff80');
+ // Draw this duck's equipped cosmetics in the same local sprite space so they
+ // follow its position, bob, scale, and facing direction in every renderer.
+ drawDuckAccessories(d,c);
  c.restore()
 }
 
