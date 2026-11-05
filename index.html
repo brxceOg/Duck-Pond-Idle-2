@@ -876,6 +876,7 @@ function drawDuck(d,t,targetCtx=ctx){
  const c=targetCtx,e=(x,y,rx,ry,fill)=>{c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fillStyle=fill;c.fill()};
  const sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
+ drawDuckSpeciesTail(d,c,sp);
  e(0,23,39,11,'#3c77664a');
  c.fillStyle='#713c35';c.beginPath();c.ellipse(-1,5,37,27,0,0,Math.PI*2);c.fill();
  let body=c.createLinearGradient(-25,-15,25,31);body.addColorStop(0,'#fff17c');body.addColorStop(.55,sp.color);body.addColorStop(1,sp.belly);
@@ -892,11 +893,73 @@ function drawDuck(d,t,targetCtx=ctx){
  c.fillStyle=sp.beak;c.beginPath();c.ellipse(28,-17,11,5.5,.1,0,Math.PI*2);c.fill();
  c.strokeStyle='#fff3c9';c.lineWidth=1.5;c.beginPath();c.moveTo(23,-20);c.quadraticCurveTo(27,-22,31,-20);c.stroke();
  e(-9,-43,6,3,'#ffffffb8');e(-22,-7,3,2,'#ffffff80');
+ // Species-specific molded details keep each collectible recognizable beyond its color.
+ drawDuckSpeciesDetails(d,c,sp);
  // Draw this duck's equipped cosmetics in the same local sprite space so they
  // follow its position, bob, scale, and facing direction in every renderer.
  drawDuckAccessories(d,c);
  c.restore()
 }
+
+ function drawDuckSpeciesTail(d,c,sp){
+  c.save();c.lineJoin='round';c.lineCap='round';
+  if(sp.id==='mint'){
+   // Minty's signature soft three-feather tail.
+   c.fillStyle='#70bf9b';c.strokeStyle='#527f69';c.lineWidth=2.8;
+   c.beginPath();c.moveTo(-27,3);c.quadraticCurveTo(-48,-12,-46,-1);c.quadraticCurveTo(-43,7,-29,9);c.quadraticCurveTo(-48,8,-43,19);c.quadraticCurveTo(-36,22,-25,12);c.quadraticCurveTo(-39,16,-32,25);c.quadraticCurveTo(-23,24,-20,12);c.closePath();c.fill();c.stroke();
+   c.strokeStyle='#b8efd0';c.lineWidth=1.8;c.beginPath();c.moveTo(-31,5);c.quadraticCurveTo(-39,1,-42,-3);c.moveTo(-29,12);c.quadraticCurveTo(-37,15,-39,17);c.stroke();
+  }else if(sp.id==='sunny'){
+   c.fillStyle='#f6ad29';c.strokeStyle='#9c562b';c.lineWidth=2.6;c.beginPath();c.moveTo(-28,3);c.quadraticCurveTo(-48,-8,-44,5);c.quadraticCurveTo(-39,14,-25,11);c.quadraticCurveTo(-42,18,-34,23);c.quadraticCurveTo(-23,22,-18,11);c.closePath();c.fill();c.stroke();
+  }else if(sp.id==='berry'){
+   c.fillStyle='#b783d0';c.strokeStyle='#754b86';c.lineWidth=2.6;
+   c.beginPath();c.moveTo(-27,2);c.quadraticCurveTo(-49,-13,-46,1);c.quadraticCurveTo(-44,8,-30,10);c.quadraticCurveTo(-45,4,-42,17);c.quadraticCurveTo(-34,23,-23,12);c.quadraticCurveTo(-36,18,-29,24);c.quadraticCurveTo(-19,21,-18,10);c.closePath();c.fill();c.stroke();
+   c.fillStyle='#e9c5f5';c.beginPath();c.arc(-40,1,2,0,Math.PI*2);c.fill();
+  }else if(sp.id==='peach'){
+   c.fillStyle='#f58a69';c.strokeStyle='#a94f45';c.lineWidth=2.7;
+   c.beginPath();c.moveTo(-28,2);c.bezierCurveTo(-48,-12,-49,8,-34,13);c.bezierCurveTo(-43,22,-27,25,-20,10);c.closePath();c.fill();c.stroke();
+   c.fillStyle='#ffd0a5';c.beginPath();c.arc(-37,5,2,0,Math.PI*2);c.fill();
+  }else if(sp.id==='lilac'){
+   c.fillStyle='#8496dc';c.strokeStyle='#515d9b';c.lineWidth=2.7;
+   c.beginPath();c.moveTo(-27,3);c.quadraticCurveTo(-47,-13,-44,2);c.quadraticCurveTo(-40,11,-28,11);c.quadraticCurveTo(-43,13,-36,23);c.quadraticCurveTo(-25,22,-19,10);c.closePath();c.fill();c.stroke();
+   c.fillStyle='#f5d9ff';c.beginPath();c.arc(-39,1,2,0,Math.PI*2);c.fill();
+  }else if(sp.id==='gold'){
+   c.fillStyle='#e9b83f';c.strokeStyle='#95632b';c.lineWidth=2.8;
+   c.beginPath();c.moveTo(-28,4);c.quadraticCurveTo(-50,-14,-46,2);c.quadraticCurveTo(-43,12,-29,12);c.quadraticCurveTo(-43,10,-40,21);c.quadraticCurveTo(-29,25,-19,11);c.closePath();c.fill();c.stroke();
+   c.strokeStyle='#fff0a1';c.lineWidth=2;c.beginPath();c.moveTo(-35,5);c.quadraticCurveTo(-43,0,-44,-3);c.stroke();
+  }
+  c.restore();
+ }
+ function drawDuckSpeciesDetails(d,c,sp){
+  c.save();c.lineJoin='round';c.lineCap='round';
+  if(sp.id==='sunny'){
+   // A sunny little curl on the crown.
+   c.fillStyle='#f6ad29';c.strokeStyle='#9c562b';c.lineWidth=2.4;c.beginPath();c.moveTo(-5,-49);c.quadraticCurveTo(-17,-64,-9,-66);c.quadraticCurveTo(1,-66,0,-52);c.closePath();c.fill();c.stroke();
+   c.strokeStyle='#ffe98b';c.lineWidth=1.6;c.beginPath();c.moveTo(-8,-57);c.quadraticCurveTo(-5,-61,-3,-59);c.stroke();
+  }else if(sp.id==='mint'){
+   // Tiny mint freckles and a soft feather mark on the visible wing.
+   c.fillStyle='#e4fff0';c.beginPath();c.arc(17,-1,1.8,0,Math.PI*2);c.arc(21,3,1.4,0,Math.PI*2);c.fill();
+   c.strokeStyle='#d8f5e2';c.lineWidth=1.8;c.beginPath();c.moveTo(-19,7);c.quadraticCurveTo(-10,-1,-2,5);c.stroke();
+  }else if(sp.id==='berry'){
+   // A tiny blossom tucked above the far side of Berry's head.
+   c.translate(-16,-47);c.fillStyle='#fff0fa';c.strokeStyle='#8e5b9b';c.lineWidth=1.7;
+   for(let i=0;i<5;i++){const an=i*Math.PI*2/5-Math.PI/2;c.beginPath();c.ellipse(Math.cos(an)*4,Math.sin(an)*4,3.2,4.1,an,0,Math.PI*2);c.fill();c.stroke()}
+   c.fillStyle='#f5c85b';c.beginPath();c.arc(0,0,2.8,0,Math.PI*2);c.fill();
+  }else if(sp.id==='peach'){
+   // Warm little freckles and a scalloped wing marking.
+   c.fillStyle='#a94f45';c.beginPath();c.arc(20,-9,1.1,0,Math.PI*2);c.arc(24,-7,1,0,Math.PI*2);c.arc(19,-5,1,0,Math.PI*2);c.fill();
+   c.strokeStyle='#ffd0a5';c.lineWidth=2;c.beginPath();c.moveTo(-22,7);c.quadraticCurveTo(-17,0,-11,6);c.quadraticCurveTo(-5,11,0,5);c.stroke();
+  }else if(sp.id==='lilac'){
+   // Lavender star-shaped flank marking.
+   c.fillStyle='#e9d9ff';c.strokeStyle='#7d83c3';c.lineWidth=1.5;c.beginPath();
+   for(let i=0;i<10;i++){const an=-Math.PI/2+i*Math.PI/5,r=i%2?3.2:6.2;c.lineTo(-16+Math.cos(an)*r,8+Math.sin(an)*r)}c.closePath();c.fill();c.stroke();
+   c.strokeStyle='#e8e8ff';c.lineWidth=1.5;c.beginPath();c.moveTo(-7,-40);c.quadraticCurveTo(-2,-46,4,-40);c.stroke();
+  }else if(sp.id==='gold'){
+   // Goldie's little three-point crown plume and bright wing feather.
+   c.fillStyle='#f6d76e';c.strokeStyle='#a8732e';c.lineWidth=2.3;c.beginPath();c.moveTo(-10,-49);c.quadraticCurveTo(-18,-61,-12,-62);c.quadraticCurveTo(-5,-63,-3,-52);c.quadraticCurveTo(2,-64,7,-59);c.quadraticCurveTo(11,-54,2,-48);c.closePath();c.fill();c.stroke();
+   c.strokeStyle='#fff1b2';c.lineWidth=2;c.beginPath();c.moveTo(-20,8);c.quadraticCurveTo(-10,0,0,6);c.stroke();
+  }
+  c.restore();
+ }
 
  const GAME_ITEMS={
   berry_bonnet:{name:'Berry Bonnet',slot:'hat',rarity:'Common',src:'assets/accessories/berry-bonnet.svg'},
