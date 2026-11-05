@@ -975,13 +975,15 @@ function drawDuck(d,t,targetCtx=ctx){
  document.querySelectorAll('canvas[data-duck-icon]').forEach(icon=>{
   const id=icon.dataset.duckIcon,uid=icon.dataset.duckUid,g=icon.getContext('2d');
   g.clearRect(0,0,icon.width,icon.height);
-  const scale=Math.min(icon.width/92,icon.height/68)*.82;
-  drawDuck({id,uid,scale,dir:1,x:icon.width/2-2,y:icon.height*.66,phase:0,blink:1,vx:0,vy:0},0,g);
+  // Fit the complete duck silhouette, including its lower body and shadow,
+  // inside each UI canvas instead of anchoring its center too low.
+  const scale=Math.min(icon.width/92,icon.height/112)*.78;
+  drawDuck({id,uid,scale,dir:1,x:icon.width/2,y:icon.height*.60,phase:0,blink:1,vx:0,vy:0},0,g);
  });
  document.querySelectorAll('canvas[data-duck-head]').forEach(icon=>{
-  const id=icon.dataset.duckHead,source=document.createElement('canvas');source.width=124;source.height=112;
-  const sg=source.getContext('2d');drawDuck({id,uid:icon.dataset.duckUid,scale:1.18,dir:1,x:62,y:83,phase:0,blink:1,vx:0,vy:0},0,sg);
-  const g=icon.getContext('2d');g.clearRect(0,0,icon.width,icon.height);g.drawImage(source,18,12,100,78,0,0,icon.width,icon.height);
+  const id=icon.dataset.duckHead,source=document.createElement('canvas');source.width=124;source.height=140;
+  const sg=source.getContext('2d');drawDuck({id,uid:icon.dataset.duckUid,scale:1,dir:1,x:62,y:100,phase:0,blink:1,vx:0,vy:0},0,sg);
+  const g=icon.getContext('2d');g.clearRect(0,0,icon.width,icon.height);g.drawImage(source,0,0,124,140,0,0,icon.width,icon.height);
  });
 }
 function drawScene(t,dt){
