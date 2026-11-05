@@ -1052,6 +1052,7 @@ function drawDuck(d,t,targetCtx=ctx){
   if(displaced)state.gameInventory[displaced]=ownedAccessoryCount(displaced)+1;
   slots[item.slot]=id;
   save();renderDuckIcons();
+  outfitSelectedItem=null;
   const p=$('outfitsPanel');renderOutfits(p);
   toast(item.name+' equipped on '+byId(state.ducks.find(d=>String(d.uid)===key).id).name+'!');
  }
