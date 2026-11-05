@@ -593,33 +593,46 @@ body *::before,body *::after{
 .equip-row canvas{width:42px;height:38px;flex:none}.equip-row div{flex:1;min-width:0}.equip-row b{display:block;font-size:13px}.equip-row small{display:block;color:#80578a;font-size:10px}
 .equip-row button{padding:6px 8px;border-radius:12px;background:#e4f2ff;border:1.5px solid #704579;color:#526b98;font-size:11px}
 
-/* Outfits tab: accessory-first inventory, then choose a duck to wear the piece. */
-.outfit-inventory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:3px 2px 12px}
-.outfit-item-card{min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px 8px 11px;border:2px solid #b68abd;border-radius:21px;background:linear-gradient(145deg,#fff0fb,#f1d0ed);box-shadow:0 3px 0 #d19bd2;color:#653c70}
-.outfit-item-art{width:86px;height:78px;display:grid;place-items:center;border-radius:19px;background:linear-gradient(145deg,#fce7f6,#e5d7fa);border:1.5px solid #d2a6d1;margin-bottom:7px}
-.outfit-item-art img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 3px 2px #70427b25)}
-.outfit-item-card>b{font-size:14px;line-height:1.2}
-.outfit-item-card>small{font-size:10px;color:#80578a;margin-top:3px}
-.outfit-item-count{font-size:11px;font-weight:800;margin-top:7px;color:#567d68}
-.outfit-item-worn{font-size:10px;color:#80578a;margin-top:2px}
-.outfit-item-card>em{font-size:11px;font-style:normal;font-weight:800;color:#526b98;margin-top:8px}
-.outfit-selected-item{display:flex;align-items:center;gap:11px;margin:10px 0;padding:9px 12px;border:2px solid #b68abd;border-radius:19px;background:linear-gradient(145deg,#fff0fb,#f1d0ed);box-shadow:0 3px 0 #d19bd2}
-.outfit-selected-item img{width:64px;height:64px;object-fit:contain;flex:none}
-.outfit-selected-item b,.outfit-selected-item small{display:block}
-.outfit-selected-item b{font-size:16px}
-.outfit-selected-item small{font-size:11px;color:#80578a;margin-top:3px}
-.outfit-duck-list{display:grid;gap:8px;padding:2px 2px 12px}
-.outfit-duck-row{display:flex;align-items:center;gap:8px;min-width:0;padding:7px 8px;border:2px solid #b78abf;border-radius:18px;background:linear-gradient(145deg,#fff0fb,#f3d0ef);box-shadow:0 3px 0 #d19bd2}
-.outfit-duck-row canvas{width:54px;height:48px;flex:none}
-.outfit-duck-copy{flex:1;min-width:0}
-.outfit-duck-copy b,.outfit-duck-copy small{display:block}
-.outfit-duck-copy b{font-size:13px}
-.outfit-duck-copy small{font-size:10px;color:#80578a;line-height:1.25;margin-top:2px}
-.outfit-duck-row button{flex:none;padding:7px 9px;border-radius:12px;background:linear-gradient(#e4f2ff,#c2ddf8);border:1.5px solid #704579;color:#526b98;font-size:10px;font-weight:800}
-.outfit-duck-row button:disabled{opacity:.58}
-.outfit-duck-row .outfit-remove{background:#f8d9e9;color:#8c5576}
-.outfit-empty{margin-top:8px}
-@media(max-width:390px){.outfit-item-art{width:74px;height:68px}.outfit-item-art img{width:64px;height:64px}.outfit-duck-row{gap:5px;padding:6px}.outfit-duck-row canvas{width:46px;height:42px}.outfit-duck-row button{padding:6px 7px;font-size:9px}}
+/* Outfits tab: selected-duck loadout with a compact, tactile item grid. */
+.outfit-loadout{padding:10px 10px 12px;border-radius:24px;background:linear-gradient(145deg,#fce9f8,#eadcf8);box-shadow:inset 0 2px 5px #fff9,0 3px 0 #d19bd2;margin:4px 0 14px}
+.outfit-duck-switcher{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:150px}
+.outfit-current-duck{display:flex;flex:1;min-width:0;flex-direction:column;align-items:center;text-align:center}
+.outfit-current-duck canvas{width:150px;height:116px;max-width:100%;object-fit:contain}
+.outfit-current-duck>b{font-size:17px;line-height:1.15}
+.outfit-current-duck>small{font-size:10px;color:#80578a;margin-top:3px}
+.outfit-cycle{width:40px;height:48px;flex:none;border:1.5px solid #a879b7;border-radius:18px;background:linear-gradient(#fff0fb,#e8d7f7);box-shadow:0 3px 0 #c99acb;color:#704579;font-size:32px;line-height:1}
+.outfit-cycle:active{transform:translateY(2px);box-shadow:0 1px 0 #c99acb}
+.outfit-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:6px}
+.outfit-equip-slot{position:relative;display:flex;min-width:0;min-height:90px;flex-direction:column;align-items:center;justify-content:center;padding:7px 4px 6px;border-radius:17px;text-align:center}
+.outfit-equip-slot.is-filled{background:linear-gradient(145deg,#fff2fc,#f3d9f1);box-shadow:inset 0 0 0 1.5px #c79bcd,0 2px 0 #d4a6d2}
+.outfit-equip-slot.is-empty{background:#e8def4a8;box-shadow:inset 0 0 0 1.5px #c7afd5}
+.outfit-equip-slot img{width:48px;height:46px;object-fit:contain}
+.outfit-equip-slot>b{max-width:100%;font-size:10px;line-height:1.1}
+.outfit-equip-slot>small{font-size:9px;color:#987fa0}
+.outfit-equip-slot .outfit-slot-plus{font-size:25px;color:#a98ab4;line-height:1.25}
+.outfit-equip-slot>button{position:absolute;top:3px;right:4px;width:21px;height:21px;padding:0;border:0;border-radius:50%;background:#f4cfe5;color:#814d76;font-size:16px;line-height:1}
+.outfit-inventory-heading{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:7px 2px 0}
+.outfit-inventory-heading h3{margin:0;font-size:17px;color:#653c70}
+.outfit-inventory-heading>span{font-size:10px;color:#80578a}
+.outfit-inventory-help{margin:3px 2px 9px}
+.outfit-minecraft-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:8px;border-radius:19px;background:linear-gradient(145deg,#d8c4e7,#c9b4dc);box-shadow:inset 0 2px 5px #8d6ca033,0 3px 0 #b28abd}
+.outfit-inventory-cell{position:relative;display:flex;min-width:0;min-height:82px;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:5px 3px 4px;border:1.5px solid #b58bc0;border-radius:12px;background:linear-gradient(145deg,#fff3fc,#f3e2f7);box-shadow:inset 0 1px 0 #fff,0 2px 0 #b38abf;color:#653c70}
+.outfit-inventory-cell:active{transform:translateY(2px);box-shadow:inset 0 1px 0 #fff}
+.outfit-cell-art{display:grid;place-items:center;width:100%;height:48px}
+.outfit-cell-art img{width:47px;height:47px;object-fit:contain;filter:drop-shadow(0 2px 2px #70427b25)}
+.outfit-inventory-cell small{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;line-height:1.1}
+.outfit-cell-count{position:absolute;right:4px;top:3px;min-width:17px;height:17px;padding:1px 4px;border-radius:8px;background:#fff8d9;border:1px solid #d7b76d;color:#75523a;font-size:10px;font-weight:900;line-height:14px}
+.outfit-confirm-backdrop{position:absolute;z-index:30;inset:0;display:grid;place-items:center;padding:18px;border-radius:inherit;background:#38223f77;backdrop-filter:blur(3px)}
+.outfit-confirm{width:min(100%,310px);display:flex;flex-direction:column;align-items:center;padding:18px 16px 15px;border:2px solid #b88bc3;border-radius:25px;background:linear-gradient(145deg,#fff1fb,#eadcf8);box-shadow:0 5px 0 #9c70a8,0 12px 28px #3d234433;text-align:center;color:#653c70}
+.outfit-confirm-art{display:grid;place-items:center;width:76px;height:70px;border-radius:20px;background:#f7e4f5}
+.outfit-confirm-art img{width:66px;height:66px;object-fit:contain}
+.outfit-confirm h3{margin:9px 0 3px;font-size:19px}
+.outfit-confirm p{margin:0 0 14px;font-size:13px;color:#80578a}
+.outfit-confirm-actions{display:flex;width:100%;gap:8px}
+.outfit-confirm-actions button{flex:1;padding:10px 7px;border-radius:16px;border:1.5px solid #9c76aa;font-size:12px;font-weight:800}
+.outfit-confirm-cancel{background:#f7ddec;color:#805578}
+.outfit-confirm-yes{background:linear-gradient(#e4f2ff,#c2ddf8);color:#526b98}
+@media(max-width:390px){.outfit-loadout{padding:8px}.outfit-duck-switcher{min-height:138px}.outfit-current-duck canvas{width:132px;height:106px}.outfit-cycle{width:36px;height:44px}.outfit-equip-slot{min-height:84px}.outfit-inventory-cell{min-height:76px}.outfit-cell-art{height:43px}.outfit-cell-art img{width:42px;height:42px}}
 
 .nav-item .nav-icon svg{width:25px;height:25px;display:block}
 @media(max-width:420px){.nav-item{font-size:11px;gap:3px;padding:4px 1px;min-height:55px}.nav-item .nav-icon{font-size:18px}.nav-item .nav-icon svg{width:21px;height:21px}.game-duck-select{grid-template-columns:1fr}.accessory-card img{width:48px;height:48px}}
@@ -711,7 +724,7 @@ if(!state.duplicateConversionV1){
  save();
 }
 
-let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,gameStage='duck-select',hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null,hopFinished=false,hopWon=false,hopRewardId=null,outfitSelectedItem=null;
+let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,gameStage='duck-select',hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null,hopFinished=false,hopWon=false,hopRewardId=null,outfitSelectedItem=null,outfitSelectedDuckUid=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -1002,66 +1015,79 @@ function drawDuck(d,t,targetCtx=ctx){
   renderDuckIcons();
  }
  function renderOutfits(p){
-  const ids=Object.keys(GAME_ITEMS).filter(id=>ownedAccessoryCount(id)+equippedCount(id)>0);
-  const total=ids.reduce((n,id)=>n+ownedAccessoryCount(id)+equippedCount(id),0);
-  if(outfitSelectedItem&&GAME_ITEMS[outfitSelectedItem]){
-   renderOutfitDuckPicker(p,outfitSelectedItem);
+  const ducksInPond=state.ducks||[];
+  if(!ducksInPond.length){
+   p.innerHTML='<div class="panel-title"><h2>Outfits</h2><span>Wardrobe</span></div><p class="sub">Collect a duck first, then dress them up with your accessories.</p>';
    return;
   }
-  p.innerHTML='<div class="panel-title"><h2>Outfit Collection</h2><span>'+total+' pieces</span></div><p class="sub">Your collected accessories live here. Choose a piece to decide which duck gets to wear it.</p><div class="outfit-inventory-grid">'+
-   (ids.length?ids.map(id=>{
-    const item=GAME_ITEMS[id],available=ownedAccessoryCount(id),worn=equippedCount(id);
-    return '<button type="button" class="outfit-item-card" data-outfit-item="'+id+'"><span class="outfit-item-art"><img src="'+item.src+'" alt=""></span><b>'+item.name+'</b><small>'+item.rarity+'</small><span class="outfit-item-count">'+(available?available+' in inventory':'All copies equipped')+'</span><span class="outfit-item-worn">'+worn+' equipped</span><em>Choose a duck →</em></button>';
-   }).join(''):'<div class="accessory-empty outfit-empty">No outfits collected yet. Play Lily Pad Hop in Duck Games to bring home your first accessory!</div>')+
-   '</div>';
-  p.querySelectorAll('[data-outfit-item]').forEach(b=>b.addEventListener('click',()=>{
-   outfitSelectedItem=b.dataset.outfitItem;
-   renderOutfitDuckPicker(p,outfitSelectedItem);
-  }));
+  let selectedIndex=ducksInPond.findIndex(d=>String(d.uid)===String(outfitSelectedDuckUid));
+  if(selectedIndex<0){selectedIndex=0;outfitSelectedDuckUid=ducksInPond[0].uid;}
+  const duck=ducksInPond[selectedIndex],duckName=byId(duck.id).name;
+  const equipped=state.gameEquipped[String(duck.uid)]||{};
+  const slotInfo=[['hat','Hat'],['hand','Hand'],['beak','Beak']];
+  const slotMarkup=slotInfo.map(([slot,label])=>{
+   const id=equipped[slot],item=id&&GAME_ITEMS[id];
+   return '<div class="outfit-equip-slot '+(item?'is-filled':'is-empty')+'">'+
+    (item?'<img src="'+item.src+'" alt="'+item.name+'"><b>'+item.name+'</b><button type="button" data-outfit-remove-slot="'+slot+'" aria-label="Remove '+item.name+'">×</button>':'<span class="outfit-slot-plus">＋</span><b>'+label+'</b><small>Empty</small>')+
+    '</div>';
+  }).join('');
+  const ids=Object.keys(GAME_ITEMS).filter(id=>ownedAccessoryCount(id)>0);
+  const total=ids.reduce((n,id)=>n+ownedAccessoryCount(id),0);
+  p.innerHTML='<div class="panel-title"><h2>Outfits</h2><span>'+total+' items</span></div>'+
+   '<section class="outfit-loadout"><div class="outfit-duck-switcher">'+
+    '<button type="button" class="outfit-cycle" id="outfitDuckPrev" aria-label="Previous duck">‹</button>'+
+    '<div class="outfit-current-duck"><canvas width="180" height="140" data-duck-icon="'+duck.id+'" data-duck-uid="'+duck.uid+'"></canvas><b>'+duckName+'</b><small>Selected duck · '+(selectedIndex+1)+' of '+ducksInPond.length+'</small></div>'+
+    '<button type="button" class="outfit-cycle" id="outfitDuckNext" aria-label="Next duck">›</button>'+
+   '</div><div class="outfit-slots">'+slotMarkup+'</div></section>'+
+   '<div class="outfit-inventory-heading"><h3>Equipment Inventory</h3><span>'+total+' available</span></div>'+
+   '<p class="sub outfit-inventory-help">Tap a piece to equip it on '+duckName+'.</p>'+
+   '<div class="outfit-minecraft-grid">'+(ids.length?ids.map(id=>{
+    const item=GAME_ITEMS[id],count=ownedAccessoryCount(id);
+    return '<button type="button" class="outfit-inventory-cell" data-outfit-item="'+id+'" aria-label="'+item.name+', '+count+' available"><span class="outfit-cell-art"><img src="'+item.src+'" alt=""></span><span class="outfit-cell-count">'+count+'</span><small>'+item.name+'</small></button>';
+   }).join(''):'<div class="accessory-empty outfit-empty">Your inventory is empty. Win accessories in Lily Pad Hop to add your first item!</div>')+'</div>';
+  $('outfitDuckPrev').addEventListener('click',()=>{outfitSelectedDuckUid=ducksInPond[(selectedIndex-1+ducksInPond.length)%ducksInPond.length].uid;renderOutfits(p)});
+  $('outfitDuckNext').addEventListener('click',()=>{outfitSelectedDuckUid=ducksInPond[(selectedIndex+1)%ducksInPond.length].uid;renderOutfits(p)});
+  p.querySelectorAll('[data-outfit-item]').forEach(b=>b.addEventListener('click',()=>showOutfitEquipConfirm(p,b.dataset.outfitItem,duck)));
+  p.querySelectorAll('[data-outfit-remove-slot]').forEach(b=>b.addEventListener('click',()=>removeOutfitItem(duck.uid,equipped[b.dataset.outfitRemoveSlot])));
+  renderDuckIcons();
  }
- function renderOutfitDuckPicker(p,id){
-  const item=GAME_ITEMS[id];
-  if(!item){outfitSelectedItem=null;renderOutfits(p);return}
-  const available=ownedAccessoryCount(id);
-  const sources=state.ducks.filter(d=>(state.gameEquipped[String(d.uid)]||{})[item.slot]===id);
-  p.innerHTML='<div class="panel-title"><h2>Choose a duck</h2><button class="back-ducks" id="outfitInventoryBack">← Outfit Collection</button></div><div class="outfit-selected-item"><img src="'+item.src+'" alt=""><div><b>'+item.name+'</b><small>'+item.rarity+' · '+(available?available+' available in inventory':sources.length+' currently equipped')+'</small></div></div><p class="sub">Pick who should wear this accessory. If all copies are already worn, you can move one from another duck.</p><div class="outfit-duck-list">'+
-   state.ducks.map(d=>{
-    const slots=state.gameEquipped[String(d.uid)]||{},wearing=slots[item.slot]===id;
-    const equippedName=GAME_ITEMS[slots[item.slot]]?.name;
-    const canUse=available>0||sources.some(source=>String(source.uid)!==String(d.uid));
-    const action=wearing?'Already wearing':available>0?'Equip here':'Move here';
-    return '<div class="outfit-duck-row"><canvas width="92" height="76" data-duck-icon="'+d.id+'" data-duck-uid="'+d.uid+'"></canvas><div class="outfit-duck-copy"><b>'+byId(d.id).name+'</b><small>'+(wearing?'Wearing '+item.name:equippedName?'Current slot: '+equippedName:'Slot is empty')+'</small></div><button type="button" data-outfit-equip="'+d.uid+'" '+(wearing||!canUse?'disabled':'')+'>'+action+'</button>'+(wearing?'<button type="button" class="outfit-remove" data-outfit-remove="'+d.uid+'" aria-label="Remove '+item.name+' from '+byId(d.id).name+'">Remove</button>':'')+'</div>';
-   }).join('')+
+ function showOutfitEquipConfirm(p,id,duck){
+  const item=GAME_ITEMS[id];if(!item||ownedAccessoryCount(id)<1)return;
+  const duckName=byId(duck.id).name;
+  const overlay=document.createElement('div');overlay.className='outfit-confirm-backdrop';overlay.innerHTML=
+   '<div class="outfit-confirm" role="dialog" aria-modal="true" aria-labelledby="outfitConfirmTitle">'+
+    '<div class="outfit-confirm-art"><img src="'+item.src+'" alt=""></div>'+
+    '<h3 id="outfitConfirmTitle">Equip this accessory?</h3>'+
+    '<p>Put <b>'+item.name+'</b> on <b>'+duckName+'</b>?</p>'+
+    '<div class="outfit-confirm-actions"><button type="button" class="outfit-confirm-cancel">Not now</button><button type="button" class="outfit-confirm-yes">Yes, equip!</button></div>'+
    '</div>';
-  $('outfitInventoryBack').addEventListener('click',()=>{outfitSelectedItem=null;renderOutfits(p)});
-  p.querySelectorAll('[data-outfit-equip]').forEach(b=>b.addEventListener('click',()=>assignOutfitItem(b.dataset.outfitEquip,id)));
-  p.querySelectorAll('[data-outfit-remove]').forEach(b=>b.addEventListener('click',()=>removeOutfitItem(b.dataset.outfitRemove,id)));
+  p.appendChild(overlay);
+  const close=()=>overlay.remove();
+  overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+  overlay.querySelector('.outfit-confirm-cancel').addEventListener('click',close);
+  overlay.querySelector('.outfit-confirm-yes').addEventListener('click',()=>{
+   close();assignOutfitItem(duck.uid,id);
+  });
  }
  function assignOutfitItem(uid,id){
   const item=GAME_ITEMS[id];if(!item)return;
   const key=String(uid),slots=state.gameEquipped[key]||(state.gameEquipped[key]={});
   if(slots[item.slot]===id)return;
-  let source=null;
-  if(!ownedAccessoryCount(id)){
-   source=state.ducks.find(d=>String(d.uid)!==key&&(state.gameEquipped[String(d.uid)]||{})[item.slot]===id);
-   if(!source)return;
-   delete state.gameEquipped[String(source.uid)][item.slot];
-  }else{
-   state.gameInventory[id]=ownedAccessoryCount(id)-1;
-  }
+  if(!ownedAccessoryCount(id))return;
+  state.gameInventory[id]=ownedAccessoryCount(id)-1;
   const displaced=slots[item.slot];
   if(displaced)state.gameInventory[displaced]=ownedAccessoryCount(displaced)+1;
   slots[item.slot]=id;
   save();renderDuckIcons();
-  outfitSelectedItem=null;
-  const p=$('outfitsPanel');renderOutfits(p);
-  toast(item.name+' equipped on '+byId(state.ducks.find(d=>String(d.uid)===key).id).name+'!');
+  const duck=state.ducks.find(d=>String(d.uid)===key);
+  renderOutfits($('outfitsPanel'));
+  toast(item.name+' equipped on '+(duck?byId(duck.id).name:'your duck')+'!');
  }
  function removeOutfitItem(uid,id){
   const item=GAME_ITEMS[id],slots=state.gameEquipped[String(uid)]||{};
   if(!item||slots[item.slot]!==id)return;
   delete slots[item.slot];state.gameInventory[id]=ownedAccessoryCount(id)+1;
-  save();renderDuckIcons();renderOutfitDuckPicker($('outfitsPanel'),id);
+  save();renderDuckIcons();renderOutfits($('outfitsPanel'));
   toast(item.name+' returned to your outfit inventory.');
  }
  function renderDuckIcons(){
