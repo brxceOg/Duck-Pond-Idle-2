@@ -496,6 +496,29 @@ body *::before,body *::after{
 .brand h1{display:flex;flex:0 0 auto;flex-direction:column;align-items:flex-start;width:max-content;white-space:normal;line-height:.9}
 .brand h1 span{display:block;white-space:nowrap}
 
+/* Duck Games now moves through three focused, self-contained steps. */
+.game-selected-duck{display:flex;align-items:center;gap:12px;padding:10px 13px;margin:8px 0 12px;border:2px solid #b78abf;border-radius:21px;background:linear-gradient(145deg,#fff0fb,#f1d0ed);box-shadow:0 3px 0 #d19bd2}
+.game-selected-duck canvas{width:76px;height:66px;flex:none}
+.game-selected-duck strong{display:block;font-size:19px;color:#61396e}
+.game-selected-duck small{display:block;font-size:11px;color:#80578a;margin-top:3px}
+.game-choice-card{width:100%;display:flex;align-items:center;gap:13px;padding:14px;text-align:left;border:2px solid #9abf9e;border-radius:23px;background:linear-gradient(145deg,#eff9e9,#d8edda);box-shadow:0 4px 0 #a5c9a5;color:#57332f}
+.game-choice-card:active{transform:translateY(2px);box-shadow:0 2px 0 #a5c9a5}
+.game-choice-art{width:76px;height:76px;flex:none;display:grid;place-items:center;border-radius:22px;background:#e2f4dc;border:2px solid #78a982}
+.game-choice-art svg{width:66px;height:60px}
+.game-choice-copy{display:block;min-width:0}
+.game-choice-copy strong{display:block;font-size:20px;color:#4d725f}
+.game-choice-copy small{display:block;font-size:12px;line-height:1.45;color:#587b65;margin:4px 0 8px}
+.game-choice-copy em{font-style:normal;font-size:13px;color:#704579}
+.game-choice-copy em b{font-size:18px}
+.game-wardrobe-summary{margin-top:16px}
+.mini-game-duck{max-width:420px;margin:0 auto}
+.mini-game-arena{width:100%;max-width:560px;margin:0 auto;padding:18px}
+.mini-game-arena .hop-pads{gap:12px;max-width:460px}
+.mini-game-arena .hop-pad{min-height:90px}
+.mini-game-arena .hop-instruction{font-size:15px;min-height:22px}
+.mini-game-arena .hop-start{max-width:360px;display:block;margin:16px auto 0}
+@media(max-width:420px){.game-choice-art{width:62px;height:62px}.game-choice-art svg{width:54px}.game-choice-copy strong{font-size:18px}.mini-game-arena{padding:12px}.mini-game-arena .hop-pad{min-height:76px}}
+@media(prefers-reduced-motion:reduce){.game-choice-card{transition:none}}
 /* Duck Games — soft, playful lily-pad challenge and accessory collection. */
 .duck-games-panel{overflow:visible}
 .game-intro{display:flex;align-items:center;gap:12px;padding:12px 13px;border-radius:23px;background:linear-gradient(145deg,#e7f5ff,#c9e3fa);border:2px solid #795487;box-shadow:inset 0 3px 6px #fff9,0 4px 0 #a6c4e3;margin:10px 0 13px}
@@ -623,7 +646,7 @@ if(!state.duplicateConversionV1){
  save();
 }
 
-let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
+let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,gameStage='duck-select',hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -636,7 +659,7 @@ function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duc
 function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statRate').textContent=Number(coinsPerSecond().toFixed(1))}
 function setTab(t){
  if(hopActive&&t!=='games'){toast('Finish this little adventure first!');return;}
-  const order=['machine','collection','upgrades','games'],old=tab;tab=t;
+  const order=['machine','collection','upgrades','games'],old=tab;if(t==='games'&&old!=='games'){gameStage='duck-select';gameDuckUid=null;}tab=t;
  if(t!=='upgrades')closePondUpgrades();
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
  document.querySelectorAll('.game-screen').forEach(el=>{
@@ -829,24 +852,40 @@ function drawDuck(d,t,targetCtx=ctx){
   const ducksOwned=state.ducks;
   if(!gameDuckUid||!ducksOwned.some(d=>String(d.uid)===String(gameDuckUid)))gameDuckUid=ducksOwned[0]?.uid||null;
   const selected=ducksOwned.find(d=>String(d.uid)===String(gameDuckUid));
-  const busy=hopActive;
   const inventory=Object.keys(GAME_ITEMS).filter(id=>ownedAccessoryCount(id)>0||equippedCount(id)>0);
   const ownedTotal=Object.keys(GAME_ITEMS).reduce((n,id)=>n+ownedAccessoryCount(id)+equippedCount(id),0);
-  p.innerHTML='<div class="panel-title"><h2>Duck Games</h2><span>✦ '+state.gameWins+' wins</span></div><p class="sub">Send a duck on a little lily-pad adventure! Win accessories to dress up your pond pals before the boss battles arrive.</p>'+
-   '<div class="game-intro"><div class="game-intro-art" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 42c8-10 15-10 23 0s16 10 25-1" fill="none" stroke="#5c9a82" stroke-width="5" stroke-linecap="round"/><ellipse cx="21" cy="42" rx="13" ry="7" fill="#7fc68e" stroke="#54866b" stroke-width="2"/><ellipse cx="44" cy="35" rx="12" ry="7" fill="#8fd39b" stroke="#54866b" stroke-width="2"/><path d="M34 15l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></div><div><strong>Lily Pad Hop</strong><small>Hop across five lily pads. Land at least three to win a surprise accessory!</small></div></div>'+
-   '<h3 class="game-section-title">Choose your duck</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option '+(String(d.uid)===String(gameDuckUid)?'selected':'')+'" data-game-duck="'+d.uid+'" '+(busy?'disabled':'')+'><canvas width="92" height="76" data-duck-icon="'+d.id+'" data-duck-uid="'+d.uid+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(Object.values(state.gameEquipped[String(d.uid)]||{}).length?'Adventure ready':'Ready to play')+'</small></span></button>').join('')+'</div>'+
-   '<div class="hop-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span>'+(busy?'Hop '+hopRound+' of 5':'5 hops · 3 wins needed')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(busy?'Tap the glowing lily pad!':'Send '+(selected?byId(selected.id).name:'your duck')+' to play a quick game.')+'</p><div class="hop-pads">'+[0,1,2].map(i=>'<button type="button" class="hop-pad '+(busy&&hopTarget===i?'target':'')+'" data-hop="'+i+'" aria-label="Lily pad '+(i+1)+'" '+(!busy||hopLocked?'disabled':'')+'></button>').join('')+'</div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><button class="roll-btn hop-start" id="hopStart" '+(busy?'disabled':'')+'>✦ Start Lily Pad Hop</button><div id="hopOutcome"></div></div>'+
-   '<h3 class="game-section-title">Accessory wardrobe <small style="font-size:11px;color:#91639a">('+ownedTotal+' collected)</small></h3><p class="sub">Your rewards are saved here. Equip a hat, hand-held charm, or beak accessory to each duck.</p><div class="accessory-shelf">'+inventory.map(id=>{const item=GAME_ITEMS[id];return '<article class="accessory-card"><img src="'+item.src+'" alt="'+item.name+'"><b>'+item.name+'</b><small>'+item.rarity+' · '+ownedAccessoryCount(id)+' in bag</small></article>'}).join('')+(inventory.length?'':'<div class="accessory-empty">Your wardrobe is waiting for its first treasure. Win Lily Pad Hop to find a cute accessory!</div>')+'</div>'+
-   '<h3 class="game-section-title">Dress up your duck</h3><div class="equip-list">'+ducksOwned.map(d=>{const slots=state.gameEquipped[String(d.uid)]||{};return '<div class="equip-row"><canvas width="92" height="76" data-duck-icon="'+d.id+'" data-duck-uid="'+d.uid+'"></canvas><div><b>'+byId(d.id).name+'</b><small>'+['hat','hand','beak'].map(slot=>{const item=GAME_ITEMS[slots[slot]];return item?item.name:(slot==='hand'?'Wing':'')}).filter(Boolean).join(' · ')||'No accessories equipped'+'</small></div><button type="button" data-dress-duck="'+d.uid+'">Equip</button></div>'}).join('')+'</div>';
-  p.querySelectorAll('[data-game-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.gameDuck;renderPanel()}));
-  p.querySelectorAll('[data-hop]').forEach(b=>b.addEventListener('click',()=>playHop(Number(b.dataset.hop))));
-  $('hopStart').addEventListener('click',startHop);
-  p.querySelectorAll('[data-dress-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.dressDuck;renderWardrobeForDuck(gameDuckUid)}));
+  if(gameStage==='duck-select'){
+   p.innerHTML='<div class="panel-title"><h2>Duck Games</h2><span>✦ '+state.gameWins+' wins</span></div>'+
+    '<div class="game-intro"><div class="game-intro-art" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 42c8-10 15-10 23 0s16 10 25-1" fill="none" stroke="#5c9a82" stroke-width="5" stroke-linecap="round"/><ellipse cx="21" cy="42" rx="13" ry="7" fill="#7fc68e" stroke="#54866b" stroke-width="2"/><ellipse cx="44" cy="35" rx="12" ry="7" fill="#8fd39b" stroke="#54866b" stroke-width="2"/><path d="M34 15l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></div><div><strong>A little fun for your flock</strong><small>Choose one of your ducks to take part in playful pond games. Win accessories, dress up each duck, and get your flock ready for future adventures.</small></div></div>'+
+    '<h3 class="game-section-title">Choose a duck to play</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option" data-game-duck="'+d.uid+'"><canvas width="92" height="76" data-duck-icon="'+d.id+'" data-duck-uid="'+d.uid+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(state.gameDuckStats[String(d.uid)]?.plays||0)+' games played · Choose duck →</small></span></button>').join('')+'</div>'+
+    '<section class="duck-section game-wardrobe-summary"><div class="duck-section-head"><h3>Accessory collection</h3><span>'+ownedTotal+' owned</span></div><p>'+inventory.length+' accessory types collected so far. Choose a duck to view its games and wardrobe.</p></section>';
+   p.querySelectorAll('[data-game-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.gameDuck;gameStage='game-select';renderPanel()}));
+  }else if(gameStage==='game-select'){
+   const equipped=selected?state.gameEquipped[String(selected.uid)]||{}:{};
+   const equippedNames=['hat','hand','beak'].map(slot=>GAME_ITEMS[equipped[slot]]?.name).filter(Boolean);
+   p.innerHTML='<div class="panel-title"><h2>Choose a game</h2><button class="back-ducks" id="backToGameDucks">← Your ducks</button></div>'+
+    '<div class="game-selected-duck"><canvas width="124" height="104" data-duck-icon="'+selected.id+'" data-duck-uid="'+selected.uid+'"></canvas><div><strong>'+byId(selected.id).name+'</strong><small>Your chosen game companion</small><small>'+(state.gameDuckStats[String(selected.uid)]?.wins||0)+' wins · '+(state.gameDuckStats[String(selected.uid)]?.plays||0)+' plays</small></div></div>'+
+    '<p class="sub">Pick an activity for '+byId(selected.id).name+'. Each game has its own play screen, so you can focus on the adventure.</p>'+
+    '<button type="button" class="game-choice-card" id="openLilyPadHop"><span class="game-choice-art" aria-hidden="true"><svg viewBox="0 0 72 64"><ellipse cx="20" cy="43" rx="17" ry="10" fill="#83c68d" stroke="#54866b" stroke-width="2"/><path d="M20 43l-1-8" stroke="#54866b" stroke-width="2"/><ellipse cx="51" cy="34" rx="16" ry="9" fill="#9bd99d" stroke="#54866b" stroke-width="2"/><path d="M51 34l-1-7" stroke="#54866b" stroke-width="2"/><path d="M35 8l4 9 10 1-8 6 3 10-9-6-9 6 3-10-8-6 10-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></span><span class="game-choice-copy"><strong>Lily Pad Hop</strong><small>Follow the glowing lily pads in a five-hop reaction challenge. Get at least three right to win a wearable accessory.</small><em>Play this game <b>→</b></em></span></button>'+
+    '<section class="duck-section"><div class="duck-section-head"><h3>Your duck’s outfit</h3><span>'+(equippedNames.length?equippedNames.length+' equipped':'Not dressed yet')+'</span></div><p>'+(equippedNames.length?equippedNames.join(' · '):'Collect accessories in games and equip them to your favorite ducks.')+'</p><button type="button" class="back-ducks" id="openDuckWardrobe">✿ Dress up '+byId(selected.id).name+'</button></section>';
+   $('backToGameDucks').addEventListener('click',()=>{gameStage='duck-select';gameDuckUid=null;renderPanel()});
+   $('openLilyPadHop').addEventListener('click',()=>{gameStage='playing';renderPanel()});
+   $('openDuckWardrobe').addEventListener('click',()=>renderWardrobeForDuck(gameDuckUid));
+  }else{
+   const participant=selected||ducksOwned[0];
+   p.innerHTML='<div class="panel-title"><h2>Lily Pad Hop</h2><button class="back-ducks" id="backToGameMenu" '+(hopActive?'disabled':'')+'>← Games</button></div>'+
+    '<div class="game-selected-duck mini-game-duck"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas><div><strong>'+byId(participant.id).name+'</strong><small>Your little hopping champion</small></div></div>'+
+    '<div class="hop-arena mini-game-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span>'+(hopActive?'Hop '+hopRound+' of 5':'5 hops · 3 wins needed')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(hopActive?'Tap the glowing lily pad!':'Ready, '+byId(participant.id).name+'? Press start when you’re ready to hop.')+'</p><div class="hop-pads">'+[0,1,2].map(i=>'<button type="button" class="hop-pad '+(hopActive&&hopTarget===i?'target':'')+'" data-hop="'+i+'" aria-label="Lily pad '+(i+1)+'" '+(!hopActive||hopLocked?'disabled':'')+'></button>').join('')+'</div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><button class="roll-btn hop-start" id="hopStart" '+(hopActive?'disabled':'')+'>✦ '+(hopRound?'Play again':'Start hopping')+'</button><div id="hopOutcome"></div></div>';
+   const back=$('backToGameMenu');if(back)back.addEventListener('click',()=>{gameStage='game-select';renderPanel()});
+   p.querySelectorAll('[data-hop]').forEach(b=>b.addEventListener('click',()=>playHop(Number(b.dataset.hop))));
+   $('hopStart').addEventListener('click',startHop);
+  }
   renderDuckIcons();
+  const screen=document.querySelector('.game-screen[data-screen="games"]');if(screen)screen.scrollTop=0;
  }
  function startHop(){
   if(hopActive||!gameDuckUid)return;
-  hopActive=true;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();nextHop();renderPanel();
+  gameStage='playing';hopActive=true;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();nextHop();renderPanel();
  }
  function nextHop(){
   if(hopRound>=5){finishHop();return}
@@ -894,7 +933,7 @@ function drawDuck(d,t,targetCtx=ctx){
    ['hat','hand','beak'].map(slot=>{const label=slot==='hat'?'Hats':slot==='hand'?'Wing-held charms':'Beak accessories';const available=choices.filter(id=>GAME_ITEMS[id].slot===slot);return '<section class="duck-section"><h3>'+label+'</h3><div class="accessory-shelf">'+available.map(id=>'<article class="accessory-card"><img src="'+GAME_ITEMS[id].src+'" alt="'+GAME_ITEMS[id].name+'"><b>'+GAME_ITEMS[id].name+'</b><small>'+ownedAccessoryCount(id)+' available</small><button type="button" data-equip-item="'+id+'" data-equip-slot="'+slot+'" '+(ownedAccessoryCount(id)===0?'disabled':'')+'>'+(slots[slot]===id?'Equipped':'Equip')+'</button></article>').join('')+'</div>'+(slots[slot]?'<button class="back-ducks" style="margin-top:8px" data-unequip="'+slot+'">Remove '+label.toLowerCase()+'</button>':'')+'</section>'}).join('')+
    '<div class="duck-section"><h3>Currently equipped</h3><p>'+['hat','hand','beak'].map(slot=>GAME_ITEMS[slots[slot]]?.name||'No '+slot+' item').join(' · ')+'</p></div>';
   p.innerHTML=html;
-  $('wardrobeBack').addEventListener('click',renderPanel);
+  $('wardrobeBack').addEventListener('click',()=>{gameStage='game-select';renderPanel()});
   p.querySelectorAll('[data-equip-item]').forEach(b=>b.addEventListener('click',()=>equipItem(uid,b.dataset.equipSlot,b.dataset.equipItem)));
   p.querySelectorAll('[data-unequip]').forEach(b=>b.addEventListener('click',()=>unequipItem(uid,b.dataset.unequip)));
  }
