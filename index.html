@@ -893,7 +893,7 @@ function drawDuck(d,t,targetCtx=ctx){
   c.drawImage(sprite,-47,-43,94,86);
  }
  // Keep player-equipped cosmetics attached to the new shared rubber-duck sprite.
- c.save();c.scale(1.2,1.2);drawDuckAccessories(d,c);c.restore();
+ c.save();drawDuckAccessories(d,c);c.restore();
  c.restore()
 }
  function drawDuckSpeciesTail(d,c,sp){
@@ -961,7 +961,7 @@ function drawDuck(d,t,targetCtx=ctx){
  function drawDuckAccessories(d,c){
   const equipped=state.gameEquipped[String(d.uid)]||{};
   if(equipped.hat==='berry_bonnet'){
-   c.save();c.translate(-1,-49);
+   c.save();c.translate(-6,-39);
    c.fillStyle='#713c35';c.beginPath();c.ellipse(0,-1,25,7,0,0,Math.PI*2);c.fill();
    const g=c.createLinearGradient(-15,-22,15,-2);g.addColorStop(0,'#ffc4df');g.addColorStop(1,'#d77eb5');
    c.fillStyle=g;c.strokeStyle='#713c35';c.lineWidth=3;c.beginPath();c.moveTo(-17,-3);c.quadraticCurveTo(-14,-24,0,-23);c.quadraticCurveTo(17,-24,18,-3);c.quadraticCurveTo(0,3,-17,-3);c.fill();c.stroke();
@@ -969,14 +969,14 @@ function drawDuck(d,t,targetCtx=ctx){
    c.fillStyle='#f5d16d';c.beginPath();c.arc(12,-5,5,0,Math.PI*2);c.fill();c.stroke();c.restore();
   }
   if(equipped.hand==='star_wand'){
-   c.save();c.translate(-20,4);c.rotate(-.55);
+   c.save();c.translate(22,6);c.rotate(-.55);
    c.lineCap='round';c.strokeStyle='#713c35';c.lineWidth=5;c.beginPath();c.moveTo(0,3);c.lineTo(1,-24);c.stroke();
    c.strokeStyle='#f5c85b';c.lineWidth=3;c.beginPath();c.moveTo(0,3);c.lineTo(1,-24);c.stroke();
    c.fillStyle='#ffe58c';c.strokeStyle='#713c35';c.lineWidth=2.5;c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?5:11;c.lineTo(Math.cos(a)*r,Math.sin(a)*r-27)}c.closePath();c.fill();c.stroke();
    c.fillStyle='#fff8d8';c.beginPath();c.arc(-2,-30,2,0,Math.PI*2);c.fill();c.restore();
   }
   if(equipped.beak==='peachy_beak_bow'){
-   c.save();c.translate(12,-1);c.fillStyle='#713c35';c.strokeStyle='#713c35';c.lineWidth=2;
+   c.save();c.translate(-24,1);c.fillStyle='#713c35';c.strokeStyle='#713c35';c.lineWidth=2;
    c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-17,-17,-18,-2);c.quadraticCurveTo(-16,8,0,0);c.fill();
    c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(17,-17,18,-2);c.quadraticCurveTo(16,8,0,0);c.fill();
    c.fillStyle='#f5a1bd';c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(-15,-15,-15,-2);c.quadraticCurveTo(-12,6,0,0);c.fill();c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(15,-15,15,-2);c.quadraticCurveTo(12,6,0,0);c.fill();
