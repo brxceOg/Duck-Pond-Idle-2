@@ -598,7 +598,7 @@ const species=[
  {id:'gold',name:'Goldie',rarity:'Legendary',color:'#fff0a1',belly:'#f6c94d',beak:'#f27b37',eye:'#57351e',size:1.28,weight:1,coinsPerSecond:15,cheek:'#ffad80',desc:'A rare little ray of light.'}
 ];
 const byId=id=>species.find(s=>s.id===id)||species[0];
-const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0,gameInventory:{},gameEquipped:{},gameWins:0,gamePlays:0});
+const fresh=()=>({coins:100,ducks:[{id:'sunny',uid:1}],duckPoints:{},duplicateConversionV1:true,next:2,upgrade:0,rolls:0,gameInventory:{},gameEquipped:{},gameDuckStats:{},gameWins:0,gamePlays:0});
 let state;
 const save=()=>{try{localStorage.setItem('duckPondIdle2Save',JSON.stringify(state))}catch{}};
 try{state=JSON.parse(localStorage.getItem('duckPondIdle2Save'))||fresh()}catch{state=fresh()}
@@ -608,6 +608,7 @@ state.duckPoints=state.duckPoints&&typeof state.duckPoints==='object'?state.duck
 species.forEach(sp=>state.duckPoints[sp.id]=Math.max(0,Math.floor(Number(state.duckPoints[sp.id])||0)));
  state.gameInventory=state.gameInventory&&typeof state.gameInventory==='object'?state.gameInventory:{};
  state.gameEquipped=state.gameEquipped&&typeof state.gameEquipped==='object'?state.gameEquipped:{};
+ state.gameDuckStats=state.gameDuckStats&&typeof state.gameDuckStats==='object'?state.gameDuckStats:{};
  state.gameWins=Math.max(0,Number(state.gameWins)||0);state.gamePlays=Math.max(0,Number(state.gamePlays)||0);
 if(!state.duplicateConversionV1){
  const firstBySpecies=new Map(),converted={};
@@ -622,7 +623,7 @@ if(!state.duplicateConversionV1){
  save();
 }
 
-let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
+let tab='upgrades',last=performance.now(),toastTimer=0,rollBusy=false,selectedDuckId=null,gameDuckUid=null,gameSessionUid=null,hopRound=0,hopScore=0,hopTarget=-1,hopActive=false,hopLocked=false,hopTimer=null;
 const ducks=[],pads=[];
 function rand(a,b){return a+Math.random()*(b-a)}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
@@ -634,7 +635,8 @@ for(let i=0;i<8;i++)pads.push({x:rand(190,750),y:rand(210,490),r:rand(22,37),vx:
 function coinsPerSecond(){return state.ducks.reduce((total,duck)=>total+byId(duck.id).coinsPerSecond,0)*(1+state.upgrade*.5)}
 function updateHUD(){$('coins').textContent=Math.floor(state.coins);$('duckCount').textContent=state.ducks.length;$('statRate').textContent=Number(coinsPerSecond().toFixed(1))}
 function setTab(t){
- const order=['machine','collection','upgrades','games'],old=tab;tab=t;
+ if(hopActive&&t!=='games'){toast('Finish this little adventure first!');return;}
+  const order=['machine','collection','upgrades','games'],old=tab;tab=t;
  if(t!=='upgrades')closePondUpgrades();
  document.querySelectorAll('.nav-item').forEach(b=>{const active=b.dataset.tab===t;b.classList.toggle('active',active);b.setAttribute('aria-current',active?'page':'false')});
  document.querySelectorAll('.game-screen').forEach(el=>{
@@ -844,7 +846,7 @@ function drawDuck(d,t,targetCtx=ctx){
  }
  function startHop(){
   if(hopActive||!gameDuckUid)return;
-  hopActive=true;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;save();nextHop();renderPanel();
+  hopActive=true;gameSessionUid=gameDuckUid;hopRound=0;hopScore=0;hopLocked=false;state.gamePlays++;state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].plays++;save();nextHop();renderPanel();
  }
  function nextHop(){
   if(hopRound>=5){finishHop();return}
@@ -867,6 +869,7 @@ function drawDuck(d,t,targetCtx=ctx){
   hopActive=false;hopLocked=false;hopTarget=-1;
   const won=hopScore>=3;
   if(won){
+   state.gameDuckStats[String(gameSessionUid)]=state.gameDuckStats[String(gameSessionUid)]||{plays:0,wins:0};state.gameDuckStats[String(gameSessionUid)].wins++;
    const roll=Math.random(),id=roll<.48?'berry_bonnet':roll<.82?'star_wand':'peachy_beak_bow';
    state.gameInventory[id]=ownedAccessoryCount(id)+1;state.gameWins++;
    const item=GAME_ITEMS[id];save();toast('You won a '+item.name+'! ✨');
