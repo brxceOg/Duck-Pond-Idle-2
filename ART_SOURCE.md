@@ -286,34 +286,43 @@ Think of a lovingly painted miniature nature diorama: lush, welcoming, colorful,
 - Use soft painted gradients, clean color separations, gentle highlights, and readable shadow shapes.
 - Avoid flat single-color fills, harsh neon colors, muddy low-contrast greens, heavy photorealism, and plastic 3D rendering.
 
-## 16. Species-specific character features
+## 16. Rubber-duck toy identity and visual variety
 
-Each species should have a recognizable silhouette and at least one molded-toy detail beyond its base color. Details should be painted directly into the shared duck renderer so they appear consistently in the pond, outfit preview, collection, and mini-game canvases. Keep features readable at phone size, use the shared warm plum outlines and soft highlights, and ensure tail shapes sit behind the body.
-- Body markings must read as intentional, finished shapes—not loose decorative strokes or scribbled curves. Prefer small filled feather marks, spots, patches, or clearly enclosed motifs with clean edges. Avoid thin wandering lines across the wing or body; inspect every species at normal phone gameplay scale.
-- Clip all surface markings (feathers, freckles, patches, and flank motifs) to the filled duck silhouette so they never paint over the warm plum perimeter/border strokes. Wing-feather markings must also be clipped separately to the inset filled wing/belly panel, leaving a visible gap before that panel's own plum outline; clipping only to the outer body is not sufficient. Any raised silhouette feature such as a crest or tail must be drawn as a separate, intentional shape with its own clean outline—not as a surface texture crossing the body border.
+Every collectible is the same kind of object: a molded rubber duck toy. The collection must never read as different bird species. All ducks share the exact same base silhouette, proportions, head, body, wing, tail nub, beak, eye placement, and molded construction.
 
-The base duck outer contour is `#713c35`; every species tail and raised hair/crest silhouette must use this exact outline color and a comparable rounded stroke weight. Species colors may vary in the fill and interior accents, but not in the outer contour.
-- Freckles must be unmistakably small, filled, round dots with visible spacing in a compact cheek cluster. Avoid overlapping dots, tiny dashes, or irregular strokes that can read as stray linework at phone scale.
+Visual variety comes from:
+- Distinct rubber colors and complementary belly shading.
+- Different toy finishes where appropriate (glossy, pearlescent, metallic, matte).
+- Accessories and costume pieces that sit on the shared duck model: bows, hats, crowns, glasses, collars, badges, tiny capes, and playful themed add-ons.
+- Small painted toy graphics only when they look like intentional decals or manufactured details—not feathers, plumage, anatomy, or natural bird markings.
 
-Current character signatures:
-- **Sunny:** warm curled crown feather and a sunny tapered tail.
-- **Minty:** a soft three-feather mint tail, delicate pale wing feather mark, and tiny mint freckles.
-- **Berry:** a small five-petal blossom and a rounded lavender feather tail.
-- **Peaches:** warm cheek freckles, a scalloped wing marking, and a peach-shaped tail.
-- **Lulu:** a tiny lavender star marking and a cool-toned feather tail.
-- **Goldie:** a three-point golden crown plume, bright wing feather, and fuller golden tail.
-- **Zomduck:** muted mossy-green rubber, a ragged stitched tail, a little repaired wing patch, and a crooked crown feather. Keep the undead theme playful and toy-like, never graphic.
-- **Count Quackula:** deep plum rubber, a pale chest, ruby eye, tiny bat-ear crest, two small ivory beak fangs, and a velvet bat-cape tail.
+Non-negotiable visual rules:
+- Do not change the base duck silhouette, add feather tails, add hair/feather tufts, reshape the wings, or alter body/head proportions between collectible designs.
+- Do not add freckles, feather patterns, feather strokes, bird-like markings, fangs, or anatomy that makes a duck look like another species.
+- A themed design such as Zomduck or Count Quackula is a themed rubber duck toy. Its theme must be communicated through color, paint, and removable-looking toy accessories—not creature anatomy.
+- All shared base contours use the warm plum outline `#713c35`. Any accessory outline should harmonize with that same border language and remain visually attached to the toy.
+- Keep accessories readable at normal iPhone gameplay scale, avoid obscuring the face, and preserve the same duck silhouette beneath them.
+- All collectible ducks use the same base display scale. Rarity and coin production must not change the duck's physical proportions.
+- Equipped cosmetics continue to render above the built-in toy design where they overlap.
 
-New species details should be distinctive without becoming costume accessories. Preserve clear faces and avoid crowding the beak, eyes, or equipment slots. Equipped accessories must continue to render above the species details where they overlap.
+Current collectible toy identities:
+- **Sunny:** classic sunny-yellow rubber duck; clean, simple original toy.
+- **Minty:** pastel mint-green rubber duck with small cool-toned sunglasses.
+- **Berry:** lavender rubber duck with a little flower clip.
+- **Peaches:** peach-colored rubber duck with a pink bow.
+- **Lulu:** periwinkle rubber duck with a small star badge.
+- **Goldie:** golden rubber duck with a tiny toy crown.
+- **Zomduck:** moss-green rubber duck with a playful sewn-on patch accessory; no zombie anatomy.
+- **Count Quackula:** midnight-purple rubber duck with a small costume bow and cape detail; no fangs, bat ears, or bird anatomy.
 
-### New rarity and capsule progression
+### Capsule progression and collectible economy
+
 - Rarity order is **Common → Uncommon → Rare → Epic → Legendary → Mythic**.
-- The **Classic Capsule** remains 25 Pond Coins and keeps the original six-species odds unchanged.
+- The **Classic Capsule** remains 25 Pond Coins and keeps the original six-toy odds unchanged.
 - The **Premium Capsule** costs 250 Pond Coins and uses its own improved rarity distribution. Its current weighted mix is Sunny 24%, Minty 22%, Berry 17%, Peaches 14%, Lulu 9%, Goldie 8%, Zomduck 4%, and Count Quackula 2%.
-- Mythic ducks are exclusive to Premium Capsules for now. Premium rolls therefore have a 6% combined Mythic chance, while also improving the combined chance of Rare-or-better ducks.
-- Premium is a long-term coin sink, not a replacement for Classic. Both options remain available, and duplicates continue converting into the matching species' Duck Points.
-- Keep the two capsule prices, odds, rarity labels, collection icons, pond sprites, and per-species coin rates in sync whenever the roster changes.
+- Mythic rubber-duck designs are exclusive to Premium Capsules for now. Premium rolls therefore have a 6% combined Mythic chance.
+- Premium is a long-term coin sink, not a replacement for Classic. Both options remain available, and duplicates continue converting into the matching design's Duck Points.
+- Keep capsule prices, odds, rarity labels, collection icons, pond sprites, and per-design coin rates in sync whenever the roster changes.
 
 ## 17. Completion and visual quality gates
 
