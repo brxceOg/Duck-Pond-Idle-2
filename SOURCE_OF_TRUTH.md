@@ -281,10 +281,12 @@ The pond is a shared, responsive world. Ducks must not behave like sprites movin
 Duck Games is a permanent bottom-navigation destination. It must not replace or disrupt Roll, Pond, or My Ducks.
 
 ### Current playable activity
-- **Lily Pad Hop** is the first minigame. The player selects an individually owned duck and sends that duck into a five-hop reaction challenge across three lily pads.
-- The player must tap the highlighted pad on each hop. Three or more correct hops earn one accessory; fewer than three earn no item but allow another attempt.
+- **Lily Pad Hop** is the first minigame. The player selects an individually owned duck and sends that duck away to complete a five-hop activity across three lily pads.
+- The duck plays autonomously. The activity screen is a spectator display showing the selected duck hopping between pads, current progress, and the final result; the player does not tap pads or control the minigame.
+- Each of the five hops resolves automatically. Three or more successful hops earn one accessory; fewer than three earn no item, and the duck can be sent again after returning.
+- The activity continues while the player switches to other tabs and performs normal tasks. Navigation, capsule rolling, pond upgrades, collection, and passive coin income must remain available during an active run.
 - A duck selected for a run is the participant. Keep the activity tied to that duck's identity/UID so later game modes can apply duck-specific progression.
-- The minigame is self-contained, thumb-friendly, responsive, and must not interrupt passive pond income or normal pond simulation.
+- The activity screen is self-contained, responsive, and visually shows the duck travelling between lily pads. No player reaction buttons or timing prompts are allowed.
 
 ### Accessory inventory and equipment
 - Rewards persist in the existing local save alongside coins, ducks, and upgrades. Existing saves must migrate safely with empty accessory inventory/equipment defaults.
