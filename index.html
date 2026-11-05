@@ -964,24 +964,24 @@ function drawDuck(d,t,targetCtx=ctx){
   const choices=Object.keys(GAME_ITEMS).filter(id=>GAME_ITEMS[id].slot);
   const p=$(returnTab==='outfits'?'outfitsPanel':'gamesPanel');
   const current=p.innerHTML;
-  const html='<div class="panel-title"><h2>Dress up '+byId(duck.id).name+'</h2><button class="back-ducks" id="wardrobeBack">← Outfits</button></div><p class="sub">Pick a treasure for each accessory spot. You can swap or remove pieces whenever you like.</p>'+
+  const html='<div class="panel-title"><h2>Dress up '+byId(duck.id).name+'</h2><button class="back-ducks" id="wardrobeBack">← '+(returnTab==='outfits'?'Outfits':'Duck Games')+'</button></div><p class="sub">Pick a treasure for each accessory spot. You can swap or remove pieces whenever you like.</p>'+
    ['hat','hand','beak'].map(slot=>{const label=slot==='hat'?'Hats':slot==='hand'?'Wing-held charms':'Beak accessories';const available=choices.filter(id=>GAME_ITEMS[id].slot===slot);return '<section class="duck-section"><h3>'+label+'</h3><div class="accessory-shelf">'+available.map(id=>'<article class="accessory-card"><img src="'+GAME_ITEMS[id].src+'" alt="'+GAME_ITEMS[id].name+'"><b>'+GAME_ITEMS[id].name+'</b><small>'+ownedAccessoryCount(id)+' available</small><button type="button" data-equip-item="'+id+'" data-equip-slot="'+slot+'" '+(ownedAccessoryCount(id)===0?'disabled':'')+'>'+(slots[slot]===id?'Equipped':'Equip')+'</button></article>').join('')+'</div>'+(slots[slot]?'<button class="back-ducks" style="margin-top:8px" data-unequip="'+slot+'">Remove '+label.toLowerCase()+'</button>':'')+'</section>'}).join('')+
    '<div class="duck-section"><h3>Currently equipped</h3><p>'+['hat','hand','beak'].map(slot=>GAME_ITEMS[slots[slot]]?.name||'No '+slot+' item').join(' · ')+'</p></div>';
   p.innerHTML=html;
   $('wardrobeBack').addEventListener('click',()=>{if(returnTab==='outfits'){renderOutfits(p)}else{gameStage='game-select';renderPanel()}});
-  p.querySelectorAll('[data-equip-item]').forEach(b=>b.addEventListener('click',()=>equipItem(uid,b.dataset.equipSlot,b.dataset.equipItem)));
-  p.querySelectorAll('[data-unequip]').forEach(b=>b.addEventListener('click',()=>unequipItem(uid,b.dataset.unequip)));
+  p.querySelectorAll('[data-equip-item]').forEach(b=>b.addEventListener('click',()=>equipItem(uid,b.dataset.equipSlot,b.dataset.equipItem,returnTab)));
+  p.querySelectorAll('[data-unequip]').forEach(b=>b.addEventListener('click',()=>unequipItem(uid,b.dataset.unequip,returnTab)));
  }
- function equipItem(uid,slot,id){
+ function equipItem(uid,slot,id,returnTab='games'){
   if(!ownedAccessoryCount(id))return;
   const key=String(uid);state.gameEquipped[key]=state.gameEquipped[key]||{};
   const old=state.gameEquipped[key][slot];if(old)state.gameInventory[old]=ownedAccessoryCount(old)+1;
   state.gameInventory[id]=ownedAccessoryCount(id)-1;state.gameEquipped[key][slot]=id;
-  save();renderWardrobeForDuck(uid);renderDuckIcons();toast(GAME_ITEMS[id].name+' equipped!');
+  save();renderWardrobeForDuck(uid,returnTab);renderDuckIcons();toast(GAME_ITEMS[id].name+' equipped!');
  }
- function unequipItem(uid,slot){
+ function unequipItem(uid,slot,returnTab='games'){
   const key=String(uid),slots=state.gameEquipped[key]||{},old=slots[slot];if(!old)return;
-  state.gameInventory[old]=ownedAccessoryCount(old)+1;delete slots[slot];save();renderWardrobeForDuck(uid);renderDuckIcons();
+  state.gameInventory[old]=ownedAccessoryCount(old)+1;delete slots[slot];save();renderWardrobeForDuck(uid,returnTab);renderDuckIcons();
  }
  function renderDuckIcons(){
  document.querySelectorAll('canvas[data-duck-icon]').forEach(icon=>{
