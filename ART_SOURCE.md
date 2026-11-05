@@ -195,7 +195,7 @@ The collectible machine is a pastel-pink capsule dispenser, guided by the reposi
 - Currency, collection, upgrades, and settings icons must be immediately distinguishable.
 - Use a friendly rounded typeface for functional text and a more expressive display style for occasional titles.
 - Prioritize legibility at common iPhone sizes; do not use decorative fonts for long descriptions or tiny labels.
-- Typography must use a deliberate hierarchy: reserve the uploaded Rubber Duck face for prominent display text such as the game title, section headings, tabs, and key labels. Use the uploaded Just Ducky face only for selected short supporting labels where it remains easy to read. Use a clean system sans-serif for functional body copy, descriptions, prices, instructions, and dense information. Never force one custom display face across every UI element.
+- Keep the approved font hierarchy: Rubber Duck is the main typeface across the interface, including headings, buttons, important labels, numerical indicators, and primary UI text. Just Ducky is reserved for supporting descriptions and secondary text. The uploaded Duck and Ducky fonts remain fallback faces only; do not replace the approved hierarchy with system fonts or apply a single decorative face indiscriminately.
 
 ## 11. Asset production standards
 
