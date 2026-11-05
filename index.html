@@ -536,7 +536,7 @@ body *::before,body *::after{
 .equip-row canvas{width:42px;height:38px;flex:none}.equip-row div{flex:1;min-width:0}.equip-row b{display:block;font-size:13px}.equip-row small{display:block;color:#80578a;font-size:10px}
 .equip-row button{padding:6px 8px;border-radius:12px;background:#e4f2ff;border:1.5px solid #704579;color:#526b98;font-size:11px}
 .nav-item .nav-icon svg{width:25px;height:25px;display:block}
-@media(max-width:390px){.game-duck-select{grid-template-columns:1fr}.accessory-card img{width:48px;height:48px}}
+@media(max-width:420px){.nav-item{font-size:11px;gap:3px;padding:4px 1px;min-height:55px}.nav-item .nav-icon{font-size:18px}.nav-item .nav-icon svg{width:21px;height:21px}.game-duck-select{grid-template-columns:1fr}.accessory-card img{width:48px;height:48px}}
 @media(prefers-reduced-motion:reduce){.hop-pad{transition:none}}
 
 </style>
@@ -831,10 +831,10 @@ function drawDuck(d,t,targetCtx=ctx){
   const ownedTotal=Object.keys(GAME_ITEMS).reduce((n,id)=>n+ownedAccessoryCount(id)+equippedCount(id),0);
   p.innerHTML='<div class="panel-title"><h2>Duck Games</h2><span>✦ '+state.gameWins+' wins</span></div><p class="sub">Send a duck on a little lily-pad adventure! Win accessories to dress up your pond pals before the boss battles arrive.</p>'+
    '<div class="game-intro"><div class="game-intro-art" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M8 42c8-10 15-10 23 0s16 10 25-1" fill="none" stroke="#5c9a82" stroke-width="5" stroke-linecap="round"/><ellipse cx="21" cy="42" rx="13" ry="7" fill="#7fc68e" stroke="#54866b" stroke-width="2"/><ellipse cx="44" cy="35" rx="12" ry="7" fill="#8fd39b" stroke="#54866b" stroke-width="2"/><path d="M34 15l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="#ffe18b" stroke="#80528a" stroke-width="2" stroke-linejoin="round"/></svg></div><div><strong>Lily Pad Hop</strong><small>Hop across five lily pads. Land at least three to win a surprise accessory!</small></div></div>'+
-   '<h3 class="game-section-title">Choose your duck</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option '+(String(d.uid)===String(gameDuckUid)?'selected':'')+'" data-game-duck="'+d.uid+'" '+(busy?'disabled':'')+'><canvas width="92" height="76" data-duck-icon="'+d.id+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(Object.values(state.gameEquipped[String(d.uid)]||{}).length?'Adventure ready':'Ready to play')+'</small></span></button>').join('')+'</div>'+
+   '<h3 class="game-section-title">Choose your duck</h3><div class="game-duck-select">'+ducksOwned.map(d=>'<button type="button" class="game-duck-option '+(String(d.uid)===String(gameDuckUid)?'selected':'')+'" data-game-duck="'+d.uid+'" '+(busy?'disabled':'')+'><canvas width="92" height="76" data-duck-icon="'+d.id+' data-duck-uid="'+d.uid+'"></canvas><span><b>'+byId(d.id).name+'</b><small>'+(Object.values(state.gameEquipped[String(d.uid)]||{}).length?'Adventure ready':'Ready to play')+'</small></span></button>').join('')+'</div>'+
    '<div class="hop-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span>'+(busy?'Hop '+hopRound+' of 5':'5 hops · 3 wins needed')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(busy?'Tap the glowing lily pad!':'Send '+(selected?byId(selected.id).name:'your duck')+' to play a quick game.')+'</p><div class="hop-pads">'+[0,1,2].map(i=>'<button type="button" class="hop-pad '+(busy&&hopTarget===i?'target':'')+'" data-hop="'+i+'" aria-label="Lily pad '+(i+1)+'" '+(!busy||hopLocked?'disabled':'')+'></button>').join('')+'</div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><button class="roll-btn hop-start" id="hopStart" '+(busy?'disabled':'')+'>✦ Start Lily Pad Hop</button><div id="hopOutcome"></div></div>'+
    '<h3 class="game-section-title">Accessory wardrobe <small style="font-size:11px;color:#91639a">('+ownedTotal+' collected)</small></h3><p class="sub">Your rewards are saved here. Equip a hat, hand-held charm, or beak accessory to each duck.</p><div class="accessory-shelf">'+inventory.map(id=>{const item=GAME_ITEMS[id];return '<article class="accessory-card"><img src="'+item.src+'" alt="'+item.name+'"><b>'+item.name+'</b><small>'+item.rarity+' · '+ownedAccessoryCount(id)+' in bag</small></article>'}).join('')+(inventory.length?'':'<div class="accessory-empty">Your wardrobe is waiting for its first treasure. Win Lily Pad Hop to find a cute accessory!</div>')+'</div>'+
-   '<h3 class="game-section-title">Dress up your duck</h3><div class="equip-list">'+ducksOwned.map(d=>{const slots=state.gameEquipped[String(d.uid)]||{};return '<div class="equip-row"><canvas width="92" height="76" data-duck-icon="'+d.id+'"></canvas><div><b>'+byId(d.id).name+'</b><small>'+['hat','hand','beak'].map(slot=>{const item=GAME_ITEMS[slots[slot]];return item?item.name:(slot==='hand'?'Wing':'')}).filter(Boolean).join(' · ')||'No accessories equipped'+'</small></div><button type="button" data-dress-duck="'+d.uid+'">Equip</button></div>'}).join('')+'</div>';
+   '<h3 class="game-section-title">Dress up your duck</h3><div class="equip-list">'+ducksOwned.map(d=>{const slots=state.gameEquipped[String(d.uid)]||{};return '<div class="equip-row"><canvas width="92" height="76" data-duck-icon="'+d.id+' data-duck-uid="'+d.uid+'"></canvas><div><b>'+byId(d.id).name+'</b><small>'+['hat','hand','beak'].map(slot=>{const item=GAME_ITEMS[slots[slot]];return item?item.name:(slot==='hand'?'Wing':'')}).filter(Boolean).join(' · ')||'No accessories equipped'+'</small></div><button type="button" data-dress-duck="'+d.uid+'">Equip</button></div>'}).join('')+'</div>';
   p.querySelectorAll('[data-game-duck]').forEach(b=>b.addEventListener('click',()=>{gameDuckUid=b.dataset.gameDuck;renderPanel()}));
   p.querySelectorAll('[data-hop]').forEach(b=>b.addEventListener('click',()=>playHop(Number(b.dataset.hop))));
   $('hopStart').addEventListener('click',startHop);
@@ -907,14 +907,14 @@ function drawDuck(d,t,targetCtx=ctx){
  }
  function renderDuckIcons(){
  document.querySelectorAll('canvas[data-duck-icon]').forEach(icon=>{
-  const id=icon.dataset.duckIcon,g=icon.getContext('2d');
+  const id=icon.dataset.duckIcon,uid=icon.dataset.duckUid,g=icon.getContext('2d');
   g.clearRect(0,0,icon.width,icon.height);
   const scale=Math.min(icon.width/92,icon.height/68)*.82;
-  drawDuck({id,scale,dir:1,x:icon.width/2-2,y:icon.height*.66,phase:0,blink:1,vx:0,vy:0},0,g);
+  drawDuck({id,uid,scale,dir:1,x:icon.width/2-2,y:icon.height*.66,phase:0,blink:1,vx:0,vy:0},0,g);
  });
  document.querySelectorAll('canvas[data-duck-head]').forEach(icon=>{
   const id=icon.dataset.duckHead,source=document.createElement('canvas');source.width=124;source.height=112;
-  const sg=source.getContext('2d');drawDuck({id,scale:1.18,dir:1,x:62,y:83,phase:0,blink:1,vx:0,vy:0},0,sg);
+  const sg=source.getContext('2d');drawDuck({id,uid:icon.dataset.duckUid,scale:1.18,dir:1,x:62,y:83,phase:0,blink:1,vx:0,vy:0},0,sg);
   const g=icon.getContext('2d');g.clearRect(0,0,icon.width,icon.height);g.drawImage(source,18,12,100,78,0,0,icon.width,icon.height);
  });
 }
