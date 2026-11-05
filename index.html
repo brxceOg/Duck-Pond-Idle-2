@@ -937,29 +937,39 @@ function drawDuck(d,t,targetCtx=ctx){
   if(sp.id==='sunny'){
    // Crown curl is drawn separately outside the body-marking clip below.
   }else if(sp.id==='mint'){
-   // Tiny mint freckles and a soft feather mark on the visible wing.
+   // Tiny mint freckles only; wing feathers are clipped to the inset wing panel below.
    c.fillStyle='#e4fff0';c.beginPath();c.arc(17,-1,1.8,0,Math.PI*2);c.arc(21,3,1.4,0,Math.PI*2);c.fill();
-   c.fillStyle='#d8f5e2';c.beginPath();c.ellipse(-14,5,5.5,2.1,-.35,0,Math.PI*2);c.fill();
-   c.fillStyle='#c3ead2';c.beginPath();c.ellipse(-6,8,3.2,1.5,-.2,0,Math.PI*2);c.fill();
   }else if(sp.id==='berry'){
    // A tiny blossom tucked above the far side of Berry's head.
    c.translate(-16,-47);c.fillStyle='#fff0fa';c.strokeStyle='#8e5b9b';c.lineWidth=1.7;
    for(let i=0;i<5;i++){const an=i*Math.PI*2/5-Math.PI/2;c.beginPath();c.ellipse(Math.cos(an)*4,Math.sin(an)*4,3.2,4.1,an,0,Math.PI*2);c.fill();c.stroke()}
    c.fillStyle='#f5c85b';c.beginPath();c.arc(0,0,2.8,0,Math.PI*2);c.fill();
   }else if(sp.id==='peach'){
-   // Warm little freckles and a scalloped wing marking.
+   // Warm little freckles; wing feathers are clipped to the inset wing panel below.
    c.fillStyle='#a94f45';c.beginPath();c.arc(20,-9,1.1,0,Math.PI*2);c.arc(24,-7,1,0,Math.PI*2);c.arc(19,-5,1,0,Math.PI*2);c.fill();
-   c.fillStyle='#ffd0a5';c.beginPath();c.ellipse(-15,5,3.2,1.7,-.25,0,Math.PI*2);c.ellipse(-8,7,2.8,1.5,.2,0,Math.PI*2);c.ellipse(-2,5,2.2,1.3,-.2,0,Math.PI*2);c.fill();
   }else if(sp.id==='lilac'){
    // Lavender star-shaped flank marking.
    c.fillStyle='#e9d9ff';c.strokeStyle='#7d83c3';c.lineWidth=1.5;c.beginPath();
    for(let i=0;i<10;i++){const an=-Math.PI/2+i*Math.PI/5,r=i%2?3.2:6.2;c.lineTo(-16+Math.cos(an)*r,8+Math.sin(an)*r)}c.closePath();c.fill();c.stroke();
    c.fillStyle='#e8e8ff';c.beginPath();c.ellipse(-2,-40,4,1.5,-.2,0,Math.PI*2);c.fill();
   }else if(sp.id==='gold'){
-   // Goldie's bright wing feather; crown plume is drawn outside the clip below.
-   c.fillStyle='#fff1b2';c.beginPath();c.ellipse(-14,6,4.5,1.7,-.25,0,Math.PI*2);c.ellipse(-6,7,3,1.3,.15,0,Math.PI*2);c.fill();
+   // Crown plume is drawn separately; wing feathers are clipped to the inset wing panel below.
   }
   c.restore();
+  // Wing markings belong inside the smaller belly/wing panel, not merely
+  // inside the outer body silhouette. Inset the clip beyond its plum outline.
+  if(sp.id==='mint'||sp.id==='peach'||sp.id==='gold'){
+   c.save();c.beginPath();c.ellipse(-11,6,14.2,8.2,-.22,0,Math.PI*2);c.clip();
+   if(sp.id==='mint'){
+    c.fillStyle='#d8f5e2';c.beginPath();c.ellipse(-14,5,5.5,2.1,-.35,0,Math.PI*2);c.fill();
+    c.fillStyle='#c3ead2';c.beginPath();c.ellipse(-6,8,3.2,1.5,-.2,0,Math.PI*2);c.fill();
+   }else if(sp.id==='peach'){
+    c.fillStyle='#ffd0a5';c.beginPath();c.ellipse(-15,5,3.2,1.7,-.25,0,Math.PI*2);c.ellipse(-8,7,2.8,1.5,.2,0,Math.PI*2);c.ellipse(-2,5,2.2,1.3,-.2,0,Math.PI*2);c.fill();
+   }else{
+    c.fillStyle='#fff1b2';c.beginPath();c.ellipse(-14,6,4.5,1.7,-.25,0,Math.PI*2);c.ellipse(-6,7,3,1.3,.15,0,Math.PI*2);c.fill();
+   }
+   c.restore();
+  }
   // Raised crown features intentionally sit beyond the head silhouette;
   // all surface markings above remain clipped safely inside the body.
   if(sp.id==='sunny'||sp.id==='gold'){
