@@ -565,6 +565,23 @@ body *::before,body *::after{
 .hop-progress i{width:13px;height:13px;border-radius:50%;background:#e7f0d9;border:2px solid #6d997e}
 .hop-progress i.done{background:#f7cb6b;border-color:#a77948}
 .hop-result{text-align:center;padding:12px;border-radius:19px;background:#fff0c9;color:#714c39;margin-top:11px;border:2px solid #d7aa6e}
+/* Lily Pad Hop completion reward: a fixed, no-scroll overlay above the course. */
+.hop-reward-overlay{position:fixed;z-index:16;inset:0 0 calc(76px + env(safe-area-inset-bottom));display:grid;place-items:center;padding:18px;background:#3d315a77;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:hop-reward-fade .2s ease-out}
+.hop-reward-card{position:relative;width:min(100%,360px);max-height:100%;overflow-y:auto;text-align:center;padding:22px 20px 18px;border:3px solid #8c6596;border-radius:28px;background:linear-gradient(155deg,#fff9e9 0%,#fff0d5 48%,#f8e3f2 100%);box-shadow:0 8px 0 #684b7c55,0 18px 45px #34254255;color:#684775}
+.hop-reward-sparkle{font-size:29px;line-height:1;color:#e4ae4f;text-shadow:0 2px 0 #fff}
+.hop-reward-kicker{margin-top:5px;color:#9b6c91;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hop-reward-card h2{margin:5px 0 2px;font-size:25px;color:#684775}
+.hop-reward-score{font-size:29px;font-weight:900;color:#568b70;margin:5px 0}
+.hop-reward-score span{font-size:14px;font-weight:700;color:#8b7790}
+.hop-reward-card p{margin:6px 0 9px;font-size:14px;line-height:1.4;color:#765d77}
+.hop-reward-art{display:block;width:88px;height:88px;object-fit:contain;margin:2px auto 0;filter:drop-shadow(0 4px 3px #68477525)}
+.hop-reward-name{display:block;font-size:17px;color:#80528a;margin:1px 0 9px}
+.hop-reward-actions{display:grid;gap:8px;margin-top:12px}
+.hop-reward-actions .roll-btn,.hop-reward-actions .back-ducks{width:100%;min-height:46px;margin:0}
+@keyframes hop-reward-fade{from{opacity:0}to{opacity:1}}
+@media(max-height:650px){.hop-reward-overlay{padding:8px}.hop-reward-card{padding:14px 16px 12px}.hop-reward-art{width:66px;height:66px}.hop-reward-card h2{font-size:22px}.hop-reward-card p{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.hop-reward-overlay{animation:none}}
+
 .accessory-shelf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .accessory-card{min-width:0;text-align:center;padding:9px 5px 8px;border-radius:19px;background:linear-gradient(145deg,#fff0fb,#f1d0ed);border:2px solid #b68abd;box-shadow:0 3px 0 #d19bd2}
 .accessory-card img{width:58px;height:58px;object-fit:contain;display:block;margin:0 auto 3px;filter:drop-shadow(0 2px 1px #70427b24)}
@@ -892,12 +909,13 @@ function drawDuck(d,t,targetCtx=ctx){
    $('openLilyPadHop').addEventListener('click',()=>{gameStage='playing';if(!hopActive&&!hopFinished)startHop();else renderPanel()});
    }else{
    const participant=selected||ducksOwned[0];
-   const result=hopFinished?(hopWon?'<div class="hop-result"><strong>Wonderful hopping! '+hopScore+'/5</strong><br>'+byId(participant.id).name+' won a '+GAME_ITEMS[hopRewardId].name+'!<br><img src="'+GAME_ITEMS[hopRewardId].src+'" alt="'+GAME_ITEMS[hopRewardId].name+'" style="width:72px;height:72px;object-fit:contain"></div>':'<div class="hop-result"><strong>Adventure complete · '+hopScore+'/5</strong><br>'+byId(participant.id).name+' had a lovely time. They can try again for an accessory.</div>'):'';
+   const result=hopFinished?'<div class="hop-reward-overlay" role="dialog" aria-modal="true" aria-labelledby="hopRewardTitle"><div class="hop-reward-card"><div class="hop-reward-sparkle">✦</div><div class="hop-reward-kicker">'+(hopWon?'A little treasure for you':'Adventure complete')+'</div><h2 id="hopRewardTitle">'+(hopWon?'Wonderful hopping!':'Lovely effort!')+'</h2><div class="hop-reward-score">'+hopScore+' <span>/ 5 hops</span></div>'+(hopWon?'<p>'+byId(participant.id).name+' found a new accessory!</p><img class="hop-reward-art" src="'+GAME_ITEMS[hopRewardId].src+'" alt="'+GAME_ITEMS[hopRewardId].name+'"><strong class="hop-reward-name">'+GAME_ITEMS[hopRewardId].name+'</strong>':'<p>'+byId(participant.id).name+' had a lovely time. Three successful hops are needed to win an accessory. Give it another try!</p>')+'<div class="hop-reward-actions"><button type="button" class="roll-btn" id="hopAgain">✦ Play Again</button><button type="button" class="back-ducks" id="hopRewardDone">Back to Games</button></div></div></div>':'';
    p.innerHTML='<div class="panel-title"><h2>Lily Pad Hop</h2><button class="back-ducks" id="backToGameMenu" '+(hopActive?'disabled':'')+'>← Games</button></div>'+
     '<div class="game-selected-duck mini-game-duck"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas><div><strong>'+byId(participant.id).name+'</strong><small>'+(hopActive?'Out playing Lily Pad Hop':'Adventure finished')+'</small></div></div>'+
-    '<div class="hop-arena mini-game-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span id="hopStepLabel">'+(hopActive?'Hop '+Math.min(hopRound+1,5)+' of 5':'5 hops complete')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(hopActive?byId(participant.id).name+' is away on an adventure…':'Your duck has finished their little adventure.')+'</p><div class="hop-course"><div class="hop-pads">'+[0,1,2].map(i=>'<div class="hop-pad '+(hopActive&&hopTarget===i?'target':'')+'" data-hop-pad="'+i+'"></div>').join('')+'</div><div class="hop-runner '+(hopActive?'bouncing':'')+'" id="hopRunner" style="left:'+((Math.max(0,hopTarget)*33.3333)+16.6667)+'%"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas></div></div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><div class="hop-away-note">'+(hopActive?'Your duck is playing all by themselves. You can head back to your pond, collect coins, or do other tasks while they hop!':'Your duck has returned. You can send them on another adventure whenever you like.')+'</div><div id="hopOutcome">'+result+'</div>'+(hopActive?'':'<button class="roll-btn hop-start" id="hopAgain">✦ Send '+byId(participant.id).name+' again</button>')+'</div>';
+    '<div class="hop-arena mini-game-arena"><div class="hop-arena-head"><strong>✿ Lily Pad Hop</strong><span id="hopStepLabel">'+(hopActive?'Hop '+Math.min(hopRound+1,5)+' of 5':'5 hops complete')+'</span></div><p class="hop-instruction" id="hopInstruction">'+(hopActive?byId(participant.id).name+' is away on an adventure…':'Your duck has finished their little adventure.')+'</p><div class="hop-course"><div class="hop-pads">'+[0,1,2].map(i=>'<div class="hop-pad '+(hopActive&&hopTarget===i?'target':'')+'" data-hop-pad="'+i+'"></div>').join('')+'</div><div class="hop-runner '+(hopActive?'bouncing':'')+'" id="hopRunner" style="left:'+((Math.max(0,hopTarget)*33.3333)+16.6667)+'%"><canvas width="100" height="84" data-duck-icon="'+participant.id+'" data-duck-uid="'+participant.uid+'"></canvas></div></div><div class="hop-progress">'+[0,1,2,3,4].map(i=>'<i class="'+(i<hopRound?'done':'')+'"></i>').join('')+'</div><div class="hop-away-note">'+(hopActive?'Your duck is playing all by themselves. You can head back to your pond, collect coins, or do other tasks while they hop!':'Your duck has returned. You can send them on another adventure whenever you like.')+'</div><div id="hopOutcome"></div></div>'+result;
    $('backToGameMenu').addEventListener('click',()=>{gameStage='game-select';renderPanel()});
    const again=$('hopAgain');if(again)again.addEventListener('click',()=>{hopFinished=false;hopRewardId=null;gameStage='playing';startHop()});
+   const rewardDone=$('hopRewardDone');if(rewardDone)rewardDone.addEventListener('click',()=>{gameStage='game-select';renderPanel()});
 
   }
   renderDuckIcons();
