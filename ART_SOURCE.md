@@ -523,7 +523,7 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - Accessories must remain readable at small iPhone gameplay scale and must not obscure duck eyes, beaks, or expressions.
 - Keep accessory sprites as transparent-background SVG or high-resolution raster art in `assets/accessories/`; do not use emoji or generic icon placeholders for collected rewards.
 - The inventory must display the actual accessory sprite, not a text symbol. The pond duck renderer should draw the corresponding equipped piece on the correct body location.
-- Hats sit directly against and conform to the crown; wing-held props are layered behind the duck sprite so the near wing visibly overlaps the wand shaft, with only a small grip detail drawn over the wing; chest ornaments sit on the front body, never on the tail.
+- Hats sit directly against and conform to the crown; wing-held props are layered between the duck body and its near-wing panel: the wand remains visible against the body, while the wing panel is redrawn over the shaft; only a small grip detail sits above the wing; chest ornaments sit on the front body, never on the tail.
 - Equipment is cosmetic for now. The data model should preserve item identity and equipment slots so later boss/raid systems can use accessories as armor/stat inputs without replacing this collection.
 
 ### Initial reward set
