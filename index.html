@@ -401,32 +401,9 @@ body{background:radial-gradient(ellipse at 18% 8%,#f0c6ee 0,transparent 36%),rad
 @media(max-width:420px){.panel{padding:14px;border-radius:26px}.duck-card{gap:8px;padding:9px;border-radius:21px}.duck-thumb{width:56px;height:56px}.wallet-pill{padding:7px 10px}.scene-card{border-radius:27px}}
 
 
-/* Global typeface lock: the Pages build extracts Rubber-Duck.ttf from rubber_duck.zip. */
-@font-face{
- font-family:"Just Ducky";
- src:url("./assets/fonts/Rubber-Duck.ttf?v=20261104-fontfix2") format("truetype");
- font-style:normal;
- font-weight:400;
- font-display:swap;
-}
-html,body,body *,
-button,input,select,textarea,optgroup,option{
- font-family:"Just Ducky","Ducky","Duck" !important;
-}
-
-
-/* Final iOS-safe font assignment: the uploaded TTF is a static face, not a variable font. */
-@font-face{
- font-family:"Just Ducky";
- src:url("./assets/fonts/Rubber-Duck.ttf?v=20261104-fontfix2") format("truetype");
- font-style:normal;
- font-weight:400;
- font-display:swap;
-}
-:root,html,body,body * ,button,input,select,textarea,option,
-body *::before,body *::after{
- font-family:"Just Ducky","Ducky","Duck" !important;
-}
+/* Preserve the approved two-font hierarchy.
+   Just Ducky is primary; Rubber Duck is assigned to supporting copy below.
+   Do not alias one family to the other or globally override every element. */
 
 
 /* Keep the two header pills top-aligned; income sits beneath coins without shifting its pill upward. */
@@ -489,7 +466,7 @@ body *::before,body *::after{
 @media(prefers-reduced-motion:reduce){.pond-upgrade-backdrop,.pond-upgrade-sheet{transition:none}}
 
 
-/* Just Ducky is reserved for compact supporting copy; primary labels and headings keep Rubber Duck. */
+/* Rubber Duck is reserved for supporting copy; primary labels and headings use Just Ducky. */
 .brand small,.scene-head span,.scene-foot,.stat span,.sub,.price,.duck-card small,.duck-detail-meta,.duck-points-wallet small,.duck-section p,.duck-section-empty,.upgrade-card small,.empty,.roll-info small{font-family:"Rubber Duck","Ducky","Duck" !important}
 
 
