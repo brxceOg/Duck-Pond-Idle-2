@@ -900,11 +900,13 @@ function drawDuck(d,t,targetCtx=ctx){
  const c=targetCtx,sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
  const sprite=duckSpriteImages[sp.id];
+ // Draw the wand first so its shaft sits physically behind the duck's near wing.
+ c.save();drawDuckWandBehindWing(d,c);c.restore();
  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width)){
   // Transparent illustrated sprite: no baked-in background or ground shadow.
   c.drawImage(sprite,-47,-43,94,86);
  }
- // Keep player-equipped cosmetics attached to the new shared rubber-duck sprite.
+ // Hats, chest charms, and the small visible wand grip sit above the duck.
  c.save();drawDuckAccessories(d,c);c.restore();
  c.restore()
 }
@@ -970,6 +972,19 @@ function drawDuck(d,t,targetCtx=ctx){
   peachy_beak_bow:{name:'Peachy Beak Bow',slot:'chest',rarity:'Rare',src:'assets/accessories/peachy-beak-bow.svg'}
  };
  const itemById=id=>GAME_ITEMS[id];
+ function drawDuckWandBehindWing(d,c){
+  const equipped=state.gameEquipped[String(d.uid)]||{};
+  if(equipped.hand!=='star_wand')return;
+  c.save();c.translate(17,12);c.rotate(.34);c.lineCap='round';
+  c.strokeStyle='#713c35';c.lineWidth=5;c.beginPath();c.moveTo(0,13);c.lineTo(0,-14);c.stroke();
+  const stick=c.createLinearGradient(-2,0,2,0);stick.addColorStop(0,'#fff0ae');stick.addColorStop(1,'#df9a3e');
+  c.strokeStyle=stick;c.lineWidth=2.8;c.beginPath();c.moveTo(0,13);c.lineTo(0,-14);c.stroke();
+  c.fillStyle='#ffdf7b';c.strokeStyle='#713c35';c.lineWidth=2;c.beginPath();
+  for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?4.5:9;c.lineTo(Math.cos(a)*r,Math.sin(a)*r-17)}
+  c.closePath();c.fill();c.stroke();
+  c.fillStyle='#fff8d8';c.beginPath();c.arc(-2,-24,1.7,0,Math.PI*2);c.fill();
+  c.restore();
+ }
  function drawDuckAccessories(d,c){
   const equipped=state.gameEquipped[String(d.uid)]||{};
   const outline='#713c35';
@@ -985,15 +1000,10 @@ function drawDuck(d,t,targetCtx=ctx){
    c.fillStyle='#f5ce70';c.beginPath();c.arc(1,-3,3,0,Math.PI*2);c.fill();c.stroke();c.restore();
   }
   if(equipped.hand==='star_wand'){
-   // Tuck the wand into the near wing; a small wing-colored grip crosses the shaft.
-   c.save();c.translate(17,12);c.rotate(.34);c.lineCap='round';
-   c.strokeStyle=outline;c.lineWidth=5;c.beginPath();c.moveTo(0,13);c.lineTo(0,-14);c.stroke();
-   const stick=c.createLinearGradient(-2,0,2,0);stick.addColorStop(0,'#fff0ae');stick.addColorStop(1,'#df9a3e');
-   c.strokeStyle=stick;c.lineWidth=2.8;c.beginPath();c.moveTo(0,13);c.lineTo(0,-14);c.stroke();
-   c.fillStyle='#ffdf7b';c.strokeStyle=outline;c.lineWidth=2;c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?4.5:9;c.lineTo(Math.cos(a)*r,Math.sin(a)*r-17)}c.closePath();c.fill();c.stroke();
-   c.fillStyle='#fff8d8';c.beginPath();c.arc(-2,-24,1.7,0,Math.PI*2);c.fill();
-   // The grip overlaps the shaft, making the prop look held rather than floating beside the duck.
-   c.rotate(-.34);c.fillStyle='#f3bd48';c.strokeStyle=outline;c.lineWidth=1.8;c.beginPath();c.ellipse(0,12,5.2,2.8,-.2,0,Math.PI*2);c.fill();c.stroke();
+   // Only the small golden grip remains above the wing; the wand shaft is behind it.
+   c.save();c.translate(17,12);c.rotate(.34);
+   c.fillStyle='#f3bd48';c.strokeStyle=outline;c.lineWidth=1.8;
+   c.beginPath();c.ellipse(0,12,5.2,2.8,-.2,0,Math.PI*2);c.fill();c.stroke();
    c.restore();
   }
   if(equipped.chest==='peachy_beak_bow'){
