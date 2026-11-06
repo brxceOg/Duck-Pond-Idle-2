@@ -523,13 +523,13 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - Accessories must remain readable at small iPhone gameplay scale and must not obscure duck eyes, beaks, or expressions.
 - Keep accessory sprites as transparent-background SVG or high-resolution raster art in `assets/accessories/`; do not use emoji or generic icon placeholders for collected rewards.
 - The inventory must display the actual accessory sprite, not a text symbol. The pond duck renderer should draw the corresponding equipped piece on the correct body location.
-- Hats sit naturally on the crown; wing-held props follow the near wing; beak accessories sit around the beak without hiding the duck's mouth shape.
+- Hats sit directly against and conform to the crown; wing-held props are visibly tucked into the near wing; chest ornaments sit on the front body, never on the tail.
 - Equipment is cosmetic for now. The data model should preserve item identity and equipment slots so later boss/raid systems can use accessories as armor/stat inputs without replacing this collection.
 
 ### Initial reward set
 - **Berry Bonnet** (`berry_bonnet`, hat): a soft berry-pink bonnet with a curved crown, broad rounded brim, tiny cream bow, and warm golden center detail.
 - **Starry Wand** (`star_wand`, hand): a golden wand with a dimensional butter-yellow star, plum outline, and tiny pastel sparkles. It is held beside the duck's near wing.
-- **Peachy Beak Bow** (`peachy_beak_bow`, beak): a small peach-pink bow charm that decorates the beak while leaving its silhouette and expression visible.
+- **Peachy Beak Bow** (`peachy_beak_bow`, chest): a small peach-pink bow charm centered on the duck's chest, clear of the beak and tail.
 
 ### Lily Pad Hop presentation and motion
 - The minigame is a miniature pond vignette: three rounded green lily pads, aqua/mint water tones, warm highlights, and soft plum outlines.
