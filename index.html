@@ -879,16 +879,49 @@ function drawCoinIndicator(d){
  ctx.restore();
 }
 const duckSpriteImages={};
-species.forEach(sp=>{
- const img=new Image();
- img.src=`assets/ducks/${sp.id==='peach'?'peach':sp.id==='lilac'?'lilac':sp.id==='gold'?'gold':sp.id==='zombie'?'zombie':sp.id==='vampire'?'vampire':sp.id}.svg?v=20261105-rubberduck`;
- duckSpriteImages[sp.id]=img;
-});
+const baseDuckSprite=new Image();
+baseDuckSprite.onload=()=>{
+ const source=document.createElement('canvas');source.width=baseDuckSprite.naturalWidth;source.height=baseDuckSprite.naturalHeight;
+ const sourceCtx=source.getContext('2d',{willReadFrequently:true});sourceCtx.drawImage(baseDuckSprite,0,0);
+ const original=sourceCtx.getImageData(0,0,source.width,source.height);
+ const variants={
+  mint:[145,.58],berry:[330,.58],peach:[30,.62],lilac:[270,.58],
+  gold:[43,.86],zombie:[90,.58],vampire:[300,.58]
+ };
+ const makeVariant=(hue,satScale)=>{
+  const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;
+  const out=canvas.getContext('2d'),pixels=new Uint8ClampedArray(original.data);
+  for(let i=0;i<pixels.length;i+=4){
+   if(pixels[i+3]===0)continue;
+   const r=pixels[i]/255,g=pixels[i+1]/255,b=pixels[i+2]/255;
+   const max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
+   if(delta===0||max<.25)continue;
+   let h=0;if(max===r)h=60*(((g-b)/delta)%6);else if(max===g)h=60*((b-r)/delta+2);else h=60*((r-g)/delta+4);
+   if(h<0)h+=360;
+   const sat=max===0?0:delta/max;
+   // Only recolor the original saturated yellow rubber. The orange beak,
+   // warm orange shading, dark outlines, eyes and white gloss stay untouched.
+   if(h<38||h>65||sat<.34||max<.32)continue;
+   const s=Math.min(1,sat*satScale),c=max*s,x=c*(1-Math.abs((hue/60)%2-1)),m=max-c;
+   let rr=0,gg=0,bb=0;
+   if(hue<60){rr=c;gg=x;}else if(hue<120){rr=x;gg=c;}else if(hue<180){gg=c;bb=x;}
+   else if(hue<240){gg=x;bb=c;}else if(hue<300){rr=x;bb=c;}else{rr=c;bb=x;}
+   pixels[i]=Math.round((rr+m)*255);pixels[i+1]=Math.round((gg+m)*255);pixels[i+2]=Math.round((bb+m)*255);
+  }
+  out.putImageData(new ImageData(pixels,source.width,source.height),0,0);
+  return canvas;
+ };
+ duckSpriteImages.sunny=source;
+ Object.entries(variants).forEach(([id,settings])=>duckSpriteImages[id]=makeVariant(...settings));
+ if(typeof renderDuckIcons==='function')renderDuckIcons();
+};
+baseDuckSprite.src='assets/ducks/source.svg?v=20261106-original';
+species.forEach(sp=>duckSpriteImages[sp.id]=null);
 function drawDuck(d,t,targetCtx=ctx){
  const c=targetCtx,sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
  const sprite=duckSpriteImages[sp.id];
- if(sprite&&sprite.complete&&sprite.naturalWidth){
+ if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width)){
   // Transparent illustrated sprite: no baked-in background or ground shadow.
   c.drawImage(sprite,-47,-43,94,86);
  }
