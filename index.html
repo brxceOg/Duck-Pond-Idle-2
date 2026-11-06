@@ -861,37 +861,44 @@ baseDuckSprite.onload=()=>{
  const source=document.createElement('canvas');source.width=baseDuckSprite.naturalWidth;source.height=baseDuckSprite.naturalHeight;
  const sourceCtx=source.getContext('2d',{willReadFrequently:true});sourceCtx.drawImage(baseDuckSprite,0,0);
  const original=sourceCtx.getImageData(0,0,source.width,source.height);
- // The embedded master sprite contains chromatic compression/glitch streaks
- // along its lower edge. Clean those pixels once, before making any recolors,
- // so every pond sprite and UI thumbnail inherits the same clean silhouette.
+ // The source artwork has a broad band of chromatic corruption across
+ // the lower body. The earlier pass started too low and searched too small
+ // an area, leaving the streaks untouched. Detect non-rubber hues from the
+ // middle/lower body and rebuild them from the nearest intact duck pixels.
  {
   const raw=original.data,clean=new Uint8ClampedArray(raw),w=source.width,h=source.height;
-  const isLowerEdgeArtifact=(idx,y)=>{
-   if(y<Math.floor(h*.64)||raw[idx+3]<24)return false;
+  const hueAt=(idx)=>{
    const r=raw[idx]/255,g=raw[idx+1]/255,b=raw[idx+2]/255;
    const max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
-   if(max<.22||delta<.055)return false;
+   if(delta<.035||max<.12)return {hue:0,sat:0};
    let hue=0;
    if(max===r)hue=60*(((g-b)/delta)%6);
    else if(max===g)hue=60*((b-r)/delta+2);
    else hue=60*((r-g)/delta+4);
    if(hue<0)hue+=360;
-   const sat=delta/max;
-   // The real duck's lower shading and contour are warm yellow/orange/brown.
-   // Bright, saturated cool/magenta pixels here are corruption, not artwork.
-   return sat>.24&&(hue>68&&hue<325);
+   return {hue,sat:delta/max};
   };
-  for(let y=Math.floor(h*.64);y<h;y++)for(let x=0;x<w;x++){
+  const isArtifact=(idx,y)=>{
+   if(y<Math.floor(h*.49)||raw[idx+3]<24)return false;
+   const {hue,sat}=hueAt(idx);
+   // Keep the sprite's warm yellow/orange rubber, brown contour, and
+   // low-saturation white gloss. The source corruption is vivid/cool.
+   return sat>.16&&(hue>66&&hue<350);
+  };
+  const start=Math.floor(h*.49);
+  for(let y=start;y<h;y++)for(let x=0;x<w;x++){
    const i=(y*w+x)*4;
-   if(!isLowerEdgeArtifact(i,y))continue;
+   if(!isArtifact(i,y))continue;
    let best=-1,bestScore=Infinity;
-   for(let dy=-6;dy<=6;dy++)for(let dx=-3;dx<=3;dx++){
+   // Search well beyond the thin glitch band; prefer nearby pixels and
+   // slightly favor intact material above the damaged region.
+   for(let dy=-36;dy<=10;dy++)for(let dx=-8;dx<=8;dx++){
     if(!dx&&!dy)continue;
     const nx=x+dx,ny=y+dy;
     if(nx<0||nx>=w||ny<0||ny>=h)continue;
     const ni=(ny*w+nx)*4;
-    if(raw[ni+3]<24||isLowerEdgeArtifact(ni,ny))continue;
-    const score=dx*dx+dy*dy*1.35;
+    if(raw[ni+3]<24||isArtifact(ni,ny))continue;
+    const score=dx*dx+dy*dy*.72+(dy>0?dy*1.8:0);
     if(score<bestScore){best=ni;bestScore=score;}
    }
    if(best>=0){clean[i]=raw[best];clean[i+1]=raw[best+1];clean[i+2]=raw[best+2];clean[i+3]=raw[best+3];}
