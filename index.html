@@ -998,7 +998,7 @@ function drawDuck(d,t,targetCtx=ctx){
   }
   if(equipped.chest==='peachy_beak_bow'){
    // The Peachy Bow is now a chest ornament, centered on the front of the duck's body.
-   c.save();c.translate(13,17);c.rotate(.06);c.lineJoin='round';c.lineWidth=2.2;c.strokeStyle=outline;
+   c.save();c.translate(-16,13);c.rotate(-.08);c.lineJoin='round';c.lineWidth=2.2;c.strokeStyle=outline;
    const g=c.createLinearGradient(-9,-8,9,8);g.addColorStop(0,'#ffe0e7');g.addColorStop(.58,'#f5abc0');g.addColorStop(1,'#df7f9e');
    c.fillStyle=g;c.beginPath();c.moveTo(-2,0);c.quadraticCurveTo(-17,-16,-19,-3);c.quadraticCurveTo(-18,7,-2,4);c.closePath();c.fill();c.stroke();
    c.beginPath();c.moveTo(2,0);c.quadraticCurveTo(17,-16,19,-3);c.quadraticCurveTo(18,7,2,4);c.closePath();c.fill();c.stroke();
