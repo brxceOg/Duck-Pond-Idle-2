@@ -861,6 +861,45 @@ baseDuckSprite.onload=()=>{
  const source=document.createElement('canvas');source.width=baseDuckSprite.naturalWidth;source.height=baseDuckSprite.naturalHeight;
  const sourceCtx=source.getContext('2d',{willReadFrequently:true});sourceCtx.drawImage(baseDuckSprite,0,0);
  const original=sourceCtx.getImageData(0,0,source.width,source.height);
+ // The embedded master sprite contains chromatic compression/glitch streaks
+ // along its lower edge. Clean those pixels once, before making any recolors,
+ // so every pond sprite and UI thumbnail inherits the same clean silhouette.
+ {
+  const raw=original.data,clean=new Uint8ClampedArray(raw),w=source.width,h=source.height;
+  const isLowerEdgeArtifact=(idx,y)=>{
+   if(y<Math.floor(h*.64)||raw[idx+3]<24)return false;
+   const r=raw[idx]/255,g=raw[idx+1]/255,b=raw[idx+2]/255;
+   const max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
+   if(max<.22||delta<.055)return false;
+   let hue=0;
+   if(max===r)hue=60*(((g-b)/delta)%6);
+   else if(max===g)hue=60*((b-r)/delta+2);
+   else hue=60*((r-g)/delta+4);
+   if(hue<0)hue+=360;
+   const sat=delta/max;
+   // The real duck's lower shading and contour are warm yellow/orange/brown.
+   // Bright, saturated cool/magenta pixels here are corruption, not artwork.
+   return sat>.24&&(hue>68&&hue<325);
+  };
+  for(let y=Math.floor(h*.64);y<h;y++)for(let x=0;x<w;x++){
+   const i=(y*w+x)*4;
+   if(!isLowerEdgeArtifact(i,y))continue;
+   let best=-1,bestScore=Infinity;
+   for(let dy=-6;dy<=6;dy++)for(let dx=-3;dx<=3;dx++){
+    if(!dx&&!dy)continue;
+    const nx=x+dx,ny=y+dy;
+    if(nx<0||nx>=w||ny<0||ny>=h)continue;
+    const ni=(ny*w+nx)*4;
+    if(raw[ni+3]<24||isLowerEdgeArtifact(ni,ny))continue;
+    const score=dx*dx+dy*dy*1.35;
+    if(score<bestScore){best=ni;bestScore=score;}
+   }
+   if(best>=0){clean[i]=raw[best];clean[i+1]=raw[best+1];clean[i+2]=raw[best+2];clean[i+3]=raw[best+3];}
+   else clean[i+3]=0;
+  }
+  original.data.set(clean);
+  sourceCtx.putImageData(original,0,0);
+ }
  const variants={
   mint:[145,.58],berry:[330,.58],peach:[30,.62],lilac:[270,.58],
   gold:[43,.86],zombie:[90,.58],vampire:[300,.58]
