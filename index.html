@@ -900,12 +900,11 @@ function drawDuck(d,t,targetCtx=ctx){
  const c=targetCtx,sp=byId(d.id),scale=d.scale*1.05,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);c.scale(scale*(d.dir||1),scale);
  const sprite=duckSpriteImages[sp.id];
- // Draw the wand first so its shaft sits physically behind the duck's near wing.
- c.save();drawDuckWandBehindWing(d,c);c.restore();
  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width)){
-  // Transparent illustrated sprite: no baked-in background or ground shadow.
+  // Draw the duck body first; the wand is layered between the body and its near wing.
   c.drawImage(sprite,-47,-43,94,86);
  }
+ c.save();drawDuckWandBehindWing(d,c,sprite);c.restore();
  // Hats, chest charms, and the small visible wand grip sit above the duck.
  c.save();drawDuckAccessories(d,c);c.restore();
  c.restore()
@@ -972,9 +971,10 @@ function drawDuck(d,t,targetCtx=ctx){
   peachy_beak_bow:{name:'Peachy Beak Bow',slot:'chest',rarity:'Rare',src:'assets/accessories/peachy-beak-bow.svg'}
  };
  const itemById=id=>GAME_ITEMS[id];
- function drawDuckWandBehindWing(d,c){
+ function drawDuckWandBehindWing(d,c,sprite){
   const equipped=state.gameEquipped[String(d.uid)]||{};
   if(equipped.hand!=='star_wand')return;
+  // Place the wand over the body, then restore only the near-wing panel above it.
   c.save();c.translate(17,12);c.rotate(.34);c.lineCap='round';
   c.strokeStyle='#713c35';c.lineWidth=5;c.beginPath();c.moveTo(0,13);c.lineTo(0,-14);c.stroke();
   const stick=c.createLinearGradient(-2,0,2,0);stick.addColorStop(0,'#fff0ae');stick.addColorStop(1,'#df9a3e');
@@ -984,6 +984,13 @@ function drawDuck(d,t,targetCtx=ctx){
   c.closePath();c.fill();c.stroke();
   c.fillStyle='#fff8d8';c.beginPath();c.arc(-2,-24,1.7,0,Math.PI*2);c.fill();
   c.restore();
+  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width)){
+   c.save();
+   // This compact mask isolates the near-side wing panel without covering the wand's star.
+   c.beginPath();c.ellipse(17,12,14,9,-.12,0,Math.PI*2);c.clip();
+   c.drawImage(sprite,-47,-43,94,86);
+   c.restore();
+  }
  }
  function drawDuckAccessories(d,c){
   const equipped=state.gameEquipped[String(d.uid)]||{};
