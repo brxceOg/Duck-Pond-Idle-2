@@ -89,7 +89,7 @@ def main() -> None:
         hsv[..., 0][body_mask] = np.uint8(round((hue_degrees % 360) * 255 / 360))
         # Keep each source pixel's saturation and value: shaded pixels stay
         # shaded, highlights stay glossy, and no RGB matrix clipping is introduced.
-        rgb = np.asarray(Image.fromarray(hsv, mode="HSV").convert("RGB"), dtype=np.uint8)
+        rgb = np.asarray(Image.fromarray(hsv, mode="HSV").convert("RGB"), dtype=np.uint8).copy()
         rgb[~body_mask] = source_rgb[~body_mask]
         rgba = np.dstack((rgb, source_alpha))
         output = Image.fromarray(rgba, mode="RGBA")
