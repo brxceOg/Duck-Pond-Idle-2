@@ -35,13 +35,17 @@ VARIANTS = {
 # every orange, cream, antialiased, and interior beak pixel regardless of its
 # hue/saturation. The contour stays inside the beak and avoids the cheek/body.
 BEAK_POLYGON = [
-    # Trace the actual orange bill, including its dark outer contour, but keep
-    # the boundary inside the surrounding yellow cheek/head pixels. The former
-    # broad polygon extended too far right and below the bill into the face.
-    (27, 63), (29, 60), (33, 58), (39, 56), (46, 56),
-    (53, 58), (60, 61), (67, 63), (73, 66), (77, 69),
-    (78, 72), (75, 75), (70, 77), (64, 79), (57, 81),
-    (50, 81), (43, 79), (37, 76), (32, 72), (29, 68),
+    # Manually traced around the visible bill contour in source.svg. This is
+    # deliberately an asymmetric contour rather than an oval: the upper bill
+    # rises at the left, broadens toward the tip, and the lower bill curves
+    # back under the mouth. Keep the cheek/head outside this boundary.
+    (27, 63), (28, 61), (30, 60), (33, 59), (36, 58),
+    (40, 57), (44, 57), (48, 58), (52, 59), (56, 61),
+    (60, 62), (64, 63), (68, 65), (72, 66), (75, 68),
+    (78, 70), (79, 72), (78, 73), (76, 74), (73, 76),
+    (69, 77), (65, 78), (61, 79), (56, 80), (51, 80),
+    (47, 79), (43, 78), (39, 76), (35, 74), (32, 72),
+    (30, 69), (28, 66),
 ]
 
 def extract_master() -> Image.Image:
