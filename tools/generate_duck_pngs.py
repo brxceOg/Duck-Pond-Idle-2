@@ -35,18 +35,18 @@ VARIANTS = {
 # every orange, cream, antialiased, and interior beak pixel regardless of its
 # hue/saturation. The contour stays inside the beak and avoids the cheek/body.
 BEAK_POLYGON = [
-    # Hand-traced to the visible bill edge, not a centered oval. The upper
-    # contour begins at the left mouth corner, rises only over the orange
-    # upper bill, then runs to the narrow right tip. The lower contour follows
-    # the curved lower bill back to the left corner. Yellow cheek pixels above
-    # the upper bill and below the lower lip are intentionally excluded.
-    (26, 64), (27, 62), (29, 61), (32, 60), (35, 59),
-    (39, 58), (43, 58), (47, 59), (51, 60), (55, 62),
-    (59, 63), (63, 64), (67, 66), (71, 67), (75, 69),
-    (78, 71), (80, 73), (80, 74), (78, 75), (75, 76),
-    (72, 78), (68, 79), (64, 80), (60, 81), (56, 82),
-    (52, 82), (48, 81), (44, 80), (40, 78), (37, 76),
-    (34, 74), (32, 72), (30, 70), (28, 67),
+    # Trace the actual two-lobed bill silhouette from the master artwork.
+    # This contour hugs the upper bill's shallow rise and narrow right tip,
+    # then follows the lower bill's flatter, tapered underside. It deliberately
+    # excludes the yellow cheek above the bill and the orange cheek shading
+    # below/behind the mouth; do not replace this with an oval or ellipse.
+    (28, 65), (29, 63), (32, 61), (36, 60), (40, 59),
+    (44, 58), (48, 58), (52, 59), (56, 60), (60, 62),
+    (64, 64), (68, 66), (72, 68), (76, 70), (79, 72),
+    (80, 73), (80, 74), (78, 76), (75, 77), (71, 79),
+    (67, 80), (63, 81), (59, 82), (55, 82), (51, 82),
+    (47, 81), (43, 80), (39, 78), (36, 76), (33, 73),
+    (31, 70), (29, 68),
 ]
 
 def extract_master() -> Image.Image:
