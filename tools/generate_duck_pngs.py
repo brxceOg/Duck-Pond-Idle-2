@@ -35,7 +35,7 @@ VARIANTS = {
 # pixel color, not a broad polygon: a polygon also protects nearby yellow cheek
 # and body pixels, which then remain Sunny-yellow on every recolored duck.
 BEAK_WINDOW = (24, 50, 84, 86)  # left, top, right, bottom
-BEAK_HUE_MAX = 28               # orange hues only; yellow body is beyond this
+BEAK_HUE_MAX = 18               # orange hues only; yellow body is beyond this
 BEAK_MIN_SATURATION = 72
 
 def extract_master() -> Image.Image:
