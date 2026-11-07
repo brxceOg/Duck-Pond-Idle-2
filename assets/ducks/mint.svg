@@ -2,8 +2,8 @@
  <defs><filter id="paint-mint" color-interpolation-filters="sRGB">
   <feColorMatrix in="SourceGraphic" type="hueRotate" values="97" result="turned"/>
   <feColorMatrix in="turned" type="saturate" values="0.58" result="toned"/>
-  <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 1 0 1 0 0 1 0 0 1 0 1 -2 4 -2 0 0" result="bodyMask"/>
-  <feComponentTransfer in="bodyMask" result="bodyMaskSoft"><feFuncA type="linear" slope="2.5" intercept="0"/></feComponentTransfer>
+  <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 1 0 1 0 0 1 0 0 1 0 1 -0.5 1.5 -1 0 0" result="bodyMask"/>
+  <feComponentTransfer in="bodyMask" result="bodyMaskSoft"><feFuncA type="linear" slope="12" intercept="0"/></feComponentTransfer>
   <feComposite in="toned" in2="bodyMaskSoft" operator="in" result="recoloredBody"/>
   <feComposite in="recoloredBody" in2="SourceGraphic" operator="over"/>
  </filter></defs>
