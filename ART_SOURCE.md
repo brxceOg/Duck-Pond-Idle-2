@@ -552,3 +552,10 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - Do not generate variant colors by mutating the master image in the game runtime. The renderer selects the matching standalone sprite asset for each species.
 - Each variant's color treatment must preserve the source duck's light-to-dark shading, gloss, molded form, plum outline, eyes, beak, wing, and silhouette. Adjust the individual asset's color treatment independently when a variant needs refinement.
 - Keep sprite dimensions and viewBox aligned with the master so accessories, wing layering, pond movement, and collectible icons remain registered.
+
+
+### Variant shading color rule
+- Recolor the complete rubber body, including the darker painted shadow regions; do not leave the original yellow duck's orange-brown shadows behind on cool-colored variants.
+- Each duck's shadow hue must be derived from its own body palette: mint uses deeper cool green/teal shadows, berry uses deeper berry/rose shadows, peach uses deeper coral/peach shadows, lilac uses deeper violet shadows, gold uses deeper amber shadows, zombie uses muted olive/green shadows, and vampire uses deep plum/red-violet shadows.
+- Preserve the original shadow placement, softness, and luminance structure. Change its hue so it belongs to the variant; do not flatten the shading or tint the beak, outline, eyes, or highlights.
+- Check both the light body color and the darkest body shadows at gameplay size before approving a variant.
