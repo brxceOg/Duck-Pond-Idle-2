@@ -544,3 +544,11 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - Keep motion playful and readable, with a short pause between hops. Respect reduced-motion settings; the activity must still communicate progress without animation.
 - The player can leave the activity screen to collect coins, roll capsules, inspect ducks, or improve the pond. The duck's activity continues in the background and resolves its reward automatically. Do not block normal navigation or passive income.
 - Keep the activity display focused on the duck, course, progress, and result. Never add player-facing reaction buttons or instructions to tap a pad.
+
+## 24. Independent collectible duck sprite assets
+
+- Keep `assets/ducks/source.svg` as the untouched Sunny/master duck source.
+- Every recolored collectible variation must load from its own file in `assets/ducks/` (`mint.svg`, `berry.svg`, `peach.svg`, `lilac.svg`, `gold.svg`, `zombie.svg`, and `vampire.svg`).
+- Do not generate variant colors by mutating the master image in the game runtime. The renderer selects the matching standalone sprite asset for each species.
+- Each variant's color treatment must preserve the source duck's light-to-dark shading, gloss, molded form, plum outline, eyes, beak, wing, and silhouette. Adjust the individual asset's color treatment independently when a variant needs refinement.
+- Keep sprite dimensions and viewBox aligned with the master so accessories, wing layering, pond movement, and collectible icons remain registered.
