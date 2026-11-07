@@ -91,8 +91,8 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
     beak_highlight = np.zeros(alpha.shape, dtype=bool)
     beak_highlight[top:bottom, left:right] = (
         local_alpha
-        & (local_sat <= 65)
-        & (local_val >= 175)
+        & (local_sat <= 128)
+        & (local_val >= 155)
     )
 
     body &= ~(beak | beak_highlight)
@@ -123,8 +123,8 @@ def main() -> None:
     beak_highlight_mask = np.zeros(source_alpha.shape, dtype=bool)
     beak_highlight_mask[top:bottom, left:right] = (
         (source_alpha[top:bottom, left:right] > 0)
-        & (saturation[top:bottom, left:right] <= 65)
-        & (value[top:bottom, left:right] >= 175)
+        & (saturation[top:bottom, left:right] <= 128)
+        & (value[top:bottom, left:right] >= 155)
     )
     protected_beak_mask = beak_mask | beak_highlight_mask
 
