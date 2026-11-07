@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "assets" / "ducks" / "source.svg"
@@ -31,12 +31,15 @@ VARIANTS = {
     "vampire": (292, 0.58),
 }
 
-# The beak sits in this small search window. Protect it by its actual orange
-# pixel color, not a broad polygon: a polygon also protects nearby yellow cheek
-# and body pixels, which then remain Sunny-yellow on every recolored duck.
-BEAK_WINDOW = (24, 50, 84, 86)  # left, top, right, bottom
-BEAK_HUE_MAX = 18               # orange hues only; yellow body is beyond this
-BEAK_MIN_SATURATION = 72
+# Hand-traced beak silhouette in master-sprite pixel coordinates. This protects
+# every orange, cream, antialiased, and interior beak pixel regardless of its
+# hue/saturation. The contour stays inside the beak and avoids the cheek/body.
+BEAK_POLYGON = [
+    (27, 59), (31, 55), (39, 53), (48, 54), (58, 58),
+    (69, 60), (78, 64), (83, 69), (82, 74), (76, 78),
+    (67, 81), (57, 83), (47, 81), (38, 77), (31, 71),
+    (28, 65),
+]
 
 def extract_master() -> Image.Image:
     svg = SOURCE.read_text(encoding="utf-8")
@@ -69,33 +72,14 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
         & (value >= 30)
     )
 
-    # Preserve only saturated orange pixels in the beak's local window.
-    # The mouth/outline pixels are already outside the warm-body selection;
-    # nearby yellow pixels remain eligible for recoloring.
-    left, top, right, bottom = BEAK_WINDOW
-    beak = np.zeros(alpha.shape, dtype=bool)
-    local_hue = hue[top:bottom, left:right]
-    local_sat = saturation[top:bottom, left:right]
-    local_val = value[top:bottom, left:right]
-    local_alpha = alpha[top:bottom, left:right]
-    beak[top:bottom, left:right] = (
-        local_alpha
-        & (local_hue <= BEAK_HUE_MAX)
-        & (local_sat >= BEAK_MIN_SATURATION)
-        & (local_val >= 55)
-    )
-    # The beak has a small pale/white specular glint. It is not orange, so
-    # the warm-body selector can accidentally include it when the source
-    # highlight carries a slight cream tint. Protect bright, low-saturation
-    # pixels inside the same tight beak window independently of the orange.
-    beak_highlight = np.zeros(alpha.shape, dtype=bool)
-    beak_highlight[top:bottom, left:right] = (
-        local_alpha
-        & (local_sat <= 128)
-        & (local_val >= 155)
-    )
+    # Protect the complete hand-traced beak silhouette. Color thresholds
+    # failed because antialiased and shaded beak pixels cross hue/saturation
+    # boundaries and were being mistaken for yellow rubber body.
+    beak_image = Image.new("1", master.size, 0)
+    ImageDraw.Draw(beak_image).polygon(BEAK_POLYGON, fill=1)
+    beak = np.asarray(beak_image, dtype=bool)
 
-    body &= ~(beak | beak_highlight)
+    body &= ~beak
     return body
 
 def main() -> None:
@@ -107,26 +91,10 @@ def main() -> None:
     source_hsv = np.asarray(master.convert("HSV"), dtype=np.uint8)
     source_alpha = np.asarray(master.getchannel("A"), dtype=np.uint8)
     source_rgb = np.asarray(master.convert("RGB"), dtype=np.uint8)
-    # Recreate the same pixel-accurate orange-beak protection mask for QA.
-    hsv = source_hsv
-    hue = hsv[..., 0].astype(np.int16)
-    saturation = hsv[..., 1]
-    value = hsv[..., 2]
-    left, top, right, bottom = BEAK_WINDOW
-    beak_mask = np.zeros(source_alpha.shape, dtype=bool)
-    beak_mask[top:bottom, left:right] = (
-        (source_alpha[top:bottom, left:right] > 0)
-        & (hue[top:bottom, left:right] <= BEAK_HUE_MAX)
-        & (saturation[top:bottom, left:right] >= BEAK_MIN_SATURATION)
-        & (value[top:bottom, left:right] >= 55)
-    )
-    beak_highlight_mask = np.zeros(source_alpha.shape, dtype=bool)
-    beak_highlight_mask[top:bottom, left:right] = (
-        (source_alpha[top:bottom, left:right] > 0)
-        & (saturation[top:bottom, left:right] <= 128)
-        & (value[top:bottom, left:right] >= 155)
-    )
-    protected_beak_mask = beak_mask | beak_highlight_mask
+    # Verify every pixel inside the beak silhouette is unchanged.
+    beak_image = Image.new("1", master.size, 0)
+    ImageDraw.Draw(beak_image).polygon(BEAK_POLYGON, fill=1)
+    protected_beak_mask = np.asarray(beak_image, dtype=bool)
 
     for name, (hue_degrees, saturation_factor) in VARIANTS.items():
         hsv = source_hsv.copy()
@@ -158,11 +126,11 @@ def main() -> None:
             check_rgb = np.asarray(check.convert("RGB"))
             # The entire beak exclusion region must remain pixel-identical.
             if not np.array_equal(check_rgb[protected_beak_mask], source_rgb[protected_beak_mask]):
-                raise RuntimeError(f"{filename} changed protected beak or white highlight pixels")
+                raise RuntimeError(f"{filename} changed pixels inside the protected beak silhouette")
         if path.stat().st_size < 1000:
             raise RuntimeError(f"{filename} appears incomplete")
 
-    print("Generated 8 independent duck PNGs; beaks, outlines, alpha, and shading values verified.")
+    print("Generated 8 independent duck PNGs; complete beak silhouettes, outlines, alpha, and shading values verified.")
 
 if __name__ == "__main__":
     main()
