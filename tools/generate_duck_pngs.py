@@ -84,7 +84,18 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
         & (local_sat >= BEAK_MIN_SATURATION)
         & (local_val >= 55)
     )
-    body &= ~beak
+    # The beak has a small pale/white specular glint. It is not orange, so
+    # the warm-body selector can accidentally include it when the source
+    # highlight carries a slight cream tint. Protect bright, low-saturation
+    # pixels inside the same tight beak window independently of the orange.
+    beak_highlight = np.zeros(alpha.shape, dtype=bool)
+    beak_highlight[top:bottom, left:right] = (
+        local_alpha
+        & (local_sat <= 65)
+        & (local_val >= 175)
+    )
+
+    body &= ~(beak | beak_highlight)
     return body
 
 def main() -> None:
@@ -109,6 +120,13 @@ def main() -> None:
         & (saturation[top:bottom, left:right] >= BEAK_MIN_SATURATION)
         & (value[top:bottom, left:right] >= 55)
     )
+    beak_highlight_mask = np.zeros(source_alpha.shape, dtype=bool)
+    beak_highlight_mask[top:bottom, left:right] = (
+        (source_alpha[top:bottom, left:right] > 0)
+        & (saturation[top:bottom, left:right] <= 65)
+        & (value[top:bottom, left:right] >= 175)
+    )
+    protected_beak_mask = beak_mask | beak_highlight_mask
 
     for name, (hue_degrees, saturation_factor) in VARIANTS.items():
         hsv = source_hsv.copy()
@@ -139,8 +157,8 @@ def main() -> None:
         if filename != "sunny.png":
             check_rgb = np.asarray(check.convert("RGB"))
             # The entire beak exclusion region must remain pixel-identical.
-            if not np.array_equal(check_rgb[beak_mask], source_rgb[beak_mask]):
-                raise RuntimeError(f"{filename} changed protected beak pixels")
+            if not np.array_equal(check_rgb[protected_beak_mask], source_rgb[protected_beak_mask]):
+                raise RuntimeError(f"{filename} changed protected beak or white highlight pixels")
         if path.stat().st_size < 1000:
             raise RuntimeError(f"{filename} appears incomplete")
 
