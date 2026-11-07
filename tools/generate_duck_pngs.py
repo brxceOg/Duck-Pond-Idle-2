@@ -13,7 +13,7 @@ import re
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "assets" / "ducks" / "source.svg"
@@ -31,13 +31,12 @@ VARIANTS = {
     "vampire": (292, 0.58),
 }
 
-# A tight exclusion around the actual beak. Beak pixels are copied unchanged
-# from the master, including its orange upper/lower surfaces and mouth details.
-BEAK_POLYGON = [
-    (28, 58), (36, 54), (62, 54), (72, 57),
-    (78, 62), (77, 68), (70, 74), (50, 78),
-    (37, 75), (29, 69),
-]
+# The beak sits in this small search window. Protect it by its actual orange
+# pixel color, not a broad polygon: a polygon also protects nearby yellow cheek
+# and body pixels, which then remain Sunny-yellow on every recolored duck.
+BEAK_WINDOW = (24, 50, 84, 86)  # left, top, right, bottom
+BEAK_HUE_MAX = 28               # orange hues only; yellow body is beyond this
+BEAK_MIN_SATURATION = 72
 
 def extract_master() -> Image.Image:
     svg = SOURCE.read_text(encoding="utf-8")
@@ -70,9 +69,22 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
         & (value >= 30)
     )
 
-    beak = Image.new("1", master.size, 0)
-    ImageDraw.Draw(beak).polygon(BEAK_POLYGON, fill=1)
-    body &= ~np.asarray(beak, dtype=bool)
+    # Preserve only saturated orange pixels in the beak's local window.
+    # The mouth/outline pixels are already outside the warm-body selection;
+    # nearby yellow pixels remain eligible for recoloring.
+    left, top, right, bottom = BEAK_WINDOW
+    beak = np.zeros(master.size, dtype=bool)
+    local_hue = hue[top:bottom, left:right]
+    local_sat = saturation[top:bottom, left:right]
+    local_val = value[top:bottom, left:right]
+    local_alpha = alpha[top:bottom, left:right]
+    beak[top:bottom, left:right] = (
+        local_alpha
+        & (local_hue <= BEAK_HUE_MAX)
+        & (local_sat >= BEAK_MIN_SATURATION)
+        & (local_val >= 55)
+    )
+    body &= ~beak
     return body
 
 def main() -> None:
@@ -84,9 +96,19 @@ def main() -> None:
     source_hsv = np.asarray(master.convert("HSV"), dtype=np.uint8)
     source_alpha = np.asarray(master.getchannel("A"), dtype=np.uint8)
     source_rgb = np.asarray(master.convert("RGB"), dtype=np.uint8)
-    beak_mask = Image.new("1", master.size, 0)
-    ImageDraw.Draw(beak_mask).polygon(BEAK_POLYGON, fill=1)
-    beak_mask = np.asarray(beak_mask, dtype=bool)
+    # Recreate the same pixel-accurate orange-beak protection mask for QA.
+    hsv = source_hsv
+    hue = hsv[..., 0].astype(np.int16)
+    saturation = hsv[..., 1]
+    value = hsv[..., 2]
+    left, top, right, bottom = BEAK_WINDOW
+    beak_mask = np.zeros(master.size, dtype=bool)
+    beak_mask[top:bottom, left:right] = (
+        (source_alpha[top:bottom, left:right] > 0)
+        & (hue[top:bottom, left:right] <= BEAK_HUE_MAX)
+        & (saturation[top:bottom, left:right] >= BEAK_MIN_SATURATION)
+        & (value[top:bottom, left:right] >= 55)
+    )
 
     for name, (hue_degrees, saturation_factor) in VARIANTS.items():
         hsv = source_hsv.copy()
