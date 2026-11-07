@@ -73,7 +73,7 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
     # The mouth/outline pixels are already outside the warm-body selection;
     # nearby yellow pixels remain eligible for recoloring.
     left, top, right, bottom = BEAK_WINDOW
-    beak = np.zeros(master.size, dtype=bool)
+    beak = np.zeros(alpha.shape, dtype=bool)
     local_hue = hue[top:bottom, left:right]
     local_sat = saturation[top:bottom, left:right]
     local_val = value[top:bottom, left:right]
@@ -102,7 +102,7 @@ def main() -> None:
     saturation = hsv[..., 1]
     value = hsv[..., 2]
     left, top, right, bottom = BEAK_WINDOW
-    beak_mask = np.zeros(master.size, dtype=bool)
+    beak_mask = np.zeros(source_alpha.shape, dtype=bool)
     beak_mask[top:bottom, left:right] = (
         (source_alpha[top:bottom, left:right] > 0)
         & (hue[top:bottom, left:right] <= BEAK_HUE_MAX)
