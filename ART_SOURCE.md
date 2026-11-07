@@ -565,3 +565,21 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - The original orange beak must remain untouched on every recolored variant. Never rely on hue or saturation selection alone to distinguish it from warm body shadows.
 - Keep the master sprite as the unmodified base layer, then apply the recolored body treatment as a separate overlay with a dedicated spatial exclusion mask over the beak. This keeps the beak's orange upper/lower surfaces and mouth details from being recolored while the body and its shadows receive their variant palette.
 - Check the beak at normal gameplay size on every variant, especially mint, lilac, and zombie. The beak should remain the same orange as Sunny's.
+
+
+## 18. Independent pre-colored duck PNG sprites
+
+The canonical master artwork is `assets/ducks/source.svg`, which contains the original clean 160×148 transparent WebP sprite. The game roster now loads eight standalone PNGs from `assets/ducks/`:
+
+- `sunny.png` — unchanged original master artwork
+- `mint.png`
+- `berry.png`
+- `peach.png`
+- `lilac.png`
+- `gold.png`
+- `zombie.png`
+- `vampire.png`
+
+Every PNG is derived directly from that same master image. The generator preserves the original canvas, alpha silhouette, eyes, beak, wing, shading, highlights, and `#713c35` outline; only the targeted body-color pixels are transformed. The generator is `tools/generate_duck_pngs.py`. It runs during the Pages build and checks that all eight PNGs retain the master dimensions and alpha channel.
+
+**Runtime rule:** `index.html` loads the individual PNG files directly. Do not add CSS hue shifts, SVG filters, recoloring masks, canvas recoloring, or other runtime color transformations. The former per-color SVG filter variants have been retired. Keep `source.svg` as the untouched canonical master/reference for future art generation.
