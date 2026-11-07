@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -38,6 +38,17 @@ jobs:
           test -s assets/fonts/duck-duck.ttf
           test -s assets/fonts/ducky-ducky.ttf
           test -s assets/fonts/funny_duck-funnyduck.ttf
+      - name: Generate independent pre-colored duck PNGs
+        run: |
+          python3 -m pip install --quiet Pillow numpy
+          python3 tools/generate_duck_pngs.py
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/ducks/*.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate independent pre-colored duck PNG sprites"
+            git push
+          fi
       - name: Validate game JavaScript
         run: |
           python3 - <<'PY'
