@@ -34,9 +34,9 @@ VARIANTS = {
 # A tight exclusion around the actual beak. Beak pixels are copied unchanged
 # from the master, including its orange upper/lower surfaces and mouth details.
 BEAK_POLYGON = [
-    (27, 58), (35, 54), (64, 54), (73, 57),
-    (80, 63), (81, 69), (76, 76), (68, 80),
-    (47, 81), (35, 77), (28, 70),
+    (28, 58), (36, 54), (62, 54), (72, 57),
+    (78, 62), (77, 68), (70, 74), (50, 78),
+    (37, 75), (29, 69),
 ]
 
 def extract_master() -> Image.Image:
