@@ -110,3 +110,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+# Generated PNGs are checked into the repository by the Pages workflow.
