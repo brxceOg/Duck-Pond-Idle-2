@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate standalone PNG duck variants from the canonical embedded WebP.
+"""Bake the collectible duck palette variants from the untouched master sprite.
 
-The source sprite remains untouched. The same SVG color-matrix operations used by
-the previous artwork pass are baked into each PNG at build time; the game itself
-loads only finished raster images and performs no runtime recoloring.
+Only the yellow/orange rubber body pixels are recolored. The original beak,
+linework, eyes, gloss, alpha silhouette, and luminance-based shading are kept.
+The game loads the finished PNGs directly; no recoloring happens at runtime.
 """
 from __future__ import annotations
 
@@ -13,88 +13,88 @@ import re
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "assets" / "ducks" / "source.svg"
 OUT = ROOT / "assets" / "ducks"
 
-# These are the approved hues/saturation levels from the existing duck designs.
+# Target body hues in degrees. The original pixel saturation and brightness
+# are retained, so the master artwork's painted light/shadow structure remains.
 VARIANTS = {
-    "mint": (97, 0.58),
-    "berry": (-78, 0.58),
-    "peach": (-18, 0.62),
-    "lilac": (-138, 0.58),
-    "gold": (-5, 0.86),
-    "zombie": (42, 0.58),
-    "vampire": (-108, 0.58),
+    "mint": 158,
+    "berry": 333,
+    "peach": 22,
+    "lilac": 274,
+    "gold": 46,
+    "zombie": 91,
+    "vampire": 292,
 }
 
-def clamp_rgb(values: np.ndarray) -> np.ndarray:
-    return np.clip(values, 0.0, 1.0)
-
-def hue_rotate(rgb: np.ndarray, degrees: float) -> np.ndarray:
-    angle = np.deg2rad(degrees)
-    c, s = np.cos(angle), np.sin(angle)
-    matrix = np.array([
-        [0.213 + c * 0.787 - s * 0.213,
-         0.715 - c * 0.715 - s * 0.715,
-         0.072 - c * 0.072 + s * 0.928],
-        [0.213 - c * 0.213 + s * 0.143,
-         0.715 + c * 0.285 + s * 0.140,
-         0.072 - c * 0.072 - s * 0.283],
-        [0.213 - c * 0.213 - s * 0.787,
-         0.715 - c * 0.715 + s * 0.715,
-         0.072 + c * 0.928 + s * 0.072],
-    ], dtype=np.float32)
-    return clamp_rgb(rgb @ matrix.T)
-
-def saturate(rgb: np.ndarray, amount: float) -> np.ndarray:
-    matrix = np.array([
-        [0.213 + 0.787 * amount, 0.715 - 0.715 * amount, 0.072 - 0.072 * amount],
-        [0.213 - 0.213 * amount, 0.715 + 0.285 * amount, 0.072 - 0.072 * amount],
-        [0.213 - 0.213 * amount, 0.715 - 0.715 * amount, 0.072 + 0.928 * amount],
-    ], dtype=np.float32)
-    return clamp_rgb(rgb @ matrix.T)
+# A tight exclusion around the actual beak. Beak pixels are copied unchanged
+# from the master, including its orange upper/lower surfaces and mouth details.
+BEAK_POLYGON = [
+    (29, 55), (39, 52), (72, 53), (81, 59),
+    (86, 68), (81, 78), (72, 83), (49, 85),
+    (34, 80), (27, 72),
+]
 
 def extract_master() -> Image.Image:
     svg = SOURCE.read_text(encoding="utf-8")
     match = re.search(r'href="data:image/webp;base64,([^"]+)"', svg)
     if not match:
         raise RuntimeError("Could not find the embedded master WebP in source.svg")
-    raw = base64.b64decode(match.group(1))
-    image = Image.open(io.BytesIO(raw)).convert("RGBA")
+    image = Image.open(io.BytesIO(base64.b64decode(match.group(1)))).convert("RGBA")
     if image.size != (160, 148):
         raise RuntimeError(f"Unexpected master sprite dimensions: {image.size}")
     return image
+
+def make_body_mask(master: Image.Image) -> np.ndarray:
+    rgb = np.asarray(master.convert("RGB"), dtype=np.uint8)
+    hsv = np.asarray(master.convert("HSV"), dtype=np.uint8)
+    hue = hsv[..., 0].astype(np.int16)
+    saturation = hsv[..., 1]
+    value = hsv[..., 2]
+    alpha = np.asarray(master.getchannel("A")) > 0
+
+    # Select the warm yellow/orange rubber body and its painted orange shadows.
+    # Dark burgundy linework and low-saturation gloss are intentionally excluded.
+    body = (
+        alpha
+        & (hue >= 10) & (hue <= 55)
+        & (saturation >= 48)
+        & (value >= 46)
+    )
+
+    beak = Image.new("1", master.size, 0)
+    ImageDraw.Draw(beak).polygon(BEAK_POLYGON, fill=1)
+    body &= ~np.asarray(beak, dtype=bool)
+    return body
 
 def main() -> None:
     master = extract_master()
     OUT.mkdir(parents=True, exist_ok=True)
     master.save(OUT / "sunny.png", format="PNG", optimize=True)
 
-    rgba = np.asarray(master, dtype=np.float32) / 255.0
-    source_rgb = rgba[..., :3]
-    source_alpha = rgba[..., 3]
+    body_mask = make_body_mask(master)
+    source_hsv = np.asarray(master.convert("HSV"), dtype=np.uint8)
+    source_alpha = np.asarray(master.getchannel("A"), dtype=np.uint8)
+    source_rgb = np.asarray(master.convert("RGB"), dtype=np.uint8)
+    beak_mask = Image.new("1", master.size, 0)
+    ImageDraw.Draw(beak_mask).polygon(BEAK_POLYGON, fill=1)
+    beak_mask = np.asarray(beak_mask, dtype=bool)
 
-    # This reproduces the previous targeted body-color mask from its SVG
-    # feColorMatrix: alpha = -.5R + 1.5G - B, followed by slope 12.
-    # Warm orange beak pixels, dark linework, eyes, and white highlights therefore
-    # remain from the original master instead of being hue-shifted.
-    body_mask = np.clip((-0.5 * source_rgb[..., 0]
-                         + 1.5 * source_rgb[..., 1]
-                         - source_rgb[..., 2]) * 12.0, 0.0, 1.0)
-    body_mask *= (source_alpha > 0).astype(np.float32)
-
-    for name, (hue, saturation_amount) in VARIANTS.items():
-        transformed = saturate(hue_rotate(source_rgb, hue), saturation_amount)
-        blend = body_mask[..., None]
-        result_rgb = source_rgb * (1.0 - blend) + transformed * blend
-        result = np.dstack((np.clip(result_rgb * 255.0 + 0.5, 0, 255),
-                            rgba[..., 3] * 255.0 + 0.5)).astype(np.uint8)
-        Image.fromarray(result, mode="RGBA").save(
-            OUT / f"{name}.png", format="PNG", optimize=True
-        )
+    for name, hue_degrees in VARIANTS.items():
+        hsv = source_hsv.copy()
+        hsv[..., 0][body_mask] = np.uint8(round((hue_degrees % 360) * 255 / 360))
+        # Keep each source pixel's saturation and value: shaded pixels stay
+        # shaded, highlights stay glossy, and no RGB matrix clipping is introduced.
+        rgb = np.asarray(Image.fromarray(hsv, mode="HSV").convert("RGB"), dtype=np.uint8)
+        rgb[~body_mask] = source_rgb[~body_mask]
+        rgba = np.dstack((rgb, source_alpha))
+        output = Image.fromarray(rgba, mode="RGBA")
+        path = OUT / f"{name}.png"
+        output.save(path, format="PNG", optimize=True)
 
     expected = ["sunny.png", *(f"{name}.png" for name in VARIANTS)]
     for filename in expected:
@@ -104,11 +104,17 @@ def main() -> None:
             raise RuntimeError(f"{filename} has incorrect dimensions")
         if check.getchannel("A").tobytes() != master.getchannel("A").tobytes():
             raise RuntimeError(f"{filename} changed the master sprite silhouette/alpha")
+        if check.crop((0, 0, 160, 148)).convert("RGBA").tobytes() == b"":
+            raise RuntimeError(f"{filename} is empty")
+        if filename != "sunny.png":
+            check_rgb = np.asarray(check.convert("RGB"))
+            # The entire beak exclusion region must remain pixel-identical.
+            if not np.array_equal(check_rgb[beak_mask], source_rgb[beak_mask]):
+                raise RuntimeError(f"{filename} changed protected beak pixels")
         if path.stat().st_size < 1000:
             raise RuntimeError(f"{filename} appears incomplete")
-    print("Generated and verified 8 independent duck PNGs from source.svg")
+
+    print("Generated 8 independent duck PNGs; beaks, outlines, alpha, and shading values verified.")
 
 if __name__ == "__main__":
     main()
-
-# Generated PNGs are checked into the repository by the Pages workflow.

@@ -545,41 +545,13 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - The player can leave the activity screen to collect coins, roll capsules, inspect ducks, or improve the pond. The duck's activity continues in the background and resolves its reward automatically. Do not block normal navigation or passive income.
 - Keep the activity display focused on the duck, course, progress, and result. Never add player-facing reaction buttons or instructions to tap a pad.
 
-## 24. Independent collectible duck sprite assets
+## 24. Independent collectible duck PNG sprites
 
 - Keep `assets/ducks/source.svg` as the untouched Sunny/master duck source.
-- Every recolored collectible variation must load from its own file in `assets/ducks/` (`mint.svg`, `berry.svg`, `peach.svg`, `lilac.svg`, `gold.svg`, `zombie.svg`, and `vampire.svg`).
-- Do not generate variant colors by mutating the master image in the game runtime. The renderer selects the matching standalone sprite asset for each species.
-- Each variant's color treatment must preserve the source duck's light-to-dark shading, gloss, molded form, plum outline, eyes, beak, wing, and silhouette. Adjust the individual asset's color treatment independently when a variant needs refinement.
-- Keep sprite dimensions and viewBox aligned with the master so accessories, wing layering, pond movement, and collectible icons remain registered.
-
-
-### Variant shading color rule
-- Recolor the complete rubber body, including the darker painted shadow regions; do not leave the original yellow duck's orange-brown shadows behind on cool-colored variants.
-- Each duck's shadow hue must be derived from its own body palette: mint uses deeper cool green/teal shadows, berry uses deeper berry/rose shadows, peach uses deeper coral/peach shadows, lilac uses deeper violet shadows, gold uses deeper amber shadows, zombie uses muted olive/green shadows, and vampire uses deep plum/red-violet shadows.
-- Preserve the original shadow placement, softness, and luminance structure. Change its hue so it belongs to the variant; do not flatten the shading or tint the beak, outline, eyes, or highlights.
-- Check both the light body color and the darkest body shadows at gameplay size before approving a variant.
-
-
-### Beak preservation rule
-- The original orange beak must remain untouched on every recolored variant. Never rely on hue or saturation selection alone to distinguish it from warm body shadows.
-- Keep the master sprite as the unmodified base layer, then apply the recolored body treatment as a separate overlay with a dedicated spatial exclusion mask over the beak. This keeps the beak's orange upper/lower surfaces and mouth details from being recolored while the body and its shadows receive their variant palette.
-- Check the beak at normal gameplay size on every variant, especially mint, lilac, and zombie. The beak should remain the same orange as Sunny's.
-
-
-## 18. Independent pre-colored duck PNG sprites
-
-The canonical master artwork is `assets/ducks/source.svg`, which contains the original clean 160×148 transparent WebP sprite. The game roster now loads eight standalone PNGs from `assets/ducks/`:
-
-- `sunny.png` — unchanged original master artwork
-- `mint.png`
-- `berry.png`
-- `peach.png`
-- `lilac.png`
-- `gold.png`
-- `zombie.png`
-- `vampire.png`
-
-Every PNG is derived directly from that same master image. The generator preserves the original canvas, alpha silhouette, eyes, beak, wing, shading, highlights, and `#713c35` outline; only the targeted body-color pixels are transformed. The generator is `tools/generate_duck_pngs.py`. It runs during the Pages build and checks that all eight PNGs retain the master dimensions and alpha channel.
-
-**Runtime rule:** `index.html` loads the individual PNG files directly. Do not add CSS hue shifts, SVG filters, recoloring masks, canvas recoloring, or other runtime color transformations. The former per-color SVG filter variants have been retired. Keep `source.svg` as the untouched canonical master/reference for future art generation. Treat the committed PNGs as the production sprites; the generator is a one-time/reproducible build utility, not a browser dependency.
+- Each collectible has its own finished PNG in `assets/ducks/`: `sunny.png`, `mint.png`, `berry.png`, `peach.png`, `lilac.png`, `gold.png`, `zombie.png`, and `vampire.png`.
+- The game loads these standalone PNGs directly. No runtime hue shifts, SVG filters, canvas recoloring, or layered recoloring systems are allowed.
+- Every variant must preserve the exact master silhouette, face, beak, wing, outline, gloss, and shading placement. Only the rubber body palette changes.
+- The beak is a signature orange feature. Keep every beak pixel identical to Sunny's original orange beak, including its upper/lower surfaces and mouth details. Do not use broad hue transforms that tint the beak.
+- Recolor the body and its warm shadow regions together, but preserve the original per-pixel brightness/saturation structure so shadows remain smooth and highlights remain glossy. Avoid clipped RGB matrix transforms, noisy transitions, speckling, or newly introduced artifacts in shaded areas.
+- Keep sprite dimensions, alpha silhouette, and registration aligned with the 160×148 master so accessories, wing layering, pond movement, and collectible icons remain consistent.
+- The offline generator is `tools/generate_duck_pngs.py`. It must verify the master dimensions, unchanged alpha silhouette, and pixel-identical protected beak region before a generated sprite is accepted.
