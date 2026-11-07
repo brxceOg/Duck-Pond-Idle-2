@@ -870,22 +870,32 @@ baseDuckSprite.onload=()=>{
  const makeVariant=(hue,satScale)=>{
   const canvas=document.createElement('canvas');canvas.width=source.width;canvas.height=source.height;
   const out=canvas.getContext('2d'),pixels=new Uint8ClampedArray(original.data);
+  // Re-map the rubber's complete yellow-to-warm-shadow range in HSL space.
+  // Keeping each source pixel's lightness preserves the original painted
+  // highlights, mid-tones, and underside shadows instead of flat-tinting them.
+  const hslToRgb=(h,s,l)=>{
+   const chroma=(1-Math.abs(2*l-1))*s,section=h/60,x=chroma*(1-Math.abs(section%2-1)),m=l-chroma/2;
+   let rr=0,gg=0,bb=0;
+   if(section<1){rr=chroma;gg=x;}else if(section<2){rr=x;gg=chroma;}
+   else if(section<3){gg=chroma;bb=x;}else if(section<4){gg=x;bb=chroma;}
+   else if(section<5){rr=x;bb=chroma;}else{rr=chroma;bb=x;}
+   return [rr+m,gg+m,bb+m];
+  };
   for(let i=0;i<pixels.length;i+=4){
    if(pixels[i+3]===0)continue;
    const r=pixels[i]/255,g=pixels[i+1]/255,b=pixels[i+2]/255;
    const max=Math.max(r,g,b),min=Math.min(r,g,b),delta=max-min;
-   if(delta===0||max<.25)continue;
+   if(delta===0||max<.18)continue;
    let h=0;if(max===r)h=60*(((g-b)/delta)%6);else if(max===g)h=60*((b-r)/delta+2);else h=60*((r-g)/delta+4);
    if(h<0)h+=360;
-   const sat=max===0?0:delta/max;
-   // Only recolor the original saturated yellow rubber. The orange beak,
-   // warm orange shading, dark outlines, eyes and white gloss stay untouched.
-   if(h<38||h>65||sat<.34||max<.32)continue;
-   const s=Math.min(1,sat*satScale),c=max*s,x=c*(1-Math.abs((hue/60)%2-1)),m=max-c;
-   let rr=0,gg=0,bb=0;
-   if(hue<60){rr=c;gg=x;}else if(hue<120){rr=x;gg=c;}else if(hue<180){gg=c;bb=x;}
-   else if(hue<240){gg=x;bb=c;}else if(hue<300){rr=x;bb=c;}else{rr=c;bb=x;}
-   pixels[i]=Math.round((rr+m)*255);pixels[i+1]=Math.round((gg+m)*255);pixels[i+2]=Math.round((bb+m)*255);
+   const sat=max===0?0:delta/(1-Math.abs(2*((max+min)/2)-1));
+   const light=(max+min)/2;
+   // Include darker golden-orange body shading that the old narrow hue
+   // window left yellow. The beak (red-orange), plum outline, eyes and gloss
+   // remain original; low-chroma highlights are naturally left untouched.
+   if(h<26||h>78||sat<.22||light<.12)continue;
+   const [rr,gg,bb]=hslToRgb(hue,Math.min(1,sat*satScale),light);
+   pixels[i]=Math.round(rr*255);pixels[i+1]=Math.round(gg*255);pixels[i+2]=Math.round(bb*255);
   }
   out.putImageData(new ImageData(pixels,source.width,source.height),0,0);
   return canvas;
