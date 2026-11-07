@@ -559,3 +559,9 @@ Duck Games introduces collectible, equippable duck accessories as preparation fo
 - Each duck's shadow hue must be derived from its own body palette: mint uses deeper cool green/teal shadows, berry uses deeper berry/rose shadows, peach uses deeper coral/peach shadows, lilac uses deeper violet shadows, gold uses deeper amber shadows, zombie uses muted olive/green shadows, and vampire uses deep plum/red-violet shadows.
 - Preserve the original shadow placement, softness, and luminance structure. Change its hue so it belongs to the variant; do not flatten the shading or tint the beak, outline, eyes, or highlights.
 - Check both the light body color and the darkest body shadows at gameplay size before approving a variant.
+
+
+### Beak preservation rule
+- The original orange beak must remain untouched on every recolored variant. Never rely on hue or saturation selection alone to distinguish it from warm body shadows.
+- Keep the master sprite as the unmodified base layer, then apply the recolored body treatment as a separate overlay with a dedicated spatial exclusion mask over the beak. This keeps the beak's orange upper/lower surfaces and mouth details from being recolored while the body and its shadows receive their variant palette.
+- Check the beak at normal gameplay size on every variant, especially mint, lilac, and zombie. The beak should remain the same orange as Sunny's.
