@@ -866,7 +866,7 @@ species.forEach(sp=>{
   if(duckSpritesLoaded===species.length&&typeof renderDuckIcons==='function')renderDuckIcons();
  };
  sprite.onerror=()=>console.error('Could not load duck sprite:',sp.id);
- sprite.src=`assets/ducks/${sp.id}.png?v=20261107-precolored`;
+ sprite.src=`assets/ducks/${sp.id}.png?v=6d0ef07266b6a774f1ba13b7ccc8eb0e1f5c36f4`;
  duckSpriteImages[sp.id]=sprite;
 });
 function drawDuck(d,t,targetCtx=ctx){
