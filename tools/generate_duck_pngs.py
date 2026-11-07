@@ -22,13 +22,13 @@ OUT = ROOT / "assets" / "ducks"
 # Target body hues in degrees. The original pixel saturation and brightness
 # are retained, so the master artwork's painted light/shadow structure remains.
 VARIANTS = {
-    "mint": 158,
-    "berry": 333,
-    "peach": 22,
-    "lilac": 274,
-    "gold": 46,
-    "zombie": 91,
-    "vampire": 292,
+    "mint": (158, 0.58),
+    "berry": (333, 0.58),
+    "peach": (22, 0.62),
+    "lilac": (274, 0.58),
+    "gold": (46, 0.86),
+    "zombie": (91, 0.58),
+    "vampire": (292, 0.58),
 }
 
 # A tight exclusion around the actual beak. Beak pixels are copied unchanged
@@ -84,9 +84,13 @@ def main() -> None:
     ImageDraw.Draw(beak_mask).polygon(BEAK_POLYGON, fill=1)
     beak_mask = np.asarray(beak_mask, dtype=bool)
 
-    for name, hue_degrees in VARIANTS.items():
+    for name, (hue_degrees, saturation_factor) in VARIANTS.items():
         hsv = source_hsv.copy()
         hsv[..., 0][body_mask] = np.uint8(round((hue_degrees % 360) * 255 / 360))
+        hsv[..., 1][body_mask] = np.clip(
+            hsv[..., 1][body_mask].astype(np.float32) * saturation_factor,
+            0, 255
+        ).astype(np.uint8)
         # Keep each source pixel's saturation and value: shaded pixels stay
         # shaded, highlights stay glossy, and no RGB matrix clipping is introduced.
         rgb = np.asarray(Image.fromarray(hsv, mode="HSV").convert("RGB"), dtype=np.uint8).copy()
