@@ -34,9 +34,9 @@ VARIANTS = {
 # A tight exclusion around the actual beak. Beak pixels are copied unchanged
 # from the master, including its orange upper/lower surfaces and mouth details.
 BEAK_POLYGON = [
-    (29, 55), (39, 52), (72, 53), (81, 59),
-    (86, 68), (81, 78), (72, 83), (49, 85),
-    (34, 80), (27, 72),
+    (27, 58), (35, 54), (64, 54), (73, 57),
+    (80, 63), (81, 69), (76, 76), (68, 80),
+    (47, 81), (35, 77), (28, 70),
 ]
 
 def extract_master() -> Image.Image:
@@ -58,12 +58,16 @@ def make_body_mask(master: Image.Image) -> np.ndarray:
     alpha = np.asarray(master.getchannel("A")) > 0
 
     # Select the warm yellow/orange rubber body and its painted orange shadows.
-    # Dark burgundy linework and low-saturation gloss are intentionally excluded.
+    # Include low-saturation and darker warm body-shadow pixels as well as
+    # bright yellow pixels. The previous high saturation cutoff left islands
+    # of original yellow inside the recolored body, especially in shaded areas.
+    # The master outline is darker/browner (outside this hue band), while gloss
+    # is protected by its near-neutral hue.
     body = (
         alpha
         & (hue >= 10) & (hue <= 55)
-        & (saturation >= 48)
-        & (value >= 46)
+        & (saturation >= 12)
+        & (value >= 30)
     )
 
     beak = Image.new("1", master.size, 0)
@@ -91,8 +95,8 @@ def main() -> None:
             hsv[..., 1][body_mask].astype(np.float32) * saturation_factor,
             0, 255
         ).astype(np.uint8)
-        # Keep each source pixel's saturation and value: shaded pixels stay
-        # shaded, highlights stay glossy, and no RGB matrix clipping is introduced.
+        # Preserve each source pixel's value and relative saturation structure:
+        # shadow transitions remain continuous and highlights stay glossy.
         rgb = np.asarray(Image.fromarray(hsv, mode="HSV").convert("RGB"), dtype=np.uint8).copy()
         rgb[~body_mask] = source_rgb[~body_mask]
         rgba = np.dstack((rgb, source_alpha))
