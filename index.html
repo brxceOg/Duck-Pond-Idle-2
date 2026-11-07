@@ -868,7 +868,7 @@ species.forEach(sp=>{
  sprite.onerror=()=>console.error('Could not load duck sprite:',sp.id);
  sprite.src=sp.id==='sunny'
   ?'assets/ducks/source.svg?v=20261106-master'
-  :`assets/ducks/${sp.id}.svg?v=20261107-matched-shading`;
+  :`assets/ducks/${sp.id}.svg?v=20261107-beak-safe`;
  duckSpriteImages[sp.id]=sprite;
 });
 function drawDuck(d,t,targetCtx=ctx){
