@@ -894,13 +894,13 @@ function loadDuckDirectionAtlas(direction,file){
  atlas.onerror=()=>console.error('Could not load '+direction+' duck direction atlas');
  atlas.src='assets/ducks/'+file+'?v=duck-directions-20261116-v1';
 }
-loadDuckDirectionAtlas('right','directional-right.png');
-loadDuckDirectionAtlas('left','directional-left.png');
+// Use the original full-colour 160x148 standalone duck PNGs directly.
+// The reduced 16-colour atlases are intentionally not loaded.
 function drawDuck(d,t,targetCtx=ctx){
  const c=targetCtx,sp=byId(d.id),scale=d.scale*1.05,dir=d.dir||1,step=Math.abs(d.vx||0)+Math.abs(d.vy||0),moving=step>4,bob=Math.sin(t*5+(d.phase||0))*2+(moving?Math.sin(t*13+(d.phase||0))*2:0);
  c.save();c.translate(d.x,d.y+bob);
- const directional=dir<0?duckDirectionalSprites.left[sp.id]:duckDirectionalSprites.right[sp.id];
- const sprite=directional||duckSpriteImages[sp.id];
+ const directional=null;
+ const sprite=duckSpriteImages[sp.id];
  if(directional){
   // Preserve the source artwork's ~0.91 aspect ratio instead of stretching it wide.
   // Render at a clean 80x88 logical size; the atlas is smoothed at display scale.
@@ -913,7 +913,7 @@ function drawDuck(d,t,targetCtx=ctx){
  }else{
   // Legacy artwork remains the fallback for Vampire and for an atlas load failure.
   c.scale(dir,1);
-  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width))c.drawImage(sprite,-40,-44,80,88);
+  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width))c.drawImage(sprite,-47,-43,94,86);
   c.save();drawDuckWandBehindWing(d,c,sprite);c.restore();
   c.save();drawDuckAccessories(d,c);c.restore();
  }
