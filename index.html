@@ -877,7 +877,16 @@ function loadDuckDirectionAtlas(direction,file){
  atlas.onload=()=>{
   duckDirectionOrder.forEach((id,index)=>{
    const frame=document.createElement('canvas');frame.width=64;frame.height=70;
-   frame.getContext('2d').drawImage(atlas,index*64,0,64,70,0,0,64,70);
+   const fg=frame.getContext('2d',{willReadFrequently:true});
+   fg.imageSmoothingEnabled=true;fg.imageSmoothingQuality='high';
+   fg.drawImage(atlas,index*64,0,64,70,0,0,64,70);
+   // The left-facing Minty source was exported with a semi-transparent interior.
+   // Restore its solid molded-rubber finish while keeping antialiased outer edges.
+   if(direction==='left'&&id==='mint'){
+    const pixels=fg.getImageData(0,0,64,70),data=pixels.data;
+    for(let p=3;p<data.length;p+=4){const a=data[p];if(a>=96)data[p]=255;else data[p]=Math.min(255,a*2);}
+    fg.putImageData(pixels,0,0);
+   }
    duckDirectionalSprites[direction][id]=frame;
   });
   if(typeof renderDuckIcons==='function')renderDuckIcons();
@@ -893,17 +902,18 @@ function drawDuck(d,t,targetCtx=ctx){
  const directional=dir<0?duckDirectionalSprites.left[sp.id]:duckDirectionalSprites.right[sp.id];
  const sprite=directional||duckSpriteImages[sp.id];
  if(directional){
-  // Directional artwork is already facing correctly: never mirror the duck body.
-  c.drawImage(directional,-47,-43,94,86);
-  // Keep wearable overlays oriented with the swimming direction.
-  c.save();c.scale(dir,1);
+  // Preserve the source artwork's ~0.91 aspect ratio instead of stretching it wide.
+  // Render at a clean 80x88 logical size; the atlas is smoothed at display scale.
+  c.drawImage(directional,-40,-44,80,88);
+  // Accessories use the original 94-unit layout, compressed to match the corrected duck width.
+  c.save();c.scale(dir*.85,1);
   c.save();drawDuckWandBehindWing(d,c,directional);c.restore();
   c.save();drawDuckAccessories(d,c);c.restore();
   c.restore();
  }else{
   // Legacy artwork remains the fallback for Vampire and for an atlas load failure.
   c.scale(dir,1);
-  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width))c.drawImage(sprite,-47,-43,94,86);
+  if(sprite&&(sprite.complete===undefined||sprite.complete)&&(sprite.naturalWidth||sprite.width))c.drawImage(sprite,-40,-44,80,88);
   c.save();drawDuckWandBehindWing(d,c,sprite);c.restore();
   c.save();drawDuckAccessories(d,c);c.restore();
  }
